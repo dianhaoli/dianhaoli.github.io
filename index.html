@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dan Li</title>
+<meta name="description" content="Dan Li. CS + Math at Duke. I build RL environments and evals for training and auditing AI agents.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #5f5f5f;
+    --faint: #9a9a9a;
+    --rule: #e6e6e6;
+    --link-line: #bdbdbd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111111;
+      --fg: #ececec;
+      --muted: #a3a3a3;
+      --faint: #6f6f6f;
+      --rule: #262626;
+      --link-line: #4a4a4a;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 15px/1.6 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 600px; margin: 0 auto; padding: 72px 20px 48px; }
+  h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 6px; }
+  .lede { color: var(--muted); margin: 0; }
+  .lede + .lede { margin-top: 10px; }
+  h2 { font-size: 18px; font-weight: 600; margin: 52px 0 18px; letter-spacing: -0.01em; }
+  a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--link-line); }
+  a:hover { border-bottom-color: var(--fg); }
+
+  .item { margin: 0 0 22px; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  .head { display: flex; align-items: baseline; gap: 12px; }
+  .title { font-weight: 600; }
+  .plus { color: var(--faint); font-size: 14px; transition: transform .15s; display: inline-block; margin-left: 4px; }
+  details[open] .plus { transform: rotate(45deg); }
+  .tag { margin-left: auto; color: var(--faint); font-size: 13px; white-space: nowrap; }
+  .desc { color: var(--muted); margin: 2px 0 0; }
+  .more { color: var(--muted); font-size: 14px; margin: 8px 0 0; padding-left: 14px; border-left: 1px solid var(--rule); }
+  .more ul { margin: 0; padding-left: 16px; }
+  .more li { margin: 0 0 4px; }
+  .links { margin: 6px 0 0; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .links a { color: var(--muted); }
+  .links a::after { content: " \2197"; }
+
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--rule); font-size: 14px; }
+  footer nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+  footer nav a { border: 0; color: var(--muted); }
+  footer nav a:hover { color: var(--fg); }
+  .copy { color: var(--faint); font-size: 13px; margin-top: 18px; }
+
+  @media (max-width: 480px) {
+    main { padding: 48px 16px 40px; }
+    .head { flex-wrap: wrap; gap: 0 12px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Hi, I'm Dan.</h1>
+  <p class="lede">CS + Math at Duke. I build RL environments and evals for training and auditing AI agents.</p>
+  <p class="lede">Lately: whether agents can do interpretability work on their own, and how far small models get with RL on synthetic tasks alone.</p>
+
+  <h2>Research</h2>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">ShiftHunt<span class="plus">+</span></span><span class="tag">agent eval · interp</span></div><p class="desc">Can an AI agent audit a probe for spurious cues with sparse autoencoders, the step SHIFT leaves to a human?</p></summary>
+      <div class="more">
+        <ul>
+          <li>Agent gets four linear probes on Gemma-2-2B and a Gemma Scope SAE. Some probes secretly key on a non-topic cue (British spelling, a greeting line). It has to name the cue and pick ≤16 SAE latents whose ablation removes it.</li>
+          <li>Hard subtasks (error-term traps, two-part cues) break the SHIFT recipe agents rediscovered on v1. Every scripted shortcut scores 0 on the trap slot.</li>
+          <li>Red-teamed with ~150 attack submissions, hidden answers re-randomized per run. A cross-model follow-up audits my own earlier numbers.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="links">
+      <a href="https://github.com/dianhaoli/shifthunt/blob/main/docs/EXPLANATION.md">Write-up</a>
+      <a href="https://github.com/dianhaoli/shifthunt/blob/main/docs/CROSS_MODEL_STUDY.md">Cross-model study</a>
+      <a href="https://github.com/dianhaoli/shifthunt">GitHub</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">τ-forge<span class="plus">+</span></span><span class="tag">+8.1 pass^1</span></div><p class="desc">RL environment and training loop that teaches a 4B model agentic tool use from synthetic conversations alone.</p></summary>
+      <div class="more">
+        <ul>
+          <li>LoRA GRPO on Qwen3-4B-Instruct for multi-turn customer-service tool use. τ²-bench retail pass^1 53.1% → 61.2% (95% CI +2.9 to +13.4), pass^4 28.9% → 36.8%.</li>
+          <li>Trained only on programmatically generated, tool-verified synthetic tasks with a scripted customer: no LLM in the training loop, so rollouts are cheap and reproducible.</li>
+          <li>All 114 real benchmark tasks held out of generation and checkpoint selection; one eval on one checkpoint.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="links">
+      <a href="https://github.com/dianhaoli/tau-forge#result">Results</a>
+      <a href="https://github.com/dianhaoli/tau-forge/blob/main/docs/variance_audit.md">Variance audit</a>
+      <a href="https://github.com/dianhaoli/tau-forge">GitHub</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">GPT from scratch<span class="plus">+</span></span><span class="tag">25M params</span></div><p class="desc">Tokenizer, model and training loop, written end to end.</p></summary>
+      <div class="more">
+        <ul>
+          <li>Custom BPE tokenizer in Python and a Llama-style transformer in PyTorch.</li>
+          <li>Trained on 655M TinyStories tokens on AWS EC2 to a validation loss of 1.18; generates coherent children's stories.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="links">
+      <a href="https://github.com/dianhaoli/gpt">GitHub</a>
+    </div>
+  </div>
+
+  <h2>Experience</h2>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">SAS Institute<span class="plus">+</span></span><span class="tag">summer 2026</span></div><p class="desc">Data ingestion for a streaming engine. Concurrency, correctness, tests that test the real thing.</p></summary>
+      <div class="more">
+        <ul>
+          <li>Go file-input component for a Kubernetes-native stream processing engine used by global banks: file watching, dual-mutex concurrency, shutdown 60s → 2ms.</li>
+          <li>Age-based gating to stop partial-write data loss, proven with e2e tests against real pods (concurrent writers, duplicate delivery, shutdown).</li>
+          <li>Unit coverage 76% → 91% by replacing superficial mocks with real failure injection.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">Ekkow<span class="plus">+</span></span><span class="tag">spring 2026</span></div><p class="desc">ML-ranked news pipeline and editing platform for an international team.</p></summary>
+      <div class="more">
+        <ul>
+          <li>Ranks 10K+ articles a month with XGBoost on sentence-transformer embeddings plus rules and view data.</li>
+          <li>Concurrent multi-user translation and editing (FastAPI, Next.js, PostgreSQL, DeepL) with claims and row-level locks. Saves the team ~20 hours a week.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">CompostNow<span class="plus">+</span></span><span class="tag">fall 2025</span></div><p class="desc">IoT fill-level monitoring for a network handling 35M lbs of compost.</p></summary>
+      <div class="more">
+        <ul>
+          <li>ESP32 + ultrasonic sensors on compost bins, C firmware, live Firebase dashboard.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <h2>Projects</h2>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">Anchor<span class="plus">+</span></span><span class="tag">paying customer</span></div><p class="desc">Visual search and instant graphic design for a 1,800-person jewelry manufacturer.</p></summary>
+      <div class="more">
+        <ul>
+          <li>SigLIP + DINOv2 + FAISS consensus over a 100K-piece catalog surfaced 2,300 duplicate designs (~$57.5K in value).</li>
+          <li>Lookbook generator: 1.5 hours of manual layout to under 60 seconds across 5,700+ SKUs. $2.5K revenue; ran the sales cycle myself.</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">OpenVocab Person<span class="plus">+</span></span></div><p class="desc">Open-vocabulary person search and re-identification with local vision models.</p></summary>
+      <div class="more">
+        <ul>
+          <li>YOLO detection, Qwen2.5-VL descriptions, OSNet 512-d Re-ID clustered across uploads in pgvector, hybrid text + image search.</li>
+          <li>Routes each detection through both a person crop and the full scene so the VLM can cross-check context, which cut hallucinations.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="links">
+      <a href="https://www.youtube.com/watch?v=MsrKKbLeFY0">Demo</a>
+      <a href="https://github.com/dianhaoli/openvocabperson">GitHub</a>
+    </div>
+  </div>
+
+  <footer>
+    <nav>
+      <a href="https://www.linkedin.com/in/dianhaoli">LinkedIn</a>
+      <a href="https://github.com/dianhaoli">GitHub</a>
+      <a href="mailto:dianhaoli@gmail.com">Email</a>
+    </nav>
+    <div class="copy">© 2026 Dan Li</div>
+  </footer>
+</main>
+</body>
+</html>
