@@ -149,24 +149,6 @@
 
   <div class="item">
     <details>
-      <summary><div class="head"><span class="title">EditHunt<span class="plus">+</span></span><span class="tag">mech interp · 4 models</span></div><p class="desc">Finding the hidden "state" step in two-hop facts (Dallas → Texas → Austin) and turning edits to it into agent tasks.</p></summary>
-      <div class="more">
-        <ul>
-          <li>A state direction at the city token flips held-out cities to another state's capital (0.86–0.91) across Qwen2.5 1.5B/3B/7B and Gemma-2-2B, then stops at a handoff layer. Random vectors of the same norm flip ≤0.05.</li>
-          <li>It is a state variable, not a "say Sacramento" direction: it also flips "Which state is X in?". Leakage to other states is what separates edit methods. Only leak-regularized edits are both effective and specific.</li>
-          <li>Hop separation: change the capital while the model still names the original state (0.98 at layer 8). Mean-diff never manages it.</li>
-          <li>Built agent tasks on top of it, including undoing a planted edit with no access to the original model. Frontier agents pass some instances and fail two-plant ones.</li>
-        </ul>
-      </div>
-    </details>
-    <div class="links">
-      <a href="https://github.com/dianhaoli/edit_hunt/blob/main/FINDINGS.md">Findings</a>
-      <a href="https://github.com/dianhaoli/edit_hunt">GitHub</a>
-    </div>
-  </div>
-
-  <div class="item">
-    <details>
       <summary><div class="head"><span class="title">τ-forge<span class="plus">+</span></span><span class="tag">+8.1 pass@1</span></div><p class="desc">RL environment and training loop that teaches a 4B model agentic tool use from synthetic conversations alone.</p></summary>
       <div class="more">
         <ul>
@@ -180,6 +162,24 @@
       <a href="https://github.com/dianhaoli/tau-forge#result">Results</a>
       <a href="https://github.com/dianhaoli/tau-forge/blob/main/docs/variance_audit.md">Variance audit</a>
       <a href="https://github.com/dianhaoli/tau-forge">GitHub</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">EditHunt<span class="plus">+</span></span><span class="tag">mech interp · 4 models</span></div><p class="desc">Finding the hidden "state" step in two-hop facts (Dallas → Texas → Austin) and turning edits to it into agent tasks.</p></summary>
+      <div class="more">
+        <ul>
+          <li>A state direction at the city token flips held-out cities to another state's capital (0.86–0.91) across Qwen2.5 1.5B/3B/7B and Gemma-2-2B, then stops at a handoff layer. Random vectors of the same norm flip ≤0.05.</li>
+          <li>It is a state variable, not a "say Sacramento" direction: it also flips "Which state is X in?". Leakage to other states is what separates edit methods. Only leak-regularized edits are both effective and specific.</li>
+          <li>Hop separation: change the capital while the model still names the original state (0.98 at layer 8). Mean-diff never manages it.</li>
+          <li>Built agent tasks on top of it, including undoing a planted edit with no access to the original model. Frontier agents pass some instances and fail two-plant ones.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="links">
+      <a href="https://github.com/dianhaoli/edit_hunt/blob/main/FINDINGS.md">Findings</a>
+      <a href="https://github.com/dianhaoli/edit_hunt">GitHub</a>
     </div>
   </div>
 
