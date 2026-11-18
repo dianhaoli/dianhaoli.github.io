@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EditHunt</title>
+<meta name="description" content="Can an AI agent find and undo a secret edit inside a language model, without the original? An interpretability environment for agents.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<script>(function(){var t='dark';try{t=localStorage.getItem('ex-theme')||'dark';}catch(e){}document.documentElement.setAttribute('data-theme',t);})();</script>
+<style>
+:root{
+  --bg:#F5EFE4;--panel:#ECE4D6;--panel-strong:#DFD5C3;
+  --ink:#26241F;--ink-2:#4A463E;--ink-muted:#665E52;
+  --rule:#CBC1AF;--rule-strong:#A39A8A;
+  --accent:#2F5F98;--accent-hover:#24507F;--accent-wash:#2F5F981A;
+  --correct:#476F52;--wrong:#9C4A3D;--warn:#9A7424;
+  --code-bg:#F8F4EC;
+  --s1:#2F5F98;--s2:#B5603C;--s3:#4F8A62;--s4:#9A7424;
+  --font-sans:"IBM Plex Sans","Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --col:700px;--page:1000px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1D1B18;--panel:#27241F;--panel-strong:#35312A;
+    --ink:#ECE6DA;--ink-2:#CFC7B8;--ink-muted:#A0988A;
+    --rule:#46413A;--rule-strong:#6E675B;
+    --accent:#7FA8D8;--accent-hover:#9BBDE4;--accent-wash:#7FA8D826;
+    --correct:#8DBB98;--wrong:#D4907F;--warn:#D6B36A;--code-bg:#22201C;
+    --s1:#7FA8D8;--s2:#E09A78;--s3:#8DBB98;--s4:#D6B36A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1D1B18;--panel:#27241F;--panel-strong:#35312A;
+  --ink:#ECE6DA;--ink-2:#CFC7B8;--ink-muted:#A0988A;
+  --rule:#46413A;--rule-strong:#6E675B;
+  --accent:#7FA8D8;--accent-hover:#9BBDE4;--accent-wash:#7FA8D826;
+  --correct:#8DBB98;--wrong:#D4907F;--warn:#D6B36A;--code-bg:#22201C;
+  --s1:#7FA8D8;--s2:#E09A78;--s3:#8DBB98;--s4:#D6B36A;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:24px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);font-size:19px;line-height:1.75;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+.wrap{padding:0 16px;overflow-x:clip}
+.l-body{max-width:var(--col);margin:0 auto}
+.l-page{max-width:var(--page);margin:0 auto}
+p{margin:0 0 1.1em}
+b,strong{font-weight:600}
+a{color:inherit;text-decoration:underline;text-decoration-color:var(--rule-strong);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--accent-hover);text-decoration-color:currentColor}
+code{font-family:var(--font-mono);font-size:.84em;background:var(--panel);padding:.08em .3em;border-radius:3px}
+h1{font-size:44px;line-height:1.15;font-weight:600;letter-spacing:-.01em;margin:0 0 24px}
+h2{font-size:28px;line-height:1.25;font-weight:600;margin:80px 0 16px}
+h3{font-size:20px;line-height:1.3;font-weight:600;margin:36px 0 6px}
+.h-num{color:var(--ink-muted);font-weight:500;margin-right:.35em}
+sup.fn a{text-decoration:none;color:var(--accent);font-size:.75em;margin-left:1px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-size:14px;color:var(--ink-muted)}
+.top a{text-decoration:none}
+.theme-btn{font:inherit;font-size:13px;background:none;border:1px solid var(--rule);color:var(--ink-muted);border-radius:999px;padding:4px 12px;cursor:pointer}
+.theme-btn:hover{color:var(--ink);border-color:var(--rule-strong)}
+header{padding:48px 0 8px}
+.dek p{font-size:20px;line-height:1.55;color:var(--ink-2)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:32px 0 24px}
+.stat{background:var(--panel);border-radius:6px;padding:16px 18px}
+.stat .n{font-size:28px;font-weight:600;line-height:1.2;color:var(--accent);margin-bottom:6px;white-space:nowrap}
+.stat .l{font-size:14px;line-height:1.5;color:var(--ink-2);margin:0}
+.facts,.jump{font-size:14px;color:var(--ink-muted);line-height:1.6}
+.fig{margin:36px auto 44px}
+.panel{background:var(--panel);border-radius:6px;padding:22px 24px}
+.fig-title{font-size:18px;font-weight:600;line-height:1.35;margin-bottom:4px}
+.fig-text{font-size:15px;line-height:1.55;color:var(--ink-2);margin:0 0 16px}
+figcaption{font-size:13px;color:var(--ink-muted);margin-top:10px;line-height:1.5}
+figcaption p{margin:0}
+/* fig 1 prompt */
+.tokens{display:flex;flex-wrap:wrap;gap:6px;font-family:var(--font-mono);font-size:15px;margin:8px 0 4px}
+.tok{padding:6px 9px;border-radius:4px;background:var(--bg);border:1px solid var(--rule)}
+.tok.city{border-color:var(--accent);background:var(--accent-wash);font-weight:500}
+.tok.last{border-style:dashed;border-color:var(--rule-strong)}
+.tok.ans{background:none;border:0;color:var(--correct);font-weight:500}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:10px;margin-top:18px;font-size:14px;line-height:1.4}
+.flow .box{background:var(--bg);border:1px solid var(--rule);border-radius:6px;padding:10px 12px}
+.flow .box b{display:block;font-size:13px;color:var(--ink-muted);font-weight:500;margin-bottom:2px}
+.flow .arr{color:var(--ink-muted)}
+/* curves */
+.chart-wrap{position:relative}
+.chart svg{display:block;width:100%;height:auto}
+.chart text{font-family:var(--font-sans);font-size:12px;fill:var(--ink-muted)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--ink-2);margin-top:10px}
+.legend span::before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;background:var(--c);vertical-align:middle;margin-right:6px}
+.legend .rnd::before{background:none;border-top:2px dashed var(--ink-muted);height:0}
+.readout{font-size:13px;color:var(--ink-2);min-height:1.6em;margin-top:6px;font-family:var(--font-mono)}
+/* plant kinds */
+.kinds{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.kind{background:var(--bg);border-radius:6px;padding:14px 16px;font-size:15px;line-height:1.55}
+.kind p{margin:0}
+.kind svg{display:block;width:100%;height:44px;margin-bottom:8px}
+.kind svg rect{fill:var(--panel-strong)}
+.kind svg rect.on{fill:var(--accent)}
+.kind svg rect.on2{fill:var(--s2)}
+/* range bars */
+.rb{display:grid;grid-template-columns:200px 1fr 90px;align-items:center;gap:12px;font-size:15px;margin:10px 0}
+.rb .track{position:relative;height:14px;background:var(--bg);border-radius:3px}
+.rb .seg{position:absolute;top:0;bottom:0;border-radius:3px}
+.rb .v{font-family:var(--font-mono);font-size:13px;color:var(--ink-2);text-align:right}
+.axis{display:grid;grid-template-columns:200px 1fr 90px;gap:12px;font-size:12px;color:var(--ink-muted)}
+.axis div:nth-child(2){display:flex;justify-content:space-between}
+/* recipe */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:14px}
+.step{font:inherit;font-size:14px;text-align:left;background:var(--bg);color:var(--ink-2);border:1px solid var(--rule);border-radius:6px;padding:8px 10px;cursor:pointer;line-height:1.3}
+.step b{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-muted);font-weight:500}
+.step[aria-selected="true"]{border-color:var(--accent);background:var(--accent-wash);color:var(--ink)}
+.step-body{background:var(--bg);border-radius:6px;padding:16px 18px;font-size:16px;line-height:1.6}
+.step-body p{margin:0 0 12px}
+pre.call{margin:0;background:var(--code-bg);border:1px solid var(--rule);border-radius:4px;padding:10px 12px;font-family:var(--font-mono);font-size:12.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;color:var(--ink-2)}
+pre.call .k{color:var(--ink-muted)}
+pre.call .hl{color:var(--accent);font-weight:500}
+/* fail */
+.fails{display:grid;grid-template-columns:1fr 1fr;gap:4px 32px}
+.fails h3{margin-top:24px}
+.fails p{font-size:17px;line-height:1.65}
+/* runs table */
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--rule);text-align:left;white-space:nowrap}
+th{font-weight:500;color:var(--ink-muted);font-size:13px}
+td.num{font-family:var(--font-mono);font-size:13px}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-family:var(--font-mono);font-size:12.5px}
+.pill.pass{background:color-mix(in srgb,var(--correct) 22%,transparent);color:var(--correct)}
+.pill.held{background:color-mix(in srgb,var(--warn) 22%,transparent);color:var(--warn)}
+.pill.fail{background:color-mix(in srgb,var(--wrong) 16%,transparent);color:var(--wrong)}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--ink-muted);margin-top:10px}
+/* path */
+.path p{padding-left:16px;border-left:2px solid var(--rule)}
+.path p:nth-of-type(4){border-left-color:var(--accent)}
+footer{margin:80px auto 48px;padding-top:20px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-muted)}
+.fnlist{font-size:14px;color:var(--ink-2);line-height:1.6}
+@media (max-width:760px){
+  body{font-size:17px}
+  h1{font-size:32px}
+  .stats{grid-template-columns:1fr}
+  .kinds,.fails{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .step{font-size:12px;padding:6px}
+  .step span{display:none}
+  .flow{grid-template-columns:1fr;gap:6px}
+  .flow .arr{transform:rotate(90deg);justify-self:center}
+  .rb,.axis{grid-template-columns:110px 1fr 70px;gap:8px;font-size:13px}
+  .panel{padding:16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="top l-page">
+  <a href="../">Dan Li</a>
+  <button class="theme-btn" type="button" id="theme">Light</button>
+</div>
+
+<header class="l-body">
+  <h1>{{title}}</h1>
+  <div class="dek">
+    <p>{{dek.1}}</p>
+    <p>{{dek.2}}</p>
+  </div>
+</header>
+<div class="l-page">
+  <div class="stats">
+    <div class="stat"><div class="n">{{stat.1.num}}</div><p class="l">{{stat.1.label}}</p></div>
+    <div class="stat"><div class="n">{{stat.2.num}}</div><p class="l">{{stat.2.label}}</p></div>
+    <div class="stat"><div class="n">{{stat.3.num}}</div><p class="l">{{stat.3.label}}</p></div>
+  </div>
+</div>
+<div class="l-body">
+  <p class="facts">{{facts}}</p>
+  <p class="jump">{{jump}}</p>
+</div>
+
+<main>
+<section class="l-body">
+  <h2 id="where"><span class="h-num">1</span>{{where.h}}</h2>
+  <p>{{where.p1}}</p>
+</section>
+
+<figure class="fig l-page">
+  <div class="panel">
+    <div class="fig-title">{{fig.prompt.title}}</div>
+    <p class="fig-text">{{fig.prompt.text}}</p>
+    <div class="tokens">
+      <span class="tok">The</span><span class="tok">state</span><span class="tok">containing</span><span class="tok city">Dallas</span><span class="tok">has</span><span class="tok">its</span><span class="tok">capital</span><span class="tok last">in</span><span class="tok ans">→ Austin</span>
+    </div>
+    <div class="flow">
+      <div class="box"><b>{{fig.prompt.b1.h}}</b>{{fig.prompt.b1}}</div>
+      <div class="arr">→</div>
+      <div class="box"><b>{{fig.prompt.b2.h}}</b>{{fig.prompt.b2}}</div>
+      <div class="arr">→</div>
+      <div class="box"><b>{{fig.prompt.b3.h}}</b>{{fig.prompt.b3}}</div>
+    </div>
+  </div>
+  <figcaption>{{fig.prompt.caption}}</figcaption>
+</figure>
+
+<section class="l-body">
+  <p>{{where.p2}}</p>
+</section>
+
+<figure class="fig l-page">
+  <div class="panel">
+    <div class="fig-title">{{fig.curves.title}}</div>
+    <p class="fig-text">{{fig.curves.text}}</p>
+    <div class="chart-wrap"><div class="chart" id="curves"></div></div>
+    <div class="legend" id="curves-legend"></div>
+    <div class="readout" id="curves-readout">&nbsp;</div>
+  </div>
+  <figcaption>{{fig.curves.caption}}</figcaption>
+</figure>
+
+<section class="l-body">
+  <p>{{where.p3}}</p>
+
+  <h2 id="plant"><span class="h-num">2</span>{{plant.h}}</h2>
+  <p>{{plant.p1}}</p>
+</section>
+
+<figure class="fig l-page">
+  <div class="panel">
+    <div class="fig-title">{{fig.plant.title}}</div>
+    <p class="fig-text">{{fig.plant.text}}</p>
+    <div class="kinds">
+      <div class="kind"><svg data-layers="8" viewBox="0 0 280 44" preserveAspectRatio="none"></svg><p>{{plant.kind.hop2}}</p></div>
+      <div class="kind"><svg data-layers="16" viewBox="0 0 280 44" preserveAspectRatio="none"></svg><p>{{plant.kind.state}}</p></div>
+      <div class="kind"><svg data-layers="8,9,10" viewBox="0 0 280 44" preserveAspectRatio="none"></svg><p>{{plant.kind.spread}}</p></div>
+      <div class="kind"><svg data-layers="8" data-layers2="14" viewBox="0 0 280 44" preserveAspectRatio="none"></svg><p>{{plant.kind.two}}</p></div>
+    </div>
+  </div>
+  <figcaption>{{fig.plant.caption}}</figcaption>
+</figure>
+
+<section class="l-body">
+  <p>{{plant.p2}}</p>
+  <p>{{plant.p3}}</p>
+</section>
+
+<figure class="fig l-body">
+  <div class="panel">
+    <div class="fig-title">{{fig.proxy.title}}</div>
+    <p class="fig-text">{{fig.proxy.text}}</p>
+    <div class="rb"><span>{{fig.proxy.bar1}}</span><div class="track"><div class="seg" style="left:0%;width:43%;background:var(--wrong)"></div></div><span class="v">0.00–0.43</span></div>
+    <div class="rb"><span>{{fig.proxy.bar2}}</span><div class="track"><div class="seg" style="left:83%;width:16%;background:var(--correct)"></div></div><span class="v">0.83–0.99</span></div>
+    <div class="axis"><div></div><div><span>0</span><span>0.5</span><span>1</span></div><div></div></div>
+  </div>
+  <figcaption>{{fig.proxy.caption}}</figcaption>
+</figure>
+
+<section class="l-body">
+  <p>{{plant.p4}}</p>
+
+  <h2 id="recipe"><span class="h-num">3</span>{{recipe.h}}</h2>
+  <p>{{recipe.p1}}</p>
+</section>
+
+<figure class="fig l-page">
+  <div class="panel">
+    <div class="fig-title">{{fig.recipe.title}}</div>
+    <p class="fig-text">{{fig.recipe.text}}</p>
+    <div class="steps" role="tablist">
+      <button class="step" role="tab" data-s="0"><b>1</b><span>{{recipe.s1.name}}</span></button>
+      <button class="step" role="tab" data-s="1"><b>2</b><span>{{recipe.s2.name}}</span></button>
+      <button class="step" role="tab" data-s="2"><b>3</b><span>{{recipe.s3.name}}</span></button>
+      <button class="step" role="tab" data-s="3"><b>4</b><span>{{recipe.s4.name}}</span></button>
+      <button class="step" role="tab" data-s="4"><b>5</b><span>{{recipe.s5.name}}</span></button>
+    </div>
+    <div class="step-body" data-body="0"><p><b>{{recipe.s1.name}}.</b> {{recipe.s1.text}}</p>
+<pre class="call"><span class="k">run_prompts → turn 3</span>
+{"city": "Fargo", "next_tokens": [[<span class="hl">" Nashville", 0.8488</span>], ...]}</pre></div>
+    <div class="step-body" data-body="1" hidden><p><b>{{recipe.s2.name}}.</b> {{recipe.s2.text}}</p>
+<pre class="call"><span class="k">vec_op</span>
+{"expr": "dak_L8 - dak_L7 - ctl_L8 + ctl_L7"}
+<span class="k">sister run, per-layer jump norms</span>
+jump7 = 13.4   <span class="hl">jump8 = 38.2</span></pre></div>
+    <div class="step-body" data-body="2" hidden><p><b>{{recipe.s3.name}}.</b> {{recipe.s3.text}}</p>
+<pre class="call"><span class="k">agreement between independent estimates</span>
+cos(jstate, jump8) = <span class="hl">0.985</span>
+cos(vc, vbest)     = <span class="hl">0.968</span></pre></div>
+    <div class="step-body" data-body="3" hidden><p><b>{{recipe.s4.name}}.</b> {{recipe.s4.text}}</p>
+<pre class="call"><span class="k">project onto the estimate at layer 8</span>
+{"Fargo": 35.5, "Grand Forks": <span class="hl">53.9</span>, "Minot": <span class="hl">53.8</span>, "Dickinson": 14.5, "Sioux Falls": <span class="hl">53.8</span>, ...}
+<span class="k">the undo, turn 10 (graded 0.9645)</span>
+{"layer": 8, "position": "all", "scale": -55,
+ "scale_from": {"key": "key", "lo": 1, "hi": 56}}</pre></div>
+    <div class="step-body" data-body="4" hidden><p><b>{{recipe.s5.name}}.</b> {{recipe.s5.text}}</p>
+<pre class="call"><span class="k">eval_intervention (a North Carolina → Kentucky run)</span>
+{"city": "Cary", "clean": "Frankfort", "edited": <span class="hl">"Raleigh"</span>}
+"kl_generic": <span class="hl">0.0027</span></pre></div>
+  </div>
+  <figcaption>{{fig.recipe.caption}}</figcaption>
+</figure>
+
+<section class="l-body">
+  <p>{{recipe.p2}}</p>
+
+  <h2 id="fail"><span class="h-num">4</span>{{fail.h}}</h2>
+  <p>{{fail.p1}}</p>
+</section>
+<div class="l-page fails">
+  <div><h3>{{fail.two.h}}</h3><p>{{fail.two.p}}</p></div>
+  <div><h3>{{fail.select.h}}</h3><p>{{fail.select.p}}</p></div>
+  <div><h3>{{fail.spread.h}}</h3><p>{{fail.spread.p}}</p></div>
+  <div><h3>{{fail.weak.h}}</h3><p>{{fail.weak.p}}</p></div>
+</div>
+<section class="l-body">
+  <p style="margin-top:28px">{{fail.p2}}</p>
+
+  <h2 id="runs"><span class="h-num">5</span>{{runs.h}}</h2>
+  <p>{{runs.p1}}</p>
+</section>
+
+<figure class="fig l-page">
+  <div class="panel tbl-wrap">
+    <table id="runs-table">
+      <thead><tr><th>Instance</th><th>Solver</th><th>Best fixed script</th><th>gpt-6.1-sol, run 1</th><th>gpt-6.1-sol, run 2</th><th>gpt-6-luna</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="key"><span><span class="pill pass">0.92</span> {{runs.key.pass}}</span><span><span class="pill held">cut off (0.91)</span> {{runs.key.held}}</span><span><span class="pill fail">0.30</span> {{runs.key.fail}}</span></div>
+  </div>
+  <figcaption>{{fig.runs.caption}}</figcaption>
+</figure>
+
+<section class="l-body path">
+  <h2 id="path"><span class="h-num">6</span>{{path.h}}</h2>
+  <p>{{path.p1}}</p>
+  <p>{{path.t1}}</p>
+  <p>{{path.t2}}</p>
+  <p>{{path.t8}}</p>
+  <p style="border:0;padding:0">{{path.p2}}</p>
+</section>
+
+<section class="l-body">
+  <h2 id="caveats"><span class="h-num">7</span>{{cav.h}}</h2>
+  <ul>
+    <li>{{cav.1}}</li>
+    <li>{{cav.2}}</li>
+    <li>{{cav.3}}</li>
+    <li>{{cav.4}}</li>
+  </ul>
+</section>
+</main>
+
+<footer class="l-body">
+  <p>{{foot.links}}</p>
+  <div class="fnlist"><p id="fn-1"><sup>1</sup> {{fn.1}}</p></div>
+</footer>
+</div>
+
+<script>window.CURVES = /*CURVES*/null;</script>
+<script>
+(function(){
+  // theme
+  var root=document.documentElement, btn=document.getElementById('theme');
+  function label(){btn.textContent=root.getAttribute('data-theme')==='dark'?'Light':'Dark';}
+  label();
+  btn.addEventListener('click',function(){var t=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',t);try{localStorage.setItem('ex-theme',t);}catch(e){}label();});
+
+  // plant-kind layer strips (28 layers)
+  document.querySelectorAll('.kind svg').forEach(function(svg){
+    var on=(svg.dataset.layers||'').split(',').map(Number), on2=(svg.dataset.layers2||'').split(',').filter(Boolean).map(Number);
+    var w=280/28, h='';
+    for(var i=0;i<28;i++){var c=on.indexOf(i)>=0?'on':(on2.indexOf(i)>=0?'on2':'');
+      h+='<rect x="'+(i*w+1)+'" y="10" width="'+(w-2)+'" height="24" rx="1.5" class="'+c+'"/>';}
+    svg.innerHTML=h;
+  });
+
+  // curves
+  var D=window.CURVES, el=document.getElementById('curves');
+  if(D){
+    var cols=['var(--s1)','var(--s2)','var(--s3)','var(--s4)'];
+    var W=900,H=360,m={l:46,r:16,t:12,b:40},iw=W-m.l-m.r,ih=H-m.t-m.b;
+    function X(f){return m.l+f*iw} function Y(v){return m.t+(1-v)*ih}
+    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Flip rate by relative layer depth for four models">';
+    [0,.25,.5,.75,1].forEach(function(v){s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="var(--rule)" stroke-width="1"/><text x="'+(m.l-8)+'" y="'+(Y(v)+4)+'" text-anchor="end">'+v+'</text>';});
+    [0,.2,.4,.6,.8,1].forEach(function(f){s+='<text x="'+X(f)+'" y="'+(H-m.b+18)+'" text-anchor="middle">'+f+'</text>';});
+    s+='<text x="'+(m.l+iw/2)+'" y="'+(H-4)+'" text-anchor="middle">layer ÷ number of layers</text>';
+    var rp=D.random.map(function(v,i){return X(i/28)+','+Y(v)}).join(' ');
+    s+='<polyline points="'+rp+'" fill="none" stroke="var(--ink-muted)" stroke-width="1.5" stroke-dasharray="4 4"/>';
+    D.models.forEach(function(md,k){
+      var p=md.flip.map(function(v,i){return X(i/md.layers)+','+Y(v)}).join(' ');
+      s+='<polyline points="'+p+'" fill="none" stroke="'+cols[k]+'" stroke-width="2.5" stroke-linejoin="round"/>';
+      var hv=md.flip[md.handoff];
+      s+='<circle cx="'+X(md.handoff/md.layers)+'" cy="'+Y(hv)+'" r="5" fill="'+cols[k]+'" stroke="var(--panel)" stroke-width="2"/>';
+    });
+    s+='<line id="cur-x" y1="'+m.t+'" y2="'+(m.t+ih)+'" stroke="var(--ink-muted)" stroke-width="1" visibility="hidden"/>';
+    s+='<rect id="cur-hit" x="'+m.l+'" y="'+m.t+'" width="'+iw+'" height="'+ih+'" fill="transparent"/></svg>';
+    el.innerHTML=s;
+    var lg=document.getElementById('curves-legend');
+    lg.innerHTML=D.models.map(function(md,k){return '<span style="--c:'+cols[k]+'">'+md.name+' ('+md.layers+' layers)</span>'}).join('')+'<span class="rnd">random vector, same size</span>';
+    var svg=el.querySelector('svg'), line=svg.querySelector('#cur-x'), ro=document.getElementById('curves-readout');
+    function move(ev){
+      var r=svg.getBoundingClientRect(), cx=(ev.touches?ev.touches[0].clientX:ev.clientX);
+      var f=((cx-r.left)/r.width*W-m.l)/iw; f=Math.max(0,Math.min(.999,f));
+      line.setAttribute('x1',X(f));line.setAttribute('x2',X(f));line.setAttribute('visibility','visible');
+      ro.innerHTML=D.models.map(function(md,k){var L=Math.floor(f*md.layers);return '<span style="color:'+cols[k]+'">'+md.name.replace('Qwen2.5-','Qwen ')+' L'+L+': '+Math.round(md.flip[L]*100)+'%</span>'}).join(' · ');
+    }
+    svg.addEventListener('mousemove',move);svg.addEventListener('touchmove',move,{passive:true});svg.addEventListener('touchstart',move,{passive:true});
+    svg.addEventListener('mouseleave',function(){line.setAttribute('visibility','hidden');ro.innerHTML='&nbsp;';});
+  }
+
+  // recipe tabs
+  var tabs=document.querySelectorAll('.step'), bodies=document.querySelectorAll('.step-body');
+  function sel(i){tabs.forEach(function(t,j){t.setAttribute('aria-selected',i===j?'true':'false')});bodies.forEach(function(b,j){b.hidden=i!==j});}
+  tabs.forEach(function(t,i){t.addEventListener('click',function(){sel(i)})}); sel(0);
+
+  // runs table
+  var bar=0.8, rows=[
+    ['MN → TN, capital only',0.983,0.93,[0.921,'p'],[0.978,'p'],[0,'c']],
+    ['NC → KY, capital only',0.965,0.88,[0.928,'p'],[0.762,'f','held a 0.964 edit'],[0,'c']],
+    ['NC → KY, spread',0.956,0.82,[0.783,'h'],[0.796,'p'],[0,'c']],
+    ['MN → TN, spread',0.911,0.84,[0.027,'f'],[0.478,'c'],[0,'f']],
+    ['NC → KY, whole state',0.905,0.85,[0.768,'h'],[0.665,'c'],[0,'c']],
+    ['MN → TN, whole state',0.841,0.90,[0.910,'h'],[0.931,'h'],[0,'f']],
+    ['MN → TN, two edits',0.867,0.49,[0.609,'c'],[0.514,'f'],[0,'f']],
+    ['NC → KY, two edits',0.935,0.42,[0.298,'f'],[0.384,'c'],[0,'f']]
+  ];
+  function cell(c){
+    var v=c[0].toFixed(3).replace(/^0/,'0');
+    if(c[1]==='p')return '<span class="pill pass">'+v+'</span>';
+    if(c[1]==='h')return '<span class="pill held">cut off ('+v+')</span>';
+    if(c[1]==='c')return c[0]?'<span class="pill fail">cut off ('+v+')</span>':'<span class="pill fail">cut off</span>';
+    return '<span class="pill fail">'+v+'</span>'+(c[2]?' <span style="color:var(--ink-muted);font-size:12px">'+c[2]+'</span>':'');
+  }
+  document.querySelector('#runs-table tbody').innerHTML=rows.map(function(r){
+    return '<tr><td>'+r[0]+'</td><td class="num">'+r[1].toFixed(3)+'</td><td class="num">'+r[2].toFixed(2)+'</td><td>'+cell(r[3])+'</td><td>'+cell(r[4])+'</td><td>'+cell(r[5])+'</td></tr>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

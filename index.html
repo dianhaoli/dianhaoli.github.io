@@ -167,17 +167,18 @@
 
   <div class="item">
     <details>
-      <summary><div class="head"><span class="title">EditHunt<span class="plus">+</span></span><span class="tag">mech interp · 4 models</span></div><p class="desc">Finding the hidden "state" step in two-hop facts (Dallas → Texas → Austin) and turning edits to it into agent tasks.</p></summary>
+      <summary><div class="head"><span class="title">EditHunt<span class="plus">+</span></span><span class="tag">agent env · interp</span></div><p class="desc">Can an AI agent find and undo a secret edit inside a model, without the original?</p></summary>
       <div class="more">
         <ul>
-          <li>A state direction at the city token flips held-out cities to another state's capital (0.86–0.91) across Qwen2.5 1.5B/3B/7B and Gemma-2-2B, then stops at a handoff layer. Random vectors of the same norm flip ≤0.05.</li>
-          <li>It is a state variable, not a "say Sacramento" direction: it also flips "Which state is X in?". Leakage to other states is what separates edit methods. Only leak-regularized edits are both effective and specific.</li>
-          <li>Hop separation: change the capital while the model still names the original state (0.98 at layer 8). Mean-diff never manages it.</li>
-          <li>Built agent tasks on top of it, including undoing a planted edit with no access to the original model. Frontier agents pass some instances and fail two-plant ones.</li>
+          <li>A hidden, self-gating edit is planted in Qwen2.5-1.5B. Patching the wrong answers back recovers at most 0.43 of the original model; finding and inverting the edit recovers up to 0.99, so the task requires looking inside.</li>
+          <li>With no method hint, gpt-6.1-sol worked out model diffing by itself (per-layer activation jumps of affected vs control cities), estimated the plant at cos 0.93–0.97 and passed 5/24 runs, its best in 10 turns for ~$0.07. gpt-6-luna passed 0/8.</li>
+          <li>No run undid a two-edit model (0/8): agents fix one edit and stop looking.</li>
+          <li>Built on a finding that holds in four models: a "state" direction at the city token that works until a fixed handoff layer.</li>
         </ul>
       </div>
     </details>
     <div class="links">
+      <a href="edithunt/">Write-up</a>
       <a href="https://github.com/dianhaoli/edit_hunt/blob/main/FINDINGS.md">Findings</a>
       <a href="https://github.com/dianhaoli/edit_hunt">GitHub</a>
     </div>
