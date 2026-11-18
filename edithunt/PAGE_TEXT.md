@@ -4,11 +4,14 @@ Edit the text under each `[[id]]` line. Do not change or remove the `[[id]]` lin
 
 Rules for the writer:
 - Formatting you can use: **bold**, *italic*, `code`, [text](link). Nothing else.
+- Math is written between `\(` and `\)`, for example `\(h\)`. Keep it exactly as written; you may move it within its block.
 - One paragraph per block (no blank lines inside a block).
 - Keep every number exactly as written. You may move a number within its block.
-- `[^N]` marks where footnote N attaches; footnote text is in its own `[[fn.N]]` block. Keep the markers.
+- `[^N]` marks where side note N attaches; its text is in its own `[[fn.N]]` block. Keep the markers.
+- Links like `[1](#ref-marks)` are citations. Keep them.
 - Blocks marked `(short)` are labels or titles: keep them short.
-- Not in this file (data, not prose): the prompt tokens in Figure 1, the tool-call snippets in Figure 5, and the table rows and column headers in Figure 6.
+- Blocks marked `(new)` were added in this round and have not been through a rewrite yet.
+- Not in this file (data, not prose): the prompt tokens in Figure 1, the tool-call snippets in Figure 5, the table rows and column headers in Figure 6, the equations in the two "definitions" boxes, and the reference list.
 
 ---
 
@@ -23,29 +26,52 @@ Someone has quietly tampered with a small language model. Ask it which state Far
 [[dek.2]]
 Short answer: sometimes. With no hint about how, the strongest agent came up with a real interpretability method (a way of working out what's going on inside a model) on its own. It compared the model's internal activity layer by layer, found the edit, estimated it almost exactly and removed it. Its best run got there in 10 turns for about 7 cents. But no agent ever undid a model with two hidden edits, and more than half of the correct fixes agents found were lost before they submitted.
 
-[[stat.1.num]]  (short)
-0.43 vs 0.99
+[[hl.r1]]  (short) (new)
+Patch the answers back
 
-[[stat.1.label]]
-Training the model to give the right answers again recovers at most 0.43 of the original model. Finding the edit and reversing it recovers up to 0.99. You have to look inside.
+[[hl.r2]]  (short) (new)
+Find and invert the edit
 
-[[stat.2.num]]  (short)
-5 / 24
-
-[[stat.2.label]]
-Runs passed by gpt-6.1-sol, the stronger agent. The weaker gpt-6-luna passed 0 of 8.
-
-[[stat.3.num]]  (short)
-0 / 8
-
-[[stat.3.label]]
-Runs that undid a model with two hidden edits. Agents fixed the first one and stopped looking.
+[[hl.note]]  (new)
+How much of the original model each approach gets back, best case over the hidden edits (0 = still edited, 1 = fully restored). Fixing the outputs is not enough: you have to look inside.
 
 [[facts]]
 Edited model: Qwen2.5-1.5B (the earlier experiments also use Qwen2.5-3B, Qwen2.5-7B and gemma-2-2b). Agents: gpt-6.1-sol and gpt-6-luna, with Claude Sonnet 5.5 on the earlier tasks. September to November 2026.
 
 [[jump]]
-Jump to: [Where the fact lives](#where) · [The secret edit](#plant) · [What the agent did](#recipe) · [Where agents fail](#fail) · [Every run](#runs)
+Jump to: [What we found](#found) · [The secret edit](#plant) · [Why it's hard](#hard) · [What the agent did](#recipe) · [Where agents fail](#fail) · [Every run](#runs)
+
+---
+
+## What we found
+
+[[found.h]]  (short) (new)
+What we found
+
+[[found.1]]  (new)
+**Agents can do real interpretability work unprompted.** gpt-6.1-sol passed 5 of 24 runs with no hint about method, using a model-diffing approach it worked out for itself. Its best run had a passing fix by turn 10, for about $0.07.
+
+[[found.2]]  (new)
+**The stronger model looks inside; the weaker one doesn't.** gpt-6-luna passed 0 of 8. It averaged activations about 7.5 times per run, against 51 for gpt-6.1-sol.
+
+[[found.3]]  (new)
+**No agent undid two edits.** On instances with two hidden edits, 0 of 8 runs passed: agents fixed the first edit and stopped looking.
+
+[[found.4]]  (new)
+**Good fixes get lost.** Without the original model, agents can't rank their own fixes. Submitting the best edit each agent had already tested would have passed 9 of 16 runs instead of 4.
+
+---
+
+## Why build this
+
+[[why.h]]  (short) (new)
+Why build this task
+
+[[why.p1]]  (new)
+When a model changes, through fine-tuning, bad training data or deliberate tampering, we want to know exactly what changed. Auditing a model for a hidden change is slow work for people, and it is hard to tell whether an audit found everything. Recent work turns this into a game: researchers plant a known problem in a model and measure whether auditors, human or AI, can find it [1](#ref-marks) [2](#ref-bricken).
+
+[[why.p2]]  (new)
+EditHunt is a small, fully checkable version of that game, built as a training environment for agents. Because we planted the edit ourselves, the grader can measure exactly how close the agent's fix comes to the original model, with no human or AI judge. And the task is built so that watching the model's answers is not enough: the agent has to find what changed inside.
 
 ---
 
@@ -107,7 +133,13 @@ This direction means "this city is in California", not just "say Sacramento": it
 Planting the edit
 
 [[plant.p1]]
-We plant a hidden edit in Qwen2.5-1.5B so that cities in one state (say, Minnesota) answer as if they were in another (Tennessee). The edit works like a small switch. It watches for the model's own internal sense of "this is Minnesota" and, when it sees it, nudges the activations toward Tennessee. Because it reacts to the model's internal representation rather than to a list of cities, it also fires a little on neighbouring places like North Dakota and Ontario border towns. That leak is how the agent can spot it.[^1]
+We plant a hidden edit in Qwen2.5-1.5B so that cities in one state (say, Minnesota) answer as if they were in another (Tennessee). The edit works like a small switch. It watches for the model's own internal sense of "this is Minnesota" and, when it sees it, nudges the activations toward Tennessee. Because it reacts to the model's internal representation rather than to a list of cities, it also fires a little on neighbouring places like North Dakota and Ontario border towns. That leak is how the agent can spot it.
+
+[[plant.gate.lead]]  (new)
+Concretely, at one layer the plant adds a push \(v\) to the activation \(h\) at every token, scaled by a gate that reads how strongly \(h\) points along the model's own direction for the source state, \(k\):
+
+[[plant.gate.after]]  (new)
+The gate stays at 0 on ordinary text and rises to 1 on cities the model firmly places in the source state. Every instance is built this way; what changes is the push \(v\), the layer, and how many plants there are.
 
 [[fig.plant.title]]  (short)
 Four kinds of hidden edit, from one layer to two separate edits.
@@ -134,7 +166,56 @@ Each instance hides one of these, and the agent isn't told which.
 The agent gets tools to run prompts, read activations at any layer, average them over groups of cities, combine vectors and test an edit. It has 150 turns and 12,000 forward passes (a forward pass is one run of the model on one input). It doesn't get the original model, the test cities, or the prompts used for grading. It submits an edit, which can switch itself on and off the same way the plant does.
 
 [[plant.p3]]
-The score is **restoration**: how much of the gap between the edited model and the original the agent closed. We measure it on held-out cities from the affected state, cities from other states and ordinary text. Doing nothing scores 0, a perfect undo scores 1, and breaking things that were never edited counts against you. To pass, an agent has to reach 80% of what a privileged solver gets. That solver knows the true plant and simply inverts it (it scores 0.84–0.98).
+The score is **restoration**: how much of the gap between the edited model and the original the agent closed. We measure it on held-out cities from the affected state, cities from other states and ordinary text. Doing nothing scores 0, a perfect undo scores 1, and breaking things that were never edited counts against you. To pass, an agent has to reach 80% of what a privileged solver gets.[^1]
+
+[[fn.1]]  (new)
+The solver is given the true plant and subtracts the same gated push at the same layer. It scores 0.84–0.98 across instances, so it is the bar to measure against, not a perfect score.
+
+[[formal.summary]]  (short) (new)
+The definitions, precisely
+
+[[formal.plant.h]]  (short) (new)
+The plant
+
+[[formal.plant.p]]  (new)
+At layer \(L\), at every token position, with \(k\) the source-state direction, \(b\) and \(w\) setting where the gate opens, and \(v\) the push:
+
+[[formal.R.h]]  (short) (new)
+Restoration
+
+[[formal.R.p]]  (new)
+Over a private set of prompts \(X\) (held-out affected cities, cities from other states and ordinary text, each in 9 contexts), comparing next-token distributions of the original, planted and fixed models:
+
+[[formal.pass.h]]  (short) (new)
+Passing
+
+[[formal.pass.p]]  (new)
+We call an instance hard when no fixed script scores more than half the solver's score. Only one of the eight meets that bar: the North Carolina two-edit instance.
+
+---
+
+## 3. Why it's hard
+
+[[hard.h]]  (short) (new)
+Why this is hard
+
+[[hard.p1]]  (new)
+The task is easy to state. Five things make it hard to do.
+
+[[hard.1]]  (new)
+**There is no original to compare against.** The agent only ever sees the edited model. Every check it runs tells it how far a fix moves the *edited* model, not how close it gets to the original.
+
+[[hard.2]]  (new)
+**The test cities are hidden.** The agent never sees the cities used for grading, including every city in the affected state. It has to find the edit through the little it leaks onto neighbouring places.
+
+[[hard.3]]  (new)
+**"Correct" answers are the wrong target.** The original model was never perfect, so making the edited model give real-world capitals again does not restore it (Figure 4).
+
+[[hard.4]]  (new)
+**The edit can hide in more than one place.** It can be split across three layers, or there can be two separate edits, and the agent isn't told which.
+
+[[hard.5]]  (new)
+**A fixed recipe is not enough.** Four short model-diffing scripts (automated recipes for hunting down what changed) each solve some single-edit instances, but none gets close on the two-edit ones (0.41–0.49, against a solver at 0.87–0.94).
 
 [[fig.proxy.title]]  (short)
 Fixing the answers is not the same as fixing the model.
@@ -151,12 +232,12 @@ Invert the edit
 [[fig.proxy.caption]]
 **Figure 4**: range of restoration across the plant types, for an edit trained to patch answers back to the truth and for an edit that inverts the plant.
 
-[[plant.p4]]
-That gap is the point of the task. An agent can't pass by looking at outputs alone; it has to find what changed inside the model. We also checked that no fixed script solves everything. Four short model-diffing scripts (automated recipes for hunting down what changed) each solve some single-edit instances, but none gets close on the two-edit ones (0.41–0.49, against a solver at 0.87–0.94).
+[[hard.p2]]
+That gap is the point of the task. An agent can't pass by looking at outputs alone; it has to find what changed inside the model.
 
 ---
 
-## 3. What the agent did
+## 4. What the agent did
 
 [[recipe.h]]  (short)
 What a successful agent did, unprompted
@@ -203,12 +284,27 @@ It tested the fix on the edited model. Affected cities flip back to a sensible c
 [[fig.recipe.caption]]
 **Figure 5**: the winning route, with real tool calls and outputs from one run. Every clean pass used this route; none got its winning direction by training it with the optimizer.
 
+[[formal2.summary]]  (short) (new)
+The agent's method, precisely
+
+[[formal2.diff.h]]  (short) (new)
+Finding the layer
+
+[[formal2.diff.p]]  (new)
+With \(\bar a_L\) the average activation at layer \(L\) over affected cities and \(\bar c_L\) the same over unaffected ones, the agent looked for the layer where this extra jump spikes. Normalised, it is the estimate \(u\) of the push:
+
+[[formal2.undo.h]]  (short) (new)
+The undo
+
+[[formal2.undo.p]]  (new)
+A gate keyed on the estimate itself, so it only opens where the plant wrote. In the best run, \(s = 55\), \(\ell = 1\), \(\mathrm{hi} = 56\):
+
 [[recipe.p2]]
 In three runs, on two different instances, the best edit an agent tested actually scored higher than the privileged solver that inverts the true plant.
 
 ---
 
-## 4. Where agents fail
+## 5. Where agents fail
 
 [[fail.h]]  (short)
 Where agents fail
@@ -245,7 +341,7 @@ One failure was ours. Each run had a $0.90 cost limit that the agent couldn't se
 
 ---
 
-## 5. Every run
+## 6. Every run
 
 [[runs.h]]  (short)
 Every run
@@ -267,7 +363,7 @@ below the bar
 
 ---
 
-## 6. How we got here
+## 7. How we got here
 
 [[path.h]]  (short)
 How we got here
@@ -285,33 +381,30 @@ T8 is the last in a series of tasks. Each earlier one taught us what makes a tas
 **Undo a hidden edit (T8).** Built so the obvious approach fails and the right method depends on the instance. This is the one that separates agents.
 
 [[path.p2]]
-Along the way, we screened other attribute-editing tasks in the style of the RAVEL benchmark (changing one fact about a city or other entity). Only one more cleared the bar (a city's language, on gemma-2-2b), and only just.
+Along the way, we screened other attribute-editing tasks in the style of the RAVEL benchmark [3](#ref-ravel) (changing one fact about a city or other entity). Only one more cleared the bar (a city's language, on gemma-2-2b), and only just.
 
 ---
 
-## 7. Caveats
+## 8. Caveats
 
 [[cav.h]]  (short)
 What this does and doesn't show
 
 [[cav.1]]
-Small numbers: two runs per instance for gpt-6.1-sol, one for gpt-6-luna, and eight instances. Several pass margins are within the grader's noise.
+**Small numbers.** Two runs per instance for gpt-6.1-sol, one for gpt-6-luna, and eight instances. Several pass margins are within the grader's noise.
 
 [[cav.2]]
-The agents' reasoning wasn't logged, so anything we say about *why* an agent did something is inferred from its tool calls.
+**Reasoning wasn't logged.** Anything we say about *why* an agent did something is inferred from its tool calls.
 
 [[cav.3]]
-The hidden cost limit cut off runs that were winning. The next version shows the remaining budget and logs reasoning.
+**Our cost limit cut off winning runs.** The next version shows the remaining budget and logs reasoning.
 
 [[cav.4]]
-All T8 instances use one model (Qwen2.5-1.5B) and one kind of fact. And now that the method for single edits is known, a trained policy could just memorize it. The task needs a generator that keeps producing new kinds of plants.
+**One model, one kind of fact.** All T8 instances use Qwen2.5-1.5B and state capitals. And now that the method for single edits is known, a trained policy could just memorize it. The task needs a generator that keeps producing new kinds of plants.
 
 ---
 
 ## Footer
 
 [[foot.links]]
-Code and full results: [GitHub](https://github.com/dianhaoli/edit_hunt) · [Findings](https://github.com/dianhaoli/edit_hunt/blob/main/FINDINGS.md) · [T8 transcript analysis](https://github.com/dianhaoli/edit_hunt/blob/main/analysis/t8_transcripts/T8_TRANSCRIPT_ANALYSIS.md) · [Dan Li](../)
-
-[[fn.1]]
-The plant is `h += clamp((k·h − b) / w, 0, 1) · v`, added at every position of one layer: `k` reads the model's own source-state direction, and `v` is the push.
+Code, data and full results: [GitHub](https://github.com/dianhaoli/edit_hunt)

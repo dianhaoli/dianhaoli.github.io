@@ -33,6 +33,7 @@ def inline(s):
     s = re.sub(r"`([^`]+)`", lambda m: codes.append(m.group(1)) or f"\x00{len(codes)-1}\x00", s)
     s = html.escape(s, quote=False)
     s = re.sub(r"\[\^(\d+)\]", r'<sup class="fn"><a href="#fn-\1">\1</a></sup>', s)
+    s = re.sub(r"\[(\d+)\]\((#ref-[\w-]+)\)", r'<a class="cite" href="\2">[\1]</a>', s)
     s = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", r'<a href="\2">\1</a>', s)
     s = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", s)
     s = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"<i>\1</i>", s)
