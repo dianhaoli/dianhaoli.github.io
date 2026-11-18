@@ -76,9 +76,26 @@
 <main>
   <h1>Hi, I'm Dan.</h1>
   <p class="lede">CS + Math at Duke. I build RL environments and evals for training and auditing AI agents.</p>
-  <p class="lede">Lately: whether agents can do interpretability work on their own, and how far small models get with RL on synthetic tasks alone.</p>
+  <p class="lede">Currently in the Duke NLP lab working on self-improving agents with <a href="https://xunjianyin.github.io/">Xunjian Yin</a>. Also: whether agents can do interpretability work on their own, and how far small models get with RL on synthetic tasks alone.</p>
 
   <h2>Research</h2>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">Coaching the Coach<span class="plus">+</span></span><span class="tag">self-improving agents</span></div><p class="desc">Does a self-improving coach agent (HyperAgents) train better ARC-AGI-2 solvers? No, and thinking longer beats it.</p></summary>
+      <div class="more">
+        <ul>
+          <li>A meta agent rewrites a puzzle-solving agent's code, and is also allowed to rewrite its own. We froze the self-improved coaches and had each train a fresh player on new practice puzzles.</li>
+          <li>On a held-out exam, coached players scored about the same as an uncoached one (29.3%). Raising the model's reasoning effort one notch (41.1%) beat every form of coaching.</li>
+          <li>Interactive explorer: try the puzzles, replay every exam answer, read every coaching session and code change.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="links">
+      <a href="https://claude.ai/artifact/ECe4a8hW8y6aQ57esJGBkU">Write-up</a>
+      <a href="https://github.com/dianhaoli/HyperAgents/tree/arc2-improver">GitHub</a>
+    </div>
+  </div>
 
   <div class="item">
     <details>
@@ -100,10 +117,10 @@
 
   <div class="item">
     <details>
-      <summary><div class="head"><span class="title">τ-forge<span class="plus">+</span></span><span class="tag">+8.1 pass^1</span></div><p class="desc">RL environment and training loop that teaches a 4B model agentic tool use from synthetic conversations alone.</p></summary>
+      <summary><div class="head"><span class="title">τ-forge<span class="plus">+</span></span><span class="tag">+8.1 pass@1</span></div><p class="desc">RL environment and training loop that teaches a 4B model agentic tool use from synthetic conversations alone.</p></summary>
       <div class="more">
         <ul>
-          <li>LoRA GRPO on Qwen3-4B-Instruct for multi-turn customer-service tool use. τ²-bench retail pass^1 53.1% → 61.2% (95% CI +2.9 to +13.4), pass^4 28.9% → 36.8%.</li>
+          <li>LoRA GRPO on Qwen3-4B-Instruct for multi-turn customer-service tool use. τ²-bench retail pass@1 53.1% → 61.2% (95% CI +2.9 to +13.4), pass^4 28.9% → 36.8%.</li>
           <li>Trained only on programmatically generated, tool-verified synthetic tasks with a scripted customer: no LLM in the training loop, so rollouts are cheap and reproducible.</li>
           <li>All 114 real benchmark tasks held out of generation and checkpoint selection; one eval on one checkpoint.</li>
         </ul>
@@ -116,22 +133,18 @@
     </div>
   </div>
 
+  <h2>Experience</h2>
+
   <div class="item">
     <details>
-      <summary><div class="head"><span class="title">LLM from scratch<span class="plus">+</span></span><span class="tag">25M params</span></div><p class="desc">Pretrained a 25M-parameter Llama-style model from scratch on children's stories.</p></summary>
+      <summary><div class="head"><span class="title">Duke NLP<span class="plus">+</span></span><span class="tag">now</span></div><p class="desc">Research on self-improving agents with <a href="https://xunjianyin.github.io/">Xunjian Yin</a>.</p></summary>
       <div class="more">
         <ul>
-          <li>Custom BPE tokenizer in Python and a Llama-style transformer in PyTorch.</li>
-          <li>Trained on 655M TinyStories tokens on AWS EC2 to a validation loss of 1.18; generates coherent children's stories.</li>
+          <li>Testing whether agents that rewrite their own improvement procedure actually get better at improving others (see Coaching the Coach).</li>
         </ul>
       </div>
     </details>
-    <div class="links">
-      <a href="https://github.com/dianhaoli/gpt">GitHub</a>
-    </div>
   </div>
-
-  <h2>Experience</h2>
 
   <div class="item">
     <details>
@@ -199,6 +212,35 @@
     <div class="links">
       <a href="https://www.youtube.com/watch?v=MsrKKbLeFY0">Demo</a>
       <a href="https://github.com/dianhaoli/openvocabperson">GitHub</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">LLM from scratch<span class="plus">+</span></span><span class="tag">25M params</span></div><p class="desc">Pretrained a 25M-parameter Llama-style model from scratch on children's stories.</p></summary>
+      <div class="more">
+        <ul>
+          <li>Custom BPE tokenizer in Python and a Llama-style transformer in PyTorch.</li>
+          <li>Trained on 655M TinyStories tokens on AWS EC2 to a validation loss of 1.18; generates coherent children's stories.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="links">
+      <a href="https://github.com/dianhaoli/gpt">GitHub</a>
+    </div>
+  </div>
+
+  <div class="item">
+    <details>
+      <summary><div class="head"><span class="title">ASL Fingerspelling<span class="plus">+</span></span><span class="tag">92.7% test acc</span></div><p class="desc">Classifies the 29-class ASL alphabet from images, with a Gradio demo.</p></summary>
+      <div class="more">
+        <ul>
+          <li>Compact custom CNN (92.7% test accuracy) compared against fine-tuned MobileNetV2 transfer learning (74.8%), with augmentation and an 80/10/10 split.</li>
+        </ul>
+      </div>
+    </details>
+    <div class="links">
+      <a href="https://github.com/dianhaoli/asl_fingerspell">GitHub</a>
     </div>
   </div>
 
