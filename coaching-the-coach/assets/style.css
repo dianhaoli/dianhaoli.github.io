@@ -499,3 +499,16 @@ figure.fig.explore-fig{margin:0 0 40px}
 .formal-body .eq{overflow-x:auto;overflow-y:hidden;padding:2px 0;min-width:0}
 .formal-body mjx-container[display="true"]{margin:.4em 0!important}
 .formal-body mjx-container{color:var(--ink)}
+
+/* theme toggle: sun/moon icon button, same as the homepage */
+.theme-icon{width:34px;height:34px;border-radius:50%;display:inline-grid;place-items:center;padding:0;cursor:pointer;
+  background:transparent;color:var(--ink-muted);border:1px solid var(--rule)}
+.theme-icon:hover{color:var(--ink);border-color:var(--rule-strong)}
+.theme-icon svg{width:16px;height:16px}
+.theme-icon .sun{display:none}
+:root[data-theme="dark"] .theme-icon .sun{display:block}
+:root[data-theme="dark"] .theme-icon .moon{display:none}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .theme-icon .sun{display:block}
+  :root:not([data-theme="light"]) .theme-icon .moon{display:none}
+}
