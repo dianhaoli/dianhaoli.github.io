@@ -1,0 +1,156 @@
+/* fig-demo.css - Figure 6 (mount `demo`), "Inside one coaching round". Selectors are prefixed .fx-demo. */
+.fx-demo{position:relative;font-size:var(--fs-fig-text);line-height:1.55;color:var(--ink);font-variant-numeric:tabular-nums;min-width:0}
+.fx-demo .fxd-tabs{margin:0 0 18px}
+.fx-demo .fxd-tabs [role="tab"]{font-size:var(--fs-fig-text);min-height:44px}
+
+/* stepper: numbered dots joined by a hairline */
+.fx-demo .fxd-steps{list-style:none;margin:0 0 20px;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0}
+.fx-demo .fxd-stepli{position:relative;min-width:0}
+.fx-demo .fxd-stepli+.fxd-stepli::before{content:"";position:absolute;top:21px;left:calc(-50% + 18px);right:calc(50% + 18px);height:1px;background:var(--rule-strong)}
+.fx-demo .fxd-stepbtn{font:inherit;display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;min-height:44px;padding:4px 4px 6px;
+  background:transparent;border:0;border-radius:4px;color:var(--ink-2);cursor:pointer;text-align:center}
+.fx-demo .fxd-num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--rule-strong);background:var(--panel);font-size:var(--fs-fig-text);font-weight:500;color:var(--ink-2);
+  transition:background-color var(--dur),border-color var(--dur),color var(--dur)}
+.fx-demo .fxd-steplab{font-size:var(--fs-axis);line-height:1.3;max-width:15ch}
+.fx-demo .fxd-stepbtn.done .fxd-num{border-color:var(--ink-2);color:var(--ink)}
+.fx-demo .fxd-stepbtn[aria-current="step"] .fxd-num{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.fx-demo .fxd-stepbtn[aria-current="step"] .fxd-steplab{color:var(--ink);font-weight:600}
+.fx-demo .fxd-stepbtn:hover .fxd-num{border-color:var(--accent-hover)}
+.fx-demo .fxd-stepbtn:hover .fxd-steplab{color:var(--accent-hover)}
+
+/* stage */
+.fx-demo .fxd-stage{border-top:1px solid var(--rule);padding:16px 0 0;outline:none;border-radius:0}
+.fx-demo .fxd-stage:focus-visible{box-shadow:var(--focus-ring);border-radius:4px}
+.fx-demo .fxd-stepnum{font-size:var(--fs-axis);color:var(--ink-muted)}
+.fx-demo .fxd-steptitle{font-size:var(--fs-fig-text);font-weight:600;color:var(--ink);margin:0 0 2px}
+.fx-demo .fxd-lead{margin:0 0 16px;color:var(--ink-2);max-width:68ch}
+.fx-demo .fxd-wait{color:var(--ink-muted);font-size:var(--fs-axis);min-height:200px}
+.fx-demo .fxd-lbl{font-size:var(--fs-axis);color:var(--ink-muted);line-height:1.3;margin:0 0 6px}
+.fx-demo .fxd-mt{margin-top:12px}
+.fx-demo .fxd-p{margin:0 0 12px;max-width:68ch;color:var(--ink)}
+.fx-demo .fxd-quiet{color:var(--ink-2)}
+.fx-demo .fxd-src{font-size:var(--fs-axis);color:var(--ink-muted);margin:0 0 12px}
+.fx-demo .fxd-note{font-size:var(--fs-axis);color:var(--ink-muted);margin:0 0 6px}
+.fx-demo .fxd-none{font-size:var(--fs-axis);color:var(--ink-muted);font-style:italic}
+.fx-demo .fxd-sec{margin:0 0 20px}
+.fx-demo .fxd-subh{font-weight:600;color:var(--ink);margin:0 0 8px}
+
+/* puzzle grids */
+.fx-demo .fxd-examples{display:flex;flex-wrap:wrap;gap:16px 28px;margin:0 0 16px}
+.fx-demo .fxd-ex{display:flex;flex-direction:column;min-width:0}
+.fx-demo .fxd-ex .arc-fig{gap:0}
+.fx-demo .fxd-test{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 0 16px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin:0 0 4px}
+.fx-demo .fxd-gridcol{display:flex;flex-direction:column}
+.fx-demo .fxd-arrow{padding-top:18px}
+
+/* a try: thoughts on the left, the answer on the right */
+.fx-demo .fxd-result{font-weight:600;margin:14px 0 4px}
+.fx-demo .fxd-result .ok,.fx-demo .fxd-verdict.ok{color:var(--correct)}
+.fx-demo .fxd-result .no,.fx-demo .fxd-verdict.no{color:var(--wrong)}
+.fx-demo .fxd-call{padding:14px 0;border-bottom:1px solid var(--rule)}
+.fx-demo .fxd-call:last-child{border-bottom:0}
+.fx-demo .fxd-callhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 8px}
+.fx-demo .fxd-callname{font-weight:600}
+.fx-demo .fxd-callmeta{font-size:var(--fs-axis);color:var(--ink-muted)}
+.fx-demo .fxd-callcols{display:grid;grid-template-columns:170px minmax(0,1fr);gap:28px;align-items:start}
+.fx-demo .fxd-callright{display:flex;flex-direction:column;min-width:0}
+.fx-demo .fxd-verdict{font-size:var(--fs-axis);margin-top:6px}
+
+/* thoughts: a quiet block, first ~6 lines, "Read all" */
+.fx-demo .fxd-thought{min-width:0}
+.fx-demo .fxd-tbody{position:relative;color:var(--ink-2);border-left:2px solid var(--rule-strong);padding:0 0 0 14px;
+  max-height:calc(6 * 1.55em);overflow:hidden;overflow-wrap:anywhere}
+.fx-demo .fxd-tbody p{margin:0 0 .6em}
+.fx-demo .fxd-tbody p:last-child{margin-bottom:0}
+.fx-demo .fxd-tbody b{color:var(--ink);font-weight:600}
+.fx-demo .fxd-tbody:not(.open):not(.fits)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2.4em;
+  background:linear-gradient(to bottom,transparent,var(--panel));pointer-events:none}
+.fx-demo .fxd-tbody.fits{max-height:none}
+.fx-demo .fxd-tbody.open{max-height:28em;overflow:auto;scrollbar-width:thin;scrollbar-color:var(--rule-strong) transparent;overscroll-behavior:contain}
+.fx-demo .fxd-readall{margin:4px 0 0 8px;font-size:var(--fs-axis);min-height:40px;color:var(--accent);padding-left:6px}
+.fx-demo .fxd-readall:hover{color:var(--accent-hover)}
+
+/* code and collapsible output */
+.fx-demo .fxd-code{margin:0 0 8px;font-size:var(--fs-axis)}
+.fx-demo .fxd-cmd{max-height:10.5em}
+.fx-demo .fxd-out{max-height:22em}
+.fx-demo .fxd-diff{white-space:pre-wrap;word-break:break-word}
+.fx-demo details.fxd-coll>summary{display:inline-flex;align-items:center;gap:6px;min-height:40px;cursor:pointer;list-style:none;
+  font-size:var(--fs-axis);color:var(--ink-2);border-radius:3px;padding:0 2px}
+.fx-demo details.fxd-coll>summary::-webkit-details-marker{display:none}
+.fx-demo details.fxd-coll>summary::before{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(-45deg);margin:0 4px 0 2px;transition:transform var(--dur)}
+.fx-demo details.fxd-coll[open]>summary::before{transform:rotate(45deg) translate(-1px,-2px)}
+.fx-demo details.fxd-coll>summary:hover{color:var(--accent-hover)}
+
+/* the coach's turns as a quiet timeline */
+.fx-demo .fxd-timeline{list-style:none;margin:0 0 24px;padding:0}
+.fx-demo .fxd-turn{position:relative;padding:0 0 14px 26px;border-left:1px solid var(--rule-strong);margin-left:6px}
+.fx-demo .fxd-turn:last-child{border-left-color:transparent;padding-bottom:4px}
+.fx-demo .fxd-turn::before{content:"";position:absolute;left:-6px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--panel);border:1px solid var(--ink-2)}
+.fx-demo .fxd-turnh{font-weight:600;margin:0 0 6px;line-height:1.4}
+.fx-demo .fxd-said{color:var(--ink-2);border-left:2px solid var(--rule-strong);padding-left:14px;overflow-wrap:anywhere}
+.fx-demo .fxd-said p{margin:0 0 .6em}
+.fx-demo .fxd-said p:last-child{margin-bottom:0}
+.fx-demo .fxd-tbody code,.fx-demo .fxd-said code{font-family:var(--font-mono,ui-monospace,monospace);font-size:.92em}
+
+/* the edit */
+.fx-demo .fxd-edit{background:var(--bg);border:1px solid var(--rule);border-radius:4px;padding:14px 16px 4px}
+.fx-demo .fxd-summary{font-size:var(--fs-fig-text);color:var(--ink)}
+.fx-demo .fxd-edit details.more{margin:0 0 12px}
+
+/* step 2: practice report strip */
+.fx-demo .fxd-strip{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px}
+.fx-demo .fxd-cell{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--rule);
+  border-radius:3px;font-size:var(--fs-axis);line-height:1;background:var(--bg)}
+.fx-demo .fxd-cell.ok{color:var(--correct)}
+.fx-demo .fxd-cell.no{color:var(--wrong);border-color:var(--rule-strong)}
+.fx-demo .fxd-cell.me{box-shadow:0 0 0 2px var(--panel),0 0 0 4px var(--accent)}
+.fx-demo .fxd-striplab{font-size:var(--fs-axis);color:var(--ink-muted);margin:10px 0 0}
+
+/* step 4: the review prompt */
+.fx-demo .fxd-quote{margin:0;padding:8px 0 8px 14px;border-left:2px solid var(--rule-strong);color:var(--ink-2);font-style:italic;max-width:72ch;overflow-wrap:anywhere}
+.fx-demo .fxd-why{margin-top:14px;color:var(--ink-2)}
+
+/* step 5: repeat runs */
+.fx-demo .fxd-hold{display:flex;flex-direction:column;gap:14px;margin:0 0 18px}
+.fx-demo .fxd-holdrow{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:center;padding:0 0 14px;border-bottom:1px solid var(--rule)}
+.fx-demo .fxd-holdname .fxd-subh{margin:0}
+.fx-demo .fxd-holdk{font-size:var(--fs-axis);color:var(--ink-muted)}
+.fx-demo .fxd-runs{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px 18px}
+.fx-demo .fxd-run{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:64px}
+.fx-demo .fxd-runmark{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;
+  border:1px solid var(--rule-strong);background:var(--bg);font-size:var(--fs-fig-text);font-weight:600}
+.fx-demo .fxd-runmark.ok{color:var(--correct);border-color:var(--correct)}
+.fx-demo .fxd-runmark.no{color:var(--wrong)}
+.fx-demo .fxd-runlab{font-size:var(--fs-axis);color:var(--ink-muted)}
+
+/* colour key, our reading, notes */
+.fx-demo .fxd-key{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px 14px;font-size:var(--fs-axis);color:var(--ink-2)}
+.fx-demo .fxd-key li{display:inline-flex;align-items:center;gap:5px}
+.fx-demo .fxd-sw{display:inline-block;width:12px;height:12px;border-radius:2px;box-shadow:inset 0 0 0 1px var(--rule-strong)}
+.fx-demo .fxd-reading{margin:14px 0 0;padding:10px 14px 2px;background:var(--bg);border:1px solid var(--rule);border-radius:4px;max-width:72ch}
+.fx-demo .fxd-caveats{margin:12px 0 0}
+.fx-demo .fxd-cavlist{margin:4px 0 0;padding-left:20px;font-size:var(--fs-axis);color:var(--ink-2);max-width:80ch}
+.fx-demo .fxd-cavlist li{margin:0 0 6px}
+
+/* nav */
+.fx-demo .fxd-nav{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:20px 0 0;padding:14px 0 0;border-top:1px solid var(--rule)}
+.fx-demo .fxd-back{font-size:var(--fs-fig-text);min-height:44px}
+.fx-demo .fxd-back:disabled{opacity:.4;cursor:default}
+
+/* phone */
+.fx-demo.narrow .fxd-steplab{display:none}
+.fx-demo.narrow .fxd-stepli+.fxd-stepli::before{top:21px}
+.fx-demo.narrow .fxd-callcols{grid-template-columns:minmax(0,1fr);gap:14px}
+.fx-demo.narrow .fxd-examples{gap:12px 16px}
+.fx-demo.narrow .fxd-test{gap:8px;flex-wrap:nowrap}
+.fx-demo.narrow .fxd-holdrow{grid-template-columns:minmax(0,1fr);gap:8px}
+.fx-demo.narrow .fxd-run{min-width:56px}
+.fx-demo.narrow .fxd-runs{gap:8px 10px}
+.fx-demo.narrow .fxd-diff{white-space:pre;word-break:normal;overflow-x:auto}
+
+@media (prefers-reduced-motion: reduce){
+  .fx-demo .fxd-num,.fx-demo details.fxd-coll>summary::before{transition:none}
+}

@@ -1,0 +1,56 @@
+/* fig-watch.css - Figure 5 (mount `watch`). Selectors are prefixed .fx-watch. Owner: builder C. */
+.fx-watch{position:relative;font-variant-numeric:tabular-nums}
+.fx-watch .fxw-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;margin:4px 0 16px}
+.fx-watch .fxw-count{font-size:var(--fs-fig-text);font-weight:600;color:var(--ink)}
+.fx-watch .fxw-nav{display:flex;align-items:center;gap:8px}
+.fx-watch .fxw-back{font-size:var(--fs-fig-text);min-height:44px}
+.fx-watch .fxw-stage{outline:none;border-radius:4px}
+.fx-watch .fxw-stage:focus-visible{box-shadow:var(--focus-ring)}
+
+/* examples + test input: one row on desktop, two rows of two on phone */
+.fx-watch .fxw-examples{display:flex;flex-wrap:nowrap;align-items:flex-start;gap:24px;padding:0 0 18px;margin:0 0 18px;border-bottom:1px solid var(--rule)}
+.fx-watch .fxw-ex{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fx-watch .fxw-test{padding-left:24px;border-left:1px solid var(--rule)}
+.fx-watch .fxw-lbl{font-size:var(--fs-axis);color:var(--ink-muted);line-height:1.3}
+.fx-watch .fxw-exgrid{display:flex;align-items:center;gap:8px}
+.fx-watch .fxw-exgrid .arc-fig{gap:0}
+
+/* the answers: truth + 4 players, one shared cell size */
+.fx-watch .fxw-answers{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.fx-watch .fxw-players{display:contents}
+.fx-watch .fxw-col{min-width:0}
+.fx-watch .fxw-truth{padding-right:16px;border-right:1px solid var(--rule)}
+.fx-watch .fxw-col-h{font-size:var(--fs-fig-text);font-weight:600;color:var(--ink);line-height:1.3}
+.fx-watch .fxw-col-sub{font-size:var(--fs-axis);color:var(--ink-muted);line-height:1.3;margin:2px 0 10px;min-height:1.3em}
+.fx-watch .fxw-tries{display:flex;flex-direction:column;gap:12px}
+.fx-watch .fxw-tryw{display:flex;flex-direction:column;gap:4px}
+.fx-watch .fxw-box{display:flex;align-items:center;justify-content:center;border-radius:2px}
+.fx-watch .fxw-box:empty{border:1px dashed var(--rule)}
+.fx-watch .fxw-none{font-size:var(--fs-axis);color:var(--ink-muted);font-style:italic;border:1px dashed var(--rule-strong);
+  border-radius:2px;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.fx-watch .fxw-mark{display:flex;flex-direction:column;font-size:var(--fs-axis);line-height:1.35;min-height:2.7em}
+.fx-watch .fxw-try{color:var(--ink-muted)}
+.fx-watch .fxw-res.ok{color:var(--correct)}
+.fx-watch .fxw-res.no{color:var(--wrong)}
+
+/* More */
+.fx-watch .fxw-more details.more{margin-top:16px}
+.fx-watch .fxw-more-row{display:flex;flex-wrap:wrap;gap:10px 20px;margin:0 0 8px}
+.fx-watch .fxw-more-row .control-label{font-size:var(--fs-axis)}
+.fx-watch .fxw-open{font-size:var(--fs-fig-text);min-height:40px;padding-left:0;color:var(--accent)}
+.fx-watch .fxw-wait{font-size:var(--fs-axis);color:var(--ink-muted)}
+
+/* phone: truth on top, then the four players 2  2 with tries side by side */
+.fx-watch.narrow .fxw-head{margin-bottom:12px}
+.fx-watch.narrow .fxw-nav{width:100%;justify-content:space-between}
+.fx-watch.narrow .fxw-examples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 12px}
+.fx-watch.narrow .fxw-test{padding-left:0;border-left:0}
+.fx-watch.narrow .fxw-answers{display:block}
+.fx-watch.narrow .fxw-truth{padding:0 0 14px;margin:0 0 14px;border-right:0;border-bottom:1px solid var(--rule)}
+.fx-watch.narrow .fxw-players{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+.fx-watch.narrow .fxw-tries{flex-direction:row;gap:12px}
+.fx-watch.narrow .fxw-test{grid-column:1 / -1}
+.fx-watch.narrow .fxw-col-h{font-size:var(--fs-fig-text)}
+
+.fx-watch.narrow .fxw-mark{min-height:2.7em}
+.fx-watch .fxw-back:disabled{opacity:.4;cursor:default}

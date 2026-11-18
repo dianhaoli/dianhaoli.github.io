@@ -1,0 +1,87 @@
+/* fig-results.css - Figure 3 (mount "results") and Explore  Numbers (mount "results-detail").
+   Owned by builder B. Selectors are prefixed .fx-results. Two type sizes per figure:
+   --fs-fig-text (labels) and --fs-axis (ticks, secondary). */
+
+.mount[data-fig="results"]{min-height:300px}
+.mount[data-fig="results-detail"]{min-height:420px}
+@media (max-width:719px){
+  .mount[data-fig="results"]{min-height:400px}
+  .mount[data-fig="results-detail"]{min-height:640px}
+}
+
+.fx-results{position:relative;font-variant-numeric:tabular-nums}
+.fx-results svg{display:block;overflow:visible;font-variant-numeric:tabular-nums}
+
+/* ---------- main-story dot strip ---------- */
+.fx-rm .fx-rm-lab{font-size:var(--fs-fig-text,15px);font-weight:500;fill:var(--ink)}
+.fx-rm .fx-rm-val{font-size:var(--fs-fig-text,15px);font-weight:400;fill:var(--ink-2)}
+.fx-rm .fx-rm-note,.fx-rm .fx-rm-axt{font-size:var(--fs-axis,13px);fill:var(--ink-muted)}
+.fx-rm .fx-rm-ax text{font-family:var(--font-sans);font-size:var(--fs-axis,13px);fill:var(--ink-muted)}
+.fx-rm .fx-rm-ref{stroke:var(--ink-2);stroke-width:1.25;stroke-dasharray:5 4}
+.fx-rm .fx-rm-reflab{font-size:var(--fs-fig-text,15px);font-weight:500;fill:var(--ink)}
+.fx-rm .fx-rm-ci{stroke:var(--ink-2);stroke-width:1.25}
+.fx-rm .fx-rm-mean{stroke:var(--ink);stroke-width:3}
+.fx-rm .fx-rm-dot{outline:none}
+.fx-rm .fx-rm-dot .dot{fill:var(--panel);stroke:var(--ink);stroke-width:1.5}
+.fx-rm .fx-rm-dot .ring{fill:none;stroke:none;stroke-width:2}
+.fx-rm .fx-rm-dot.is-hot .dot{fill:var(--accent);stroke:var(--accent)}
+.fx-rm .fx-rm-dot:focus-visible .ring{stroke:var(--accent)}
+.fx-rm .fx-rm-div{stroke:var(--rule);stroke-width:1}
+.fx-rm .fx-rm-dot.is-ref .dot{fill:var(--accent);stroke:var(--accent)}
+.fx-rm .fx-rm-row.is-ref .fx-rm-val{fill:var(--accent);font-weight:500}
+
+/* ---------- Explore: full figure ---------- */
+.fx-rd .fig-sub-title{margin-bottom:10px}
+.fx-rd .fx-r-ctl{margin-bottom:12px}
+.fx-rd .fx-r-body{display:flex;flex-wrap:wrap;gap:20px 28px;align-items:flex-start}
+.fx-rd .fx-r-chart{flex:1 1 0;min-width:0}
+.fx-rd.stack .fx-r-chart{flex:1 1 100%}
+.fx-rd .fx-r-side{flex:0 0 300px;min-width:0;border-left:1px solid var(--rule);padding-left:24px}
+.fx-rd.stack .fx-r-side{flex:1 1 100%;border-left:0;padding-left:0;border-top:1px solid var(--rule);padding-top:16px}
+.fx-rd .dg{cursor:pointer;outline:none}
+.fx-rd .sym{fill:var(--bg);stroke:var(--ink);stroke-width:1.3;transition:stroke-width var(--dur)}
+.fx-rd .sym.fill{fill:var(--ink-2);stroke:var(--ink-2)}
+.fx-rd .sym.ref{fill:var(--ink-muted);stroke:var(--ink-muted)}
+.fx-rd .dg .ring{fill:none;stroke:none;stroke-width:2}
+.fx-rd .dg .hit{fill:transparent;stroke:none}
+.fx-rd .dg:hover .sym,.fx-rd .dg.is-hot .sym{stroke-width:2.2}
+.fx-rd .dg:focus-visible .ring{stroke:var(--accent);stroke-dasharray:3 2}
+.fx-rd .dg.is-pinned .ring{stroke:var(--accent);stroke-dasharray:none}
+.fx-rd .dg.is-pinned .sym{stroke:var(--accent);stroke-width:2}
+.fx-rd .dg.is-pinned .sym.fill,.fx-rd .dg.is-pinned .sym.ref{fill:var(--accent)}
+.fx-rd .ci-line,.fx-rd .ci-cap{stroke:var(--ink);stroke-width:1.2}
+.fx-rd .mean-tick{stroke:var(--ink);stroke-width:2.5}
+.fx-rd .soft .ci-line,.fx-rd .soft .ci-cap{stroke:var(--ink-muted);stroke-width:1}
+.fx-rd .soft .mean-tick{stroke:var(--ink-muted);stroke-width:2}
+.fx-rd .ci-arrow{fill:var(--ink-muted);font-size:var(--fs-axis,13px)}
+.fx-rd .rowlab .lbl{font-size:var(--fs-fig-text,15px);fill:var(--ink)}
+.fx-rd .rowlab .lbl-sub{font-size:var(--fs-axis,13px);fill:var(--ink-muted)}
+.fx-rd .rowlab.ref .lbl{fill:var(--ink-2)}
+.fx-rd .sep{stroke:var(--rule-strong);stroke-width:1;shape-rendering:crispEdges}
+.fx-rd .band-lab,.fx-rd .ax-title{font-size:var(--fs-axis,13px);fill:var(--ink-muted)}
+.fx-rd .axis text{font-family:var(--font-sans);font-size:var(--fs-axis,13px)}
+.fx-rd .fx-r-legend{display:flex;flex-wrap:wrap;gap:4px 16px;margin:8px 0 0;font-size:var(--fs-axis,13px);color:var(--ink-2);line-height:1.4}
+.fx-rd .fx-r-legend span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.fx-rd .fx-r-note{font-size:var(--fs-axis,13px);line-height:1.5;color:var(--ink-muted);margin:8px 0 0;max-width:72ch}
+.fx-rd .fx-r-readout{margin:10px 0 0;padding:8px 12px;background:var(--bg);border:1px solid var(--rule);border-radius:4px;
+  font-size:var(--fs-axis,13px);line-height:1.5;color:var(--ink-2);min-height:3.2em}
+.fx-rd .fx-r-readout b{color:var(--ink);font-weight:600}
+.fx-rd .fx-r-readout .m{font-family:var(--font-mono)}
+.fx-rd .fx-r-readout .pin{color:var(--accent);font-weight:500}
+.fx-rd .fx-r-readout .btn{margin-left:8px;vertical-align:baseline}
+.fx-rd .fx-r-sidetitle{font-size:var(--fs-fig-text,15px);font-weight:600;color:var(--ink);margin:0 0 4px}
+.fx-rd .fx-r-sidetext{font-size:var(--fs-axis,13px);line-height:1.5;color:var(--ink-2);margin:0 0 14px}
+.fx-rd .cmp{margin:0 0 16px}
+.fx-rd .cmp-name{font-size:var(--fs-fig-text,15px);font-weight:500;color:var(--ink);line-height:1.35}
+.fx-rd .cmp-val{font-size:var(--fs-axis,13px);color:var(--ink-2);line-height:1.4;margin-top:2px}
+.fx-rd .cmp-val .m{font-family:var(--font-mono);color:var(--ink)}
+.fx-rd .cmp svg{margin-top:4px}
+.fx-rd .cmp .bar{stroke:var(--ink);stroke-width:2}
+.fx-rd .cmp .cap{stroke:var(--ink);stroke-width:1.2}
+.fx-rd .cmp .est{fill:var(--ink)}
+.fx-rd .cmp .z{stroke:var(--rule-strong);stroke-width:1}
+.fx-rd .cmp .axl{stroke:var(--rule);stroke-width:1}
+.fx-rd .cmp .tk,.fx-rd .cmp .dir{font-size:var(--fs-axis,13px);fill:var(--ink-muted)}
+.fx-rd .cmp-verdict{font-size:var(--fs-axis,13px);color:var(--ink-muted);margin-top:2px}
+
+@media (prefers-reduced-motion: reduce){.fx-rd .sym{transition:none}}

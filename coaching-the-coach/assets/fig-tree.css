@@ -1,0 +1,107 @@
+/* fig-tree.css - Explore > Evolution trees: run chips, one practice-score chart, side panel, tested-coach chart.
+   Every selector starts with .fx-tree (plus the mount's reserved height). Two type sizes: --fs-fig-text and --fs-axis. */
+.mount[data-fig="tree"]{min-height:900px}
+@media (max-width:720px){ .mount[data-fig="tree"]{min-height:1300px} }
+.fx-tree{position:relative;min-width:0;font-size:var(--fs-fig-text);line-height:1.5;font-variant-numeric:tabular-nums;color:var(--ink)}
+.fx-tree .fxt-intro{font-size:var(--fs-fig-text);color:var(--ink-2);margin:0 0 12px;max-width:72ch}
+
+/* run chips */
+.fx-tree .fxt-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.fx-tree .fxt-chip{font:inherit;display:inline-flex;flex-direction:column;align-items:flex-start;gap:0;min-width:84px;min-height:44px;
+  padding:6px 14px 6px 12px;background:var(--bg);color:var(--ink);border:1px solid var(--rule);border-radius:6px;cursor:pointer;
+  text-align:left;line-height:1.25;transition:border-color var(--dur),background-color var(--dur)}
+.fx-tree .fxt-chip:hover{border-color:var(--rule-strong)}
+.fx-tree .fxt-chip .c-name{font-size:var(--fs-fig-text);font-weight:500}
+.fx-tree .fxt-chip .c-sub{font-size:var(--fs-axis);color:var(--ink-muted)}
+.fx-tree .fxt-chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-wash);box-shadow:inset 0 0 0 1px var(--accent)}
+.fx-tree .fxt-chip[aria-pressed="true"] .c-name{color:var(--accent);font-weight:600}
+.fx-tree .fxt-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fx-tree .fxt-chipnote{font-size:var(--fs-axis);color:var(--ink-muted);margin:8px 0 0;min-height:1.5em;max-width:90ch}
+
+/* main: chart + side */
+.fx-tree .fxt-main{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:36px;align-items:start;margin-top:22px}
+.fx-tree.is-narrow .fxt-main{grid-template-columns:minmax(0,1fr);gap:20px}
+.fx-tree .fxt-left{min-width:0}
+.fx-tree .fxt-chart{min-width:0;width:100%}
+.fx-tree svg.fxt-svg,.fx-tree svg.fxt-tsvg{display:block;overflow:visible}
+.fx-tree .axis line.gridline{stroke:var(--rule);stroke-width:1}
+.fx-tree .axis text{font-family:var(--font-mono);font-size:var(--fs-axis);fill:var(--ink-muted)}
+.fx-tree .axis text.axt{font-family:var(--font-sans)}
+.fx-tree .nodata{fill:var(--panel-strong);opacity:.35}
+.fx-tree .strip{stroke:var(--rule);stroke-width:1;stroke-dasharray:1 3}
+.fx-tree .e{stroke:var(--rule-strong);stroke-width:1;opacity:.5;transition:opacity var(--dur),stroke var(--dur)}
+.fx-tree .best{fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linejoin:round;transition:opacity var(--dur)}
+.fx-tree .best-t{font-size:var(--fs-axis);fill:var(--ink);font-weight:500}
+.fx-tree .fam{fill:none;stroke:var(--accent);stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round;pointer-events:none}
+.fx-tree .fam-t{font-size:var(--fs-axis);fill:var(--accent);font-weight:600}
+.fx-tree .halo{paint-order:stroke;stroke:var(--panel);stroke-width:4px;stroke-linejoin:round}
+.fx-tree .pk-t{font-size:var(--fs-axis);fill:var(--accent);font-weight:500}
+.fx-tree .pk-l{stroke:var(--accent);stroke-width:1;stroke-dasharray:2 2;fill:none;opacity:.7}
+.fx-tree .nd{cursor:pointer;outline:none;transition:opacity var(--dur)}
+.fx-tree .nd .dot{fill:var(--ink-2);stroke:var(--panel);stroke-width:1.2}
+.fx-tree .nd .dot.dia{fill:var(--accent)}
+.fx-tree .nd .dot.hollow{fill:var(--panel);stroke:var(--ink-muted);stroke-width:1}
+.fx-tree .nd .ring{fill:none;stroke:var(--ink);stroke-width:1.1}
+.fx-tree .nd .selring{fill:none;stroke:var(--accent);stroke-width:2.2;opacity:0}
+.fx-tree .nd .hit{fill:transparent;stroke:none}
+.fx-tree .nd.sel .selring{opacity:1}
+.fx-tree .nd:focus-visible .selring{opacity:1;stroke-dasharray:3 2}
+.fx-tree .nd.sel:focus-visible .selring{stroke-dasharray:none;stroke-width:3}
+.fx-tree .nd.hov .dot{stroke:var(--ink);stroke-width:1.6}
+.fx-tree svg.has-sel .nd:not(.on){opacity:.3}
+.fx-tree svg.has-sel .nd.hov,.fx-tree svg.has-sel .nd.sel{opacity:1}
+.fx-tree svg.has-sel .e{opacity:.12}
+.fx-tree svg.has-sel .e.on{opacity:.3;stroke:var(--accent)}
+.fx-tree svg.has-sel .best{opacity:.55}
+.fx-tree svg.has-sel .nd.on .dot:not(.hollow):not(.dia){fill:var(--accent)}
+.fx-tree svg.has-sel .nd.on .dot.hollow{stroke:var(--accent)}
+.fx-tree .fxt-legend{display:flex;align-items:center;gap:8px;font-size:var(--fs-axis);color:var(--ink-muted);margin:6px 0 0}
+.fx-tree .fxt-legend svg{flex:none;overflow:visible}
+.fx-tree .k-dot{fill:var(--ink-2);stroke:var(--panel);stroke-width:1}
+.fx-tree .k-ring{fill:none;stroke:var(--ink);stroke-width:1.1}
+
+/* side panel */
+.fx-tree .fxt-side{margin-top:44px}
+.fx-tree.is-narrow .fxt-side{margin-top:0}
+.fx-tree .fxt-side h4{font-size:var(--fs-fig-text);font-weight:600;margin:0 0 6px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.fx-tree .fxt-side h4 .tag{font-weight:500;font-size:var(--fs-axis);font-family:var(--font-sans)}
+.fx-tree .fxt-side table.kv{width:100%}
+.fx-tree .fxt-side table.kv th,.fx-tree .fxt-side table.kv td{font-size:var(--fs-axis);padding:6px 0;vertical-align:top}
+.fx-tree .fxt-side table.kv th{padding-right:12px;white-space:nowrap;width:1%}
+.fx-tree .fxt-side table.kv td{font-family:var(--font-sans);color:var(--ink);text-align:left}
+.fx-tree .fxt-hint{font-size:var(--fs-axis);color:var(--ink-muted);margin:12px 0 0}
+.fx-tree .fxt-coachsum{font-size:var(--fs-axis);color:var(--ink);margin:12px 0 0;padding-left:10px;border-left:3px solid var(--accent)}
+.fx-tree .fxt-acts{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+.fx-tree .fxt-acts .btn{min-height:40px;font-size:var(--fs-axis)}
+
+/* code change: full width under the chart */
+.fx-tree .fxt-diffbox{margin:24px 0 0;padding-top:16px;border-top:1px solid var(--rule)}
+.fx-tree .fxt-diffhead{font-size:var(--fs-axis);color:var(--ink-muted);margin:0 0 8px}
+.fx-tree .fxt-diffhead b{color:var(--ink);font-weight:600}
+.fx-tree .fxt-diffbox pre.code{font-size:var(--fs-axis);max-height:none;white-space:pre-wrap;word-break:break-word;overflow-x:hidden}
+
+/* tested coach: full width */
+.fx-tree .fxt-test{margin-top:32px;padding-top:20px;border-top:1px solid var(--rule)}
+.fx-tree .fxt-test-h{font-size:var(--fs-fig-text);font-weight:600;color:var(--ink);margin:0 0 4px}
+.fx-tree .fxt-take{font-size:var(--fs-fig-text);color:var(--ink-2);margin:0 0 14px;max-width:80ch}
+.fx-tree .fxt-take.muted{color:var(--ink-muted);font-size:var(--fs-axis)}
+.fx-tree .tl{fill:none;stroke-linejoin:round;transition:opacity var(--dur)}
+.fx-tree .tl.cmp{stroke:var(--ink-muted);stroke-width:1;opacity:.35}
+.fx-tree .tl.mine{stroke:var(--accent);stroke-width:2.2}
+.fx-tree .tl.mine.cur{stroke-width:3.4}
+.fx-tree svg.hi .tl{opacity:.15}
+.fx-tree svg.hi .tl.hl{opacity:1;stroke-width:3.4}
+.fx-tree .tl-t{font-size:var(--fs-axis);fill:var(--accent);cursor:default}
+.fx-tree .tl-t.cur{font-weight:600}
+.fx-tree .tl-t.cmp{fill:var(--ink-muted)}
+.fx-tree .fxt-tlist{list-style:none;margin:8px 0 0;padding:0;font-size:var(--fs-axis);color:var(--accent)}
+.fx-tree .fxt-tlist li{display:flex;align-items:center;gap:8px;padding:2px 0}
+.fx-tree .fxt-tlist li i{display:inline-block;width:16px;height:0;border-top:2px solid var(--accent)}
+.fx-tree .fxt-tlist li.cur{font-weight:600}
+.fx-tree .fxt-tlist li.cur i{border-top-width:3.5px}
+.fx-tree .fxt-tlist li.cmp{color:var(--ink-muted)}
+.fx-tree .fxt-tlist li.cmp i{border-top:1.5px solid var(--ink-muted);opacity:.7}
+
+@media (prefers-reduced-motion: reduce){
+  .fx-tree .e,.fx-tree .nd,.fx-tree .best,.fx-tree .tl,.fx-tree .fxt-chip{transition:none}
+}
