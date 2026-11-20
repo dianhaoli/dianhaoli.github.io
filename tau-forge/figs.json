@@ -1640,45 +1640,147 @@
  "two_plot": {
   "left": [
    {
-    "role": "agent",
-    "who": "agent (base model)",
-    "text": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return."
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "Hi, I need to return an office chair that arrived with some broken pieces. I’m having a rough day, so I’d like to keep this brief."
+   },
+   {
+    "role": "end",
+    "text": "agent asks for email, or name + zip"
    },
    {
     "role": "cust",
     "who": "customer (LLM)",
-    "text": "Yes, that’s correct. Please proceed with the return.###STOP###"
+    "text": "My name is Mei Davis, and my ZIP code is 80217. I don’t remember which email address I used."
    },
    {
     "role": "end",
-    "text": "— chat over: the return was never made · reward 0 —"
+    "text": "agent lists two orders, asks which has the chair"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "I’m not sure which order it’s in, and I don’t have the item ID. Could you help me find the chair?"
+   },
+   {
+    "role": "end",
+    "text": "agent finds the chair and shows its details"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "I’d like to think it over for a while before deciding. I’m having a tough day."
+   },
+   {
+    "role": "end",
+    "text": "agent says take your time, have a great day"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "I’ve changed my mind—I’d like to exchange it for the same chair instead, since it arrived with broken pieces."
+   },
+   {
+    "role": "end",
+    "text": "agent restates the chair's options"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "I’d like the same chair, please. If there’s any price difference, use the original Mastercard. I’m still feeling pretty down, so I’d appreciate keeping this simple."
+   },
+   {
+    "role": "end",
+    "text": "agent lists variants"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "Yes, please proceed with the exchange for the same chair, item ID 8069050545."
    }
   ],
   "right": [
    {
-    "role": "agent",
-    "who": "agent",
-    "text": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return."
-   },
-   {
     "role": "cust",
     "who": "customer (script)",
-    "text": "Yes, I confirm."
-   },
-   {
-    "role": "tool",
-    "who": "tool call",
-    "text": "return_delivered_order_items(#W5565470, items [7602931732, 9570044148], paypal_3024827)"
-   },
-   {
-    "role": "cust",
-    "who": "customer (script)",
-    "text": "Great, thank you! That's all I needed. ###STOP###"
+    "text": "Hi, my email is ivan.santos3158@example.com. Can I exchange items from an order I received recently? I want the Wireless Earbuds with battery life 4 hours and the Garden Hose with material latex instead. For each, only the option I named changes -- everything else the same as the item I have now."
    },
    {
     "role": "end",
-    "text": "— write made, then stop · reward 1 —"
+    "text": "agent looks up the account, order and both products, then asks how to pay"
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "I'll go with my PayPal account."
+   },
+   {
+    "role": "end",
+    "text": "agent proposes the exact exchange, 4 hours"
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "Hold on, I changed my mind on the Wireless Earbuds: drop my first change and make it with battery life 8 hours instead, keeping every other option the same as the one I have now."
+   },
+   {
+    "role": "end",
+    "text": "agent proposes it again with 8 hours"
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "Yes, that's right -- please do it."
+   },
+   {
+    "role": "end",
+    "text": "agent makes the exchange and says it's done"
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "Thanks, that's everything. ###STOP###"
    }
   ]
- }
+ },
+ "style_llm_lines": [
+  "Hi, I need to return an office chair that arrived with some broken pieces. I’m having a rough day, so I’d like to keep this brief.",
+  "My name is Mei Davis, and my ZIP code is 80217. I don’t remember which email address I used.",
+  "I’m not sure which order it’s in, and I don’t have the item ID. Could you help me find the chair?",
+  "I’d like to think it over for a while before deciding. I’m having a tough day.",
+  "I’ve changed my mind—I’d like to exchange it for the same chair instead, since it arrived with broken pieces.",
+  "I’d like the same chair, please. If there’s any price difference, use the original Mastercard. I’m still feeling pretty down, so I’d appreciate keeping this simple.",
+  "Yes, please proceed with the exchange for the same chair, item ID 8069050545."
+ ],
+ "style_llm_trials": {
+  "step75": [
+   1.0,
+   0.0,
+   0.0,
+   1.0
+  ]
+ },
+ "style_script_lines": [
+  "Hi, my email is ivan.santos3158@example.com. Can I exchange items from an order I received recently? I want the Wireless Earbuds with battery life 4 hours and the Garden Hose with material latex instead. For each, only the option I named changes -- everything else the same as the item I have now.",
+  "I'll go with my PayPal account.",
+  "Hold on, I changed my mind on the Wireless Earbuds: drop my first change and make it with battery life 8 hours instead, keeping every other option the same as the one I have now.",
+  "Yes, that's right -- please do it.",
+  "Thanks, that's everything. ###STOP###"
+ ],
+ "stop_plot": [
+  {
+   "role": "agent",
+   "who": "agent (base model)",
+   "text": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return."
+  },
+  {
+   "role": "cust",
+   "who": "customer (LLM)",
+   "text": "Yes, that’s correct. Please proceed with the return.###STOP###"
+  },
+  {
+   "role": "end",
+   "text": "— chat over: the return was never made · reward 0 —"
+  }
+ ]
 }

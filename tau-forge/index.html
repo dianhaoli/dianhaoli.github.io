@@ -33,6 +33,7 @@
 .msg.agent{align-self:flex-end;background:var(--accent-wash);color:var(--ink);border:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
 .msg .who{display:block;font-size:11.5px;color:var(--ink-muted);margin-bottom:2px;font-family:var(--font-mono)}
 .msg.tool{align-self:flex-end;background:none;border:1px dashed var(--rule-strong);font-family:var(--font-mono);font-size:12px;color:var(--ink-2);max-width:96%}
+.two .msg.end{font-style:italic;font-family:var(--font-sans)}
 .msg.end{align-self:center;background:none;color:var(--ink-muted);font-size:12.5px;font-family:var(--font-mono)}
 .moves{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .mv{font:inherit;font-size:13.5px;text-align:left;background:var(--bg);color:var(--ink);border:1px solid var(--rule);border-radius:6px;padding:7px 10px;cursor:pointer;line-height:1.3}
@@ -83,7 +84,7 @@
 <div class="ex-wrap" id="top">
 
 <div class="ex-top l-page">
-  <span class="brand">τ-forge</span>
+   <span class="brand"><a class="theme-icon back-icon" href="../" aria-label="Back to the homepage" title="Back to the homepage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></a>τ-forge</span>
   <button class="theme-icon" type="button" id="theme-icon" aria-label="Toggle light and dark mode">
     <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
     <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -102,7 +103,7 @@
     <p class="hl-note">pass@1 on all 114 held-out τ²-bench retail tasks, 4 trials each, with an LLM playing the customer. +8.1 points, 95% CI [+3.1, +13.4], permutation p = 0.005.</p>
   </div>
   <p class="facts">Qwen3-4B-Instruct · LoRA GRPO · 1 × H100, ~11 h · 75 steps · 0 LLM calls in training · 114 real tasks never seen in training</p>
-  <p class="jump"><a href="#found">What we found</a> · <a href="#play">Play the agent</a> · <a href="#reward">The reward</a> · <a href="#transfer">What transferred</a> · <a href="#other">The other customer</a> · <a href="#caveats">Caveats</a></p>
+  <p class="jump"><a href="#found">What we found</a> · <a href="#play">Play the agent</a> · <a href="#reward">The reward</a> · <a href="#transfer">What transferred</a> · <a href="#other">The other customer's bug</a> · <a href="#caveats">Caveats</a></p>
 </header>
 
 <main>
@@ -216,24 +217,39 @@
 
 <section class="l-body">
   <p>Synthetic validation was a poor guide to where the gains would land. Exchange went from 14 to 21 of 21 on validation and stayed flat on τ²; address changes didn't move on validation and gained the most on τ². And 24 of the 114 real tasks need a combination of writes that no synthetic task has; they gained more, not less (+14.6 vs +6.4 points), though that gap isn't significant.</p>
+  <p>Exchanges are a good place to look at why. Here is the same kind of request played by each customer. The script's one change of mind arrives on cue and is fully specified; the LLM customer brings a mood, hesitates, walks away and comes back with a different request.</p>
+</section>
+
+<figure class="fig l-page">
+  <div class="fig-panel">
+    <div class="fig-head">
+      <div class="fig-title">Same kind of request, two customers</div>
+      <p class="fig-text">Customer lines are verbatim. Agent turns are summarised in grey.</p>
+    </div>
+    <div class="two">
+      <div><h4 id="two-l-h">LLM customer · τ² task 18</h4><div class="chat" id="two-l"></div></div>
+      <div><h4 id="two-r-h">Scripted customer · synthetic exchange</h4><div class="chat" id="two-r"></div></div>
+    </div>
+  </div>
+  <figcaption><b>Figure 4.</b> Left: τ² task 18, one of the trained model's four trials, played by the LLM customer; the task starts as a return and becomes an exchange. The trained model solved it in 2 of 4 trials, the base model in 1 of 4. Right: the scripted customer on the synthetic exchange from Figure 1, on the path that scores 1.0.</figcaption>
+</figure>
+
+<section class="l-body">
   <p>In the transcripts, the clearest behavioural change is more reading before acting: about 0.35 more lookups before the first write. Writes before authentication, writes without a yes and writes to the wrong record didn't change measurably.</p>
 
   <h2 id="other">The other customer had a bug too</h2>
   <p>τ² plays the customer with an LLM that ends the chat by emitting <code>###STOP###</code>. In our first base-model run, it often agreed to an action and stopped in the same breath:</p>
 </section>
 
-<figure class="fig l-page">
+<figure class="fig l-body">
   <div class="fig-panel">
     <div class="fig-head">
-      <div class="fig-title">Same agent message, two customers</div>
-      <p class="fig-text">The agent asks for consent. Left: the LLM customer in τ². Right: what the scripted customer does with the same message.</p>
+      <div class="fig-title">Yes, and goodbye</div>
+      <p class="fig-text">The last two messages of a τ² conversation, from the base model's first run.</p>
     </div>
-    <div class="two">
-      <div><h4 id="two-l-h">LLM customer (τ², before the stop rule)</h4><div class="chat" id="two-l"></div></div>
-      <div><h4 id="two-r-h">Scripted customer</h4><div class="chat" id="two-r"></div></div>
-    </div>
+    <div class="chat" id="stop-chat" style="min-height:0;max-height:none"></div>
   </div>
-  <figcaption><b>Figure 4.</b> Left: τ² task 26, trial 2, from the base model's first run, before the stop rule; the chat ends before the return is made and scores 0 (the same task is 4/4 with the rule). Right: the real scripted customer, run on a hand-built synthetic copy of task 26 and fed the identical agent message; it says yes, waits for the write, and only then stops.</figcaption>
+  <figcaption><b>Figure 5.</b> τ² task 26, one of the base model's four trials before the stop rule. The customer agrees and ends the chat in one message, so the return is never made and the task scores 0. The same task is 4 of 4 with the rule, for both models.</figcaption>
 </figure>
 
 <section class="l-body">
@@ -1908,47 +1924,149 @@
  "two_plot": {
   "left": [
    {
-    "role": "agent",
-    "who": "agent (base model)",
-    "text": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return."
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "Hi, I need to return an office chair that arrived with some broken pieces. I’m having a rough day, so I’d like to keep this brief."
+   },
+   {
+    "role": "end",
+    "text": "agent asks for email, or name + zip"
    },
    {
     "role": "cust",
     "who": "customer (LLM)",
-    "text": "Yes, that’s correct. Please proceed with the return.###STOP###"
+    "text": "My name is Mei Davis, and my ZIP code is 80217. I don’t remember which email address I used."
    },
    {
     "role": "end",
-    "text": "— chat over: the return was never made · reward 0 —"
+    "text": "agent lists two orders, asks which has the chair"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "I’m not sure which order it’s in, and I don’t have the item ID. Could you help me find the chair?"
+   },
+   {
+    "role": "end",
+    "text": "agent finds the chair and shows its details"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "I’d like to think it over for a while before deciding. I’m having a tough day."
+   },
+   {
+    "role": "end",
+    "text": "agent says take your time, have a great day"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "I’ve changed my mind—I’d like to exchange it for the same chair instead, since it arrived with broken pieces."
+   },
+   {
+    "role": "end",
+    "text": "agent restates the chair's options"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "I’d like the same chair, please. If there’s any price difference, use the original Mastercard. I’m still feeling pretty down, so I’d appreciate keeping this simple."
+   },
+   {
+    "role": "end",
+    "text": "agent lists variants"
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "Yes, please proceed with the exchange for the same chair, item ID 8069050545."
    }
   ],
   "right": [
    {
-    "role": "agent",
-    "who": "agent",
-    "text": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return."
-   },
-   {
     "role": "cust",
     "who": "customer (script)",
-    "text": "Yes, I confirm."
-   },
-   {
-    "role": "tool",
-    "who": "tool call",
-    "text": "return_delivered_order_items(#W5565470, items [7602931732, 9570044148], paypal_3024827)"
-   },
-   {
-    "role": "cust",
-    "who": "customer (script)",
-    "text": "Great, thank you! That's all I needed. ###STOP###"
+    "text": "Hi, my email is ivan.santos3158@example.com. Can I exchange items from an order I received recently? I want the Wireless Earbuds with battery life 4 hours and the Garden Hose with material latex instead. For each, only the option I named changes -- everything else the same as the item I have now."
    },
    {
     "role": "end",
-    "text": "— write made, then stop · reward 1 —"
+    "text": "agent looks up the account, order and both products, then asks how to pay"
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "I'll go with my PayPal account."
+   },
+   {
+    "role": "end",
+    "text": "agent proposes the exact exchange, 4 hours"
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "Hold on, I changed my mind on the Wireless Earbuds: drop my first change and make it with battery life 8 hours instead, keeping every other option the same as the one I have now."
+   },
+   {
+    "role": "end",
+    "text": "agent proposes it again with 8 hours"
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "Yes, that's right -- please do it."
+   },
+   {
+    "role": "end",
+    "text": "agent makes the exchange and says it's done"
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "Thanks, that's everything. ###STOP###"
    }
   ]
- }
+ },
+ "style_llm_lines": [
+  "Hi, I need to return an office chair that arrived with some broken pieces. I’m having a rough day, so I’d like to keep this brief.",
+  "My name is Mei Davis, and my ZIP code is 80217. I don’t remember which email address I used.",
+  "I’m not sure which order it’s in, and I don’t have the item ID. Could you help me find the chair?",
+  "I’d like to think it over for a while before deciding. I’m having a tough day.",
+  "I’ve changed my mind—I’d like to exchange it for the same chair instead, since it arrived with broken pieces.",
+  "I’d like the same chair, please. If there’s any price difference, use the original Mastercard. I’m still feeling pretty down, so I’d appreciate keeping this simple.",
+  "Yes, please proceed with the exchange for the same chair, item ID 8069050545."
+ ],
+ "style_llm_trials": {
+  "step75": [
+   1.0,
+   0.0,
+   0.0,
+   1.0
+  ]
+ },
+ "style_script_lines": [
+  "Hi, my email is ivan.santos3158@example.com. Can I exchange items from an order I received recently? I want the Wireless Earbuds with battery life 4 hours and the Garden Hose with material latex instead. For each, only the option I named changes -- everything else the same as the item I have now.",
+  "I'll go with my PayPal account.",
+  "Hold on, I changed my mind on the Wireless Earbuds: drop my first change and make it with battery life 8 hours instead, keeping every other option the same as the one I have now.",
+  "Yes, that's right -- please do it.",
+  "Thanks, that's everything. ###STOP###"
+ ],
+ "stop_plot": [
+  {
+   "role": "agent",
+   "who": "agent (base model)",
+   "text": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return."
+  },
+  {
+   "role": "cust",
+   "who": "customer (LLM)",
+   "text": "Yes, that’s correct. Please proceed with the return.###STOP###"
+  },
+  {
+   "role": "end",
+   "text": "— chat over: the return was never made · reward 0 —"
+  }
+ ]
 };</script>
 <script>
 (function(){
@@ -2020,6 +2138,7 @@
     document.getElementById('two-l').innerHTML=conv(T.left);
     document.getElementById('two-r').innerHTML=conv(T.right);
   }
+  if(F.stop_plot){document.getElementById('stop-chat').innerHTML=F.stop_plot.map(function(t){return t.role==='end'?'<div class="msg end">'+esc(t.text)+'</div>':bubble(t.role==='agent'?'agent':'cust',t.who,t.text)}).join('')}
 })();
 </script>
 <script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'},startup:{elements:['.math']},options:{enableMenu:false}};</script>

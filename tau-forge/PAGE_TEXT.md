@@ -36,7 +36,7 @@ pass@1 on all 114 held-out τ²-bench retail tasks, 4 trials each, with an LLM p
 Qwen3-4B-Instruct · LoRA GRPO · 1 × H100, ~11 h · 75 steps · 0 LLM calls in training · 114 real tasks never seen in training
 
 [[jump]]
-[What we found](#found) · [Play the agent](#play) · [The reward](#reward) · [What transferred](#transfer) · [The other customer](#other) · [Caveats](#caveats)
+[What we found](#found) · [Play the agent](#play) · [The reward](#reward) · [What transferred](#transfer) · [The other customer's bug](#other) · [Caveats](#caveats)
 
 # Findings
 
@@ -138,6 +138,18 @@ Each row is the set of real tasks whose gold actions include that tool. Hover fo
 [[transfer.p2]]
 Synthetic validation was a poor guide to where the gains would land. Exchange went from 14 to 21 of 21 on validation and stayed flat on τ²; address changes didn't move on validation and gained the most on τ². And 24 of the 114 real tasks need a combination of writes that no synthetic task has; they gained more, not less (+14.6 vs +6.4 points), though that gap isn't significant.
 
+[[transfer.p2b]]
+Exchanges are a good place to look at why. Here is the same kind of request played by each customer. The script's one change of mind arrives on cue and is fully specified; the LLM customer brings a mood, hesitates, walks away and comes back with a different request.
+
+[[fig.two.title]]
+Same kind of request, two customers
+
+[[fig.two.text]]
+Customer lines are verbatim. Agent turns are summarised in grey.
+
+[[fig.two.caption]]
+**Figure 4.** Left: τ² task 18, one of the trained model's four trials, played by the LLM customer; the task starts as a return and becomes an exchange. The trained model solved it in 2 of 4 trials, the base model in 1 of 4. Right: the scripted customer on the synthetic exchange from Figure 1, on the path that scores 1.0.
+
 [[transfer.p3]]
 In the transcripts, the clearest behavioural change is more reading before acting: about 0.35 more lookups before the first write. Writes before authentication, writes without a yes and writes to the wrong record didn't change measurably.
 
@@ -149,14 +161,14 @@ The other customer had a bug too
 [[other.p1]]
 τ² plays the customer with an LLM that ends the chat by emitting `###STOP###`. In our first base-model run, it often agreed to an action and stopped in the same breath:
 
-[[fig.two.title]]
-Same agent message, two customers
+[[fig.stop.title]]
+Yes, and goodbye
 
-[[fig.two.text]]
-The agent asks for consent. Left: the LLM customer in τ². Right: what the scripted customer does with the same message.
+[[fig.stop.text]]
+The last two messages of a τ² conversation, from the base model's first run.
 
-[[fig.two.caption]]
-**Figure 4.** Left: τ² task 26, trial 2, from the base model's first run, before the stop rule; the chat ends before the return is made and scores 0 (the same task is 4/4 with the rule). Right: the real scripted customer, run on a hand-built synthetic copy of task 26 and fed the identical agent message; it says yes, waits for the write, and only then stops.
+[[fig.stop.caption]]
+**Figure 5.** τ² task 26, one of the base model's four trials before the stop rule. The customer agrees and ends the chat in one message, so the return is never made and the task scores 0. The same task is 4 of 4 with the rule, for both models.
 
 [[other.p2]]
 This happened in 62 of 456 conversations, across 45 tasks. We added one sentence to the customer's instructions:

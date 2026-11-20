@@ -512,3 +512,6 @@ figure.fig.explore-fig{margin:0 0 40px}
   :root:not([data-theme="light"]) .theme-icon .sun{display:block}
   :root:not([data-theme="light"]) .theme-icon .moon{display:none}
 }
+
+.ex-top .brand{display:inline-flex;align-items:center;gap:12px}
+.back-icon{text-decoration:none;flex:none}
