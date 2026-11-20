@@ -69,7 +69,7 @@
 .key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
 /* fig 4: two customers */
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.two h4{margin:0 0 8px;font-size:13px;font-weight:500;color:var(--ink-muted)}
+.shared-h,.two h4{margin:0 0 8px;font-size:13px;font-weight:500;color:var(--ink-muted)}
 .two .chat{min-height:0;max-height:none}
 .stoprule{border-left:2px solid var(--accent);padding:4px 0 4px 16px;margin:0 0 24px;color:var(--ink-2);font-style:italic}
 .ex-foot{margin:64px auto 56px;padding-top:16px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-muted)}
@@ -226,15 +226,18 @@
       <div class="fig-title">{{fig.two.title}}</div>
       <p class="fig-text">{{fig.two.text}}</p>
     </div>
+    <h4 class="shared-h">Identical in both runs</h4>
+    <div class="chat" id="two-s" style="min-height:0;max-height:none;margin-bottom:16px"></div>
     <div class="two">
-      <div><h4 id="two-l-h">LLM customer · τ² task 18</h4><div class="chat" id="two-l"></div></div>
-      <div><h4 id="two-r-h">Scripted customer · synthetic exchange</h4><div class="chat" id="two-r"></div></div>
+      <div><h4 id="two-l-h">Then: LLM customer (gpt-6-luna)</h4><div class="chat" id="two-l"></div></div>
+      <div><h4 id="two-r-h">Then: scripted customer</h4><div class="chat" id="two-r"></div></div>
     </div>
   </div>
   <figcaption>{{fig.two.caption}}</figcaption>
 </figure>
 
 <section class="l-body">
+  <p>{{transfer.p2c}}</p>
   <p>{{transfer.p3}}</p>
 
   <h2 id="other">{{other.h}}</h2>
@@ -350,6 +353,7 @@
   var T=F.two_plot;
   if(T){
     function conv(list){return list.map(function(t){return t.role==='end'?'<div class="msg end">'+esc(t.text)+'</div>':bubble(t.role==='agent'?'agent':(t.role==='tool'?'tool':'cust'),t.who||t.role,t.text)}).join('')}
+    document.getElementById('two-s').innerHTML=conv(T.shared||[]);
     document.getElementById('two-l').innerHTML=conv(T.left);
     document.getElementById('two-r').innerHTML=conv(T.right);
   }

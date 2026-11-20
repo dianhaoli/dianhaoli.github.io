@@ -1638,94 +1638,70 @@
   }
  ],
  "two_plot": {
+  "shared": [
+   {
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "Hi! How can I help you today?"
+   },
+   {
+    "role": "cust",
+    "who": "customer",
+    "text": "Hi, my email is ivan.santos3158@example.com. Can I exchange items from an order I received recently? I want the Wireless Earbuds with battery life 4 hours and the Garden Hose with material latex instead. For each, only the option I named changes -- everything else the same as the item I have now."
+   },
+   {
+    "role": "tool",
+    "who": "tool calls",
+    "text": "find_user_id_by_email → get_user_details → get_order_details ×4 → get_product_details ×2"
+   },
+   {
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "You are eligible to exchange items from your recently delivered order #W6893533. Here’s what you requested:\n\n- Exchange your Wireless Earbuds (currently: color blue, battery life 6 hours, water resistance IPX4) for a version with …"
+   }
+  ],
   "left": [
    {
     "role": "cust",
     "who": "customer (LLM)",
-    "text": "Hi, I need to return an office chair that arrived with some broken pieces. I’m having a rough day, so I’d like to keep this brief."
+    "text": "Actually, I’d like the Wireless Earbuds with 8 hours of battery life instead, keeping the other options the same. The Garden Hose exchange to latex is still correct. Please update the exchange request."
    },
    {
-    "role": "end",
-    "text": "agent asks for email, or name + zip"
-   },
-   {
-    "role": "cust",
-    "who": "customer (LLM)",
-    "text": "My name is Mei Davis, and my ZIP code is 80217. I don’t remember which email address I used."
-   },
-   {
-    "role": "end",
-    "text": "agent lists two orders, asks which has the chair"
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "To confirm, you want to exchange:\n\n- Wireless Earbuds (currently: color blue, battery life 6 hours, water resistance IPX4) for the version with color blue, battery life 8 hours, water resistance IPX4 (item id: 8555936349).\n- …"
    },
    {
     "role": "cust",
     "who": "customer (LLM)",
-    "text": "I’m not sure which order it’s in, and I don’t have the item ID. Could you help me find the chair?"
+    "text": "Yes, I want to exchange both items as described, and those are all the items I want to exchange."
    },
    {
-    "role": "end",
-    "text": "agent finds the chair and shows its details"
+    "role": "tool",
+    "who": "tool calls",
+    "text": "exchange_delivered_order_items"
    },
    {
-    "role": "cust",
-    "who": "customer (LLM)",
-    "text": "I’d like to think it over for a while before deciding. I’m having a tough day."
-   },
-   {
-    "role": "end",
-    "text": "agent says take your time, have a great day"
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "Your exchange request for order #W6893533 has been submitted:\n\n- Wireless Earbuds will be exchanged for the version with color blue, battery life 8 hours, water resistance IPX4.\n- Garden Hose will be exchanged for the version …"
    },
    {
     "role": "cust",
     "who": "customer (LLM)",
-    "text": "I’ve changed my mind—I’d like to exchange it for the same chair instead, since it arrived with broken pieces."
-   },
-   {
-    "role": "end",
-    "text": "agent restates the chair's options"
-   },
-   {
-    "role": "cust",
-    "who": "customer (LLM)",
-    "text": "I’d like the same chair, please. If there’s any price difference, use the original Mastercard. I’m still feeling pretty down, so I’d appreciate keeping this simple."
-   },
-   {
-    "role": "end",
-    "text": "agent lists variants"
-   },
-   {
-    "role": "cust",
-    "who": "customer (LLM)",
-    "text": "Yes, please proceed with the exchange for the same chair, item ID 8069050545."
+    "text": "###STOP###"
    }
   ],
   "right": [
    {
     "role": "cust",
     "who": "customer (script)",
-    "text": "Hi, my email is ivan.santos3158@example.com. Can I exchange items from an order I received recently? I want the Wireless Earbuds with battery life 4 hours and the Garden Hose with material latex instead. For each, only the option I named changes -- everything else the same as the item I have now."
-   },
-   {
-    "role": "end",
-    "text": "agent looks up the account, order and both products, then asks how to pay"
-   },
-   {
-    "role": "cust",
-    "who": "customer (script)",
-    "text": "I'll go with my PayPal account."
-   },
-   {
-    "role": "end",
-    "text": "agent proposes the exact exchange, 4 hours"
-   },
-   {
-    "role": "cust",
-    "who": "customer (script)",
     "text": "Hold on, I changed my mind on the Wireless Earbuds: drop my first change and make it with battery life 8 hours instead, keeping every other option the same as the one I have now."
    },
    {
-    "role": "end",
-    "text": "agent proposes it again with 8 hours"
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "Thank you for the update. Here’s your revised exchange request for order #W6893533:\n\n- Wireless Earbuds: Exchange your current item (color blue, battery life 6 hours, water resistance IPX4) for the version with battery life 8 …"
    },
    {
     "role": "cust",
@@ -1733,15 +1709,33 @@
     "text": "Yes, that's right -- please do it."
    },
    {
-    "role": "end",
-    "text": "agent makes the exchange and says it's done"
+    "role": "tool",
+    "who": "tool calls",
+    "text": "exchange_delivered_order_items"
+   },
+   {
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "Your exchange request for order #W6893533 has been submitted:\n\n- Wireless Earbuds: Exchanging your current item for the version with battery life 8 hours (color blue, water resistance IPX4).\n- Garden Hose: Exchanging your current …"
    },
    {
     "role": "cust",
     "who": "customer (script)",
     "text": "Thanks, that's everything. ###STOP###"
    }
-  ]
+  ],
+  "outcomes": {
+   "scripted": [
+    true,
+    true,
+    true
+   ],
+   "llm": [
+    true,
+    true,
+    true
+   ]
+  }
  },
  "style_llm_lines": [
   "Hi, I need to return an office chair that arrived with some broken pieces. I’m having a rough day, so I’d like to keep this brief.",

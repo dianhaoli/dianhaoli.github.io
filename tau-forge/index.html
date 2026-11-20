@@ -69,7 +69,7 @@
 .key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
 /* fig 4: two customers */
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.two h4{margin:0 0 8px;font-size:13px;font-weight:500;color:var(--ink-muted)}
+.shared-h,.two h4{margin:0 0 8px;font-size:13px;font-weight:500;color:var(--ink-muted)}
 .two .chat{min-height:0;max-height:none}
 .stoprule{border-left:2px solid var(--accent);padding:4px 0 4px 16px;margin:0 0 24px;color:var(--ink-2);font-style:italic}
 .ex-foot{margin:64px auto 56px;padding-top:16px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-muted)}
@@ -217,24 +217,27 @@
 
 <section class="l-body">
   <p>Synthetic validation was a poor guide to where the gains would land. Exchange went from 14 to 21 of 21 on validation and stayed flat on τ²; address changes didn't move on validation and gained the most on τ². And 24 of the 114 real tasks need a combination of writes that no synthetic task has; they gained more, not less (+14.6 vs +6.4 points), though that gap isn't significant.</p>
-  <p>Exchanges are a good place to look at why. Here is the same kind of request played by each customer. The script's one change of mind arrives on cue and is fully specified; the LLM customer brings a mood, hesitates, walks away and comes back with a different request.</p>
+  <p>Is the gap the customer, or the tasks? We ran the same synthetic exchange from Figure 1 twice, with the same agent (gpt-4.1, since our 4B model needs a GPU) and the same opening line: once against the script, and once against gpt-6-luna, the LLM customer from our τ² evaluation, given the task's hidden details as τ²-style instructions.</p>
 </section>
 
 <figure class="fig l-page">
   <div class="fig-panel">
     <div class="fig-head">
-      <div class="fig-title">Same kind of request, two customers</div>
-      <p class="fig-text">Customer lines are verbatim. Agent turns are summarised in grey.</p>
+      <div class="fig-title">Same task, same agent, two customers</div>
+      <p class="fig-text">Both runs start from the same customer message and the same agent turns; they split at the customer's change of mind. Customer lines are verbatim; long agent messages are cut.</p>
     </div>
+    <h4 class="shared-h">Identical in both runs</h4>
+    <div class="chat" id="two-s" style="min-height:0;max-height:none;margin-bottom:16px"></div>
     <div class="two">
-      <div><h4 id="two-l-h">LLM customer · τ² task 18</h4><div class="chat" id="two-l"></div></div>
-      <div><h4 id="two-r-h">Scripted customer · synthetic exchange</h4><div class="chat" id="two-r"></div></div>
+      <div><h4 id="two-l-h">Then: LLM customer (gpt-6-luna)</h4><div class="chat" id="two-l"></div></div>
+      <div><h4 id="two-r-h">Then: scripted customer</h4><div class="chat" id="two-r"></div></div>
     </div>
   </div>
-  <figcaption><b>Figure 4.</b> Left: τ² task 18, one of the trained model's four trials, played by the LLM customer; the task starts as a return and becomes an exchange. The trained model solved it in 2 of 4 trials, the base model in 1 of 4. Right: the scripted customer on the synthetic exchange from Figure 1, on the path that scores 1.0.</figcaption>
+  <figcaption><b>Figure 4.</b> Synthetic task ep_exchange_s11_00009, agent gpt-4.1 at temperature 0 with τ²'s agent prompt and tools. Agent replies are cached on identical input, so the runs differ only where the customers do. Both reach the correct end state, as did all 3 repeats of each (6 of 6).</figcaption>
 </figure>
 
 <section class="l-body">
+  <p>On a tidy task, the two customers behave alike. The LLM rewords, answers the agent's side question and re-confirms the hose, but it changes its mind at the same moment and the outcome is identical. The mess on τ² comes from its tasks, which script it in: task 18 tells the customer that when asked to confirm, "you say you want to rethink for a while, and then change your mind to exchange". None of our templates ask the script for anything like that.</p>
   <p>In the transcripts, the clearest behavioural change is more reading before acting: about 0.35 more lookups before the first write. Writes before authentication, writes without a yes and writes to the wrong record didn't change measurably.</p>
 
   <h2 id="other">The other customer had a bug too</h2>
@@ -1922,94 +1925,70 @@
   }
  ],
  "two_plot": {
+  "shared": [
+   {
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "Hi! How can I help you today?"
+   },
+   {
+    "role": "cust",
+    "who": "customer",
+    "text": "Hi, my email is ivan.santos3158@example.com. Can I exchange items from an order I received recently? I want the Wireless Earbuds with battery life 4 hours and the Garden Hose with material latex instead. For each, only the option I named changes -- everything else the same as the item I have now."
+   },
+   {
+    "role": "tool",
+    "who": "tool calls",
+    "text": "find_user_id_by_email → get_user_details → get_order_details ×4 → get_product_details ×2"
+   },
+   {
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "You are eligible to exchange items from your recently delivered order #W6893533. Here’s what you requested:\n\n- Exchange your Wireless Earbuds (currently: color blue, battery life 6 hours, water resistance IPX4) for a version with …"
+   }
+  ],
   "left": [
    {
     "role": "cust",
     "who": "customer (LLM)",
-    "text": "Hi, I need to return an office chair that arrived with some broken pieces. I’m having a rough day, so I’d like to keep this brief."
+    "text": "Actually, I’d like the Wireless Earbuds with 8 hours of battery life instead, keeping the other options the same. The Garden Hose exchange to latex is still correct. Please update the exchange request."
    },
    {
-    "role": "end",
-    "text": "agent asks for email, or name + zip"
-   },
-   {
-    "role": "cust",
-    "who": "customer (LLM)",
-    "text": "My name is Mei Davis, and my ZIP code is 80217. I don’t remember which email address I used."
-   },
-   {
-    "role": "end",
-    "text": "agent lists two orders, asks which has the chair"
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "To confirm, you want to exchange:\n\n- Wireless Earbuds (currently: color blue, battery life 6 hours, water resistance IPX4) for the version with color blue, battery life 8 hours, water resistance IPX4 (item id: 8555936349).\n- …"
    },
    {
     "role": "cust",
     "who": "customer (LLM)",
-    "text": "I’m not sure which order it’s in, and I don’t have the item ID. Could you help me find the chair?"
+    "text": "Yes, I want to exchange both items as described, and those are all the items I want to exchange."
    },
    {
-    "role": "end",
-    "text": "agent finds the chair and shows its details"
+    "role": "tool",
+    "who": "tool calls",
+    "text": "exchange_delivered_order_items"
    },
    {
-    "role": "cust",
-    "who": "customer (LLM)",
-    "text": "I’d like to think it over for a while before deciding. I’m having a tough day."
-   },
-   {
-    "role": "end",
-    "text": "agent says take your time, have a great day"
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "Your exchange request for order #W6893533 has been submitted:\n\n- Wireless Earbuds will be exchanged for the version with color blue, battery life 8 hours, water resistance IPX4.\n- Garden Hose will be exchanged for the version …"
    },
    {
     "role": "cust",
     "who": "customer (LLM)",
-    "text": "I’ve changed my mind—I’d like to exchange it for the same chair instead, since it arrived with broken pieces."
-   },
-   {
-    "role": "end",
-    "text": "agent restates the chair's options"
-   },
-   {
-    "role": "cust",
-    "who": "customer (LLM)",
-    "text": "I’d like the same chair, please. If there’s any price difference, use the original Mastercard. I’m still feeling pretty down, so I’d appreciate keeping this simple."
-   },
-   {
-    "role": "end",
-    "text": "agent lists variants"
-   },
-   {
-    "role": "cust",
-    "who": "customer (LLM)",
-    "text": "Yes, please proceed with the exchange for the same chair, item ID 8069050545."
+    "text": "###STOP###"
    }
   ],
   "right": [
    {
     "role": "cust",
     "who": "customer (script)",
-    "text": "Hi, my email is ivan.santos3158@example.com. Can I exchange items from an order I received recently? I want the Wireless Earbuds with battery life 4 hours and the Garden Hose with material latex instead. For each, only the option I named changes -- everything else the same as the item I have now."
-   },
-   {
-    "role": "end",
-    "text": "agent looks up the account, order and both products, then asks how to pay"
-   },
-   {
-    "role": "cust",
-    "who": "customer (script)",
-    "text": "I'll go with my PayPal account."
-   },
-   {
-    "role": "end",
-    "text": "agent proposes the exact exchange, 4 hours"
-   },
-   {
-    "role": "cust",
-    "who": "customer (script)",
     "text": "Hold on, I changed my mind on the Wireless Earbuds: drop my first change and make it with battery life 8 hours instead, keeping every other option the same as the one I have now."
    },
    {
-    "role": "end",
-    "text": "agent proposes it again with 8 hours"
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "Thank you for the update. Here’s your revised exchange request for order #W6893533:\n\n- Wireless Earbuds: Exchange your current item (color blue, battery life 6 hours, water resistance IPX4) for the version with battery life 8 …"
    },
    {
     "role": "cust",
@@ -2017,15 +1996,33 @@
     "text": "Yes, that's right -- please do it."
    },
    {
-    "role": "end",
-    "text": "agent makes the exchange and says it's done"
+    "role": "tool",
+    "who": "tool calls",
+    "text": "exchange_delivered_order_items"
+   },
+   {
+    "role": "agent",
+    "who": "agent (gpt-4.1)",
+    "text": "Your exchange request for order #W6893533 has been submitted:\n\n- Wireless Earbuds: Exchanging your current item for the version with battery life 8 hours (color blue, water resistance IPX4).\n- Garden Hose: Exchanging your current …"
    },
    {
     "role": "cust",
     "who": "customer (script)",
     "text": "Thanks, that's everything. ###STOP###"
    }
-  ]
+  ],
+  "outcomes": {
+   "scripted": [
+    true,
+    true,
+    true
+   ],
+   "llm": [
+    true,
+    true,
+    true
+   ]
+  }
  },
  "style_llm_lines": [
   "Hi, I need to return an office chair that arrived with some broken pieces. I’m having a rough day, so I’d like to keep this brief.",
@@ -2135,6 +2132,7 @@
   var T=F.two_plot;
   if(T){
     function conv(list){return list.map(function(t){return t.role==='end'?'<div class="msg end">'+esc(t.text)+'</div>':bubble(t.role==='agent'?'agent':(t.role==='tool'?'tool':'cust'),t.who||t.role,t.text)}).join('')}
+    document.getElementById('two-s').innerHTML=conv(T.shared||[]);
     document.getElementById('two-l').innerHTML=conv(T.left);
     document.getElementById('two-r').innerHTML=conv(T.right);
   }

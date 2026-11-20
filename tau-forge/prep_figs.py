@@ -101,6 +101,39 @@ F["two_plot"] = {
               n("agent proposes it again with 8 hours"), c("customer (script)", S[3]),
               n("agent makes the exchange and says it's done"), c("customer (script)", S[4])],
 }
+
+# fig 4: the same synthetic task, same agent, same opening; two customers (make_two.py -> two.json)
+T2 = json.loads((HERE / "two.json").read_text())
+def conv(run):
+    out, calls = [], []
+    for m in run["messages"]:
+        if m["role"] == "tool":
+            continue
+        if m["role"] == "agent" and m.get("tool_calls"):
+            calls += [t["name"] if isinstance(t, dict) else t for t in m["tool_calls"]]
+            continue
+        if calls:
+            names = []
+            for n_ in calls:
+                if names and names[-1][0] == n_: names[-1][1] += 1
+                else: names.append([n_, 1])
+            out.append({"role": "tool", "who": "tool calls", "text": " → ".join(a + (f" ×{k}" if k > 1 else "") for a, k in names)})
+            calls = []
+        t = m.get("text") or ""
+        if m["role"] == "agent":
+            t = t if len(t) <= 230 else t[:230].rsplit(" ", 1)[0] + " …"
+            out.append({"role": "agent", "who": "agent (gpt-4.1)", "text": t})
+        else:
+            out.append({"role": "cust", "who": "customer", "text": t})
+    return out
+a, b = conv(T2["scripted"][T2["display_index"]]), conv(T2["llm"][T2["display_index"]])
+k = 0
+while k < min(len(a), len(b)) and a[k] == b[k]:
+    k += 1
+for x in a[k:]: x["who"] = x["who"].replace("customer", "customer (script)")
+for x in b[k:]: x["who"] = x["who"].replace("customer", "customer (LLM)")
+F["two_plot"] = {"shared": a[:k], "left": b[k:], "right": a[k:],
+                 "outcomes": {"scripted": [r["db_match"] for r in T2["scripted"]], "llm": [r["db_match"] for r in T2["llm"]]}}
 # fig 5: the stop bug, one column
 F["stop_plot"] = [
     {"role": "agent", "who": "agent (base model)", "text": consent},

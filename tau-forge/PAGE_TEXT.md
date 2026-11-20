@@ -139,16 +139,19 @@ Each row is the set of real tasks whose gold actions include that tool. Hover fo
 Synthetic validation was a poor guide to where the gains would land. Exchange went from 14 to 21 of 21 on validation and stayed flat on τ²; address changes didn't move on validation and gained the most on τ². And 24 of the 114 real tasks need a combination of writes that no synthetic task has; they gained more, not less (+14.6 vs +6.4 points), though that gap isn't significant.
 
 [[transfer.p2b]]
-Exchanges are a good place to look at why. Here is the same kind of request played by each customer. The script's one change of mind arrives on cue and is fully specified; the LLM customer brings a mood, hesitates, walks away and comes back with a different request.
+Is the gap the customer, or the tasks? We ran the same synthetic exchange from Figure 1 twice, with the same agent (gpt-4.1, since our 4B model needs a GPU) and the same opening line: once against the script, and once against gpt-6-luna, the LLM customer from our τ² evaluation, given the task's hidden details as τ²-style instructions.
 
 [[fig.two.title]]
-Same kind of request, two customers
+Same task, same agent, two customers
 
 [[fig.two.text]]
-Customer lines are verbatim. Agent turns are summarised in grey.
+Both runs start from the same customer message and the same agent turns; they split at the customer's change of mind. Customer lines are verbatim; long agent messages are cut.
 
 [[fig.two.caption]]
-**Figure 4.** Left: τ² task 18, one of the trained model's four trials, played by the LLM customer; the task starts as a return and becomes an exchange. The trained model solved it in 2 of 4 trials, the base model in 1 of 4. Right: the scripted customer on the synthetic exchange from Figure 1, on the path that scores 1.0.
+**Figure 4.** Synthetic task ep_exchange_s11_00009, agent gpt-4.1 at temperature 0 with τ²'s agent prompt and tools. Agent replies are cached on identical input, so the runs differ only where the customers do. Both reach the correct end state, as did all 3 repeats of each (6 of 6).
+
+[[transfer.p2c]]
+On a tidy task, the two customers behave alike. The LLM rewords, answers the agent's side question and re-confirms the hose, but it changes its mind at the same moment and the outcome is identical. The mess on τ² comes from its tasks, which script it in: task 18 tells the customer that when asked to confirm, "you say you want to rethink for a while, and then change your mind to exchange". None of our templates ask the script for anything like that.
 
 [[transfer.p3]]
 In the transcripts, the clearest behavioural change is more reading before acting: about 0.35 more lookups before the first write. Writes before authentication, writes without a yes and writes to the wrong record didn't change measurably.
