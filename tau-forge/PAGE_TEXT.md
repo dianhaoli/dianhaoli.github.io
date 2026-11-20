@@ -113,7 +113,7 @@ Scripted agents and the reward they get
 Each bar is a hand-written policy that makes one specific mistake. The tests fail if the ordering changes.
 
 [[fig.ref.caption]]
-**Figure 2.** Reward per reference agent, as specified in `reward.py` and checked in `tests/`. The perfect agent scores 1.0 on all 885 tasks of the seed-1 pool.
+**Figure 2.** Reward per reference agent, as specified in `reward.py` and checked in `tests/`. Re-running every reference agent on the 163 validation tasks reproduced each single-request score exactly; the perfect agent scores 1.0 on all 163.
 
 [[reward.p3]]
 The tests caught things RL would have learned. Before one fix, a canned refusal on the first turn, with no lookup at all, scored a full 1.0 on 200 of 200 refusal tasks. Another bug made foreign-order refusal look 79% solved when the real rate was 17%. Every audit fix was a shortcut the policy would otherwise have found.
@@ -156,7 +156,7 @@ Same agent message, two customers
 The agent asks for consent. Left: the LLM customer in τ². Right: what the scripted customer does with the same message.
 
 [[fig.two.caption]]
-**Figure 4.** An excerpt from the base model's first τ² run, before the stop rule. The conversation ends before the agent can make the write, and the task scores 0.
+**Figure 4.** Left: τ² task 26, trial 2, from the base model's first run, before the stop rule; the chat ends before the return is made and scores 0 (the same task is 4/4 with the rule). Right: the real scripted customer, run on a hand-built synthetic copy of task 26 and fed the identical agent message; it says yes, waits for the write, and only then stops.
 
 [[other.p2]]
 This happened in 62 of 456 conversations, across 45 tasks. We added one sentence to the customer's instructions:

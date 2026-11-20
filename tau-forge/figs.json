@@ -1,0 +1,1684 @@
+{
+ "headline": {
+  "source": "docs/FACTS.md §9.1 (from data/analysis/results_core RC §1-2); paired task bootstrap 10,000 draws seed 0, n=114 tasks; diff = step75 minus base in pp",
+  "runs": {
+   "base_stoprule": {
+    "pass^1": 0.5307,
+    "pass^2": 0.3962,
+    "pass^3": 0.3268,
+    "pass^4": 0.2895,
+    "successes_of_456": 242,
+    "solved_at_least_once_of_114": 87,
+    "solved_4_of_4": 33,
+    "never_solved": 27
+   },
+   "step75_stoprule": {
+    "pass^1": 0.6118,
+    "pass^2": 0.4868,
+    "pass^3": 0.4189,
+    "pass^4": 0.3684,
+    "successes_of_456": 279,
+    "solved_at_least_once_of_114": 95,
+    "solved_4_of_4": 42,
+    "never_solved": 19
+   },
+   "base_norule_superseded": {
+    "pass^1": 0.4846,
+    "pass^2": 0.3187,
+    "pass^3": 0.2325,
+    "pass^4": 0.1842,
+    "successes_of_456": 221,
+    "solved_at_least_once_of_114": 88,
+    "solved_4_of_4": 21,
+    "never_solved": 26
+   }
+  },
+  "diff_step75_minus_base": {
+   "pass^1": {
+    "diff_pp": 8.11,
+    "ci95_pp": [
+     3.07,
+     13.38
+    ],
+    "p_percentile_bootstrap": 0.002,
+    "p_shifted_bootstrap": 0.0024,
+    "p_signflip_permutation": 0.0047
+   },
+   "pass^2": {
+    "diff_pp": 9.06,
+    "ci95_pp": [
+     3.22,
+     15.2
+    ],
+    "p_percentile_bootstrap": 0.0022,
+    "p_shifted_bootstrap": 0.0031,
+    "p_signflip_permutation": 0.004
+   },
+   "pass^3": {
+    "diff_pp": 9.21,
+    "ci95_pp": [
+     2.63,
+     15.79
+    ],
+    "p_percentile_bootstrap": 0.0076,
+    "p_shifted_bootstrap": 0.0075,
+    "p_signflip_permutation": 0.0065
+   },
+   "pass^4": {
+    "diff_pp": 7.89,
+    "ci95_pp": [
+     0.88,
+     14.91
+    ],
+    "p_percentile_bootstrap": 0.0448,
+    "p_shifted_bootstrap": 0.0442,
+    "p_signflip_permutation": 0.0633
+   }
+  },
+  "note": "Sign-flip permutation p is the preferred test; pass^4 is not significant at 0.05 by it (0.0598-0.0660 across 12 order x seed combinations)."
+ },
+ "by_writes": {
+  "source": "docs/FACTS.md §9.4 first table (RC §6; SR §2); successes/simulations",
+  "rows": [
+   {
+    "gold_writes": "0",
+    "tasks": 10,
+    "base": {
+     "successes": 30,
+     "sims": 40
+    },
+    "base_frac": 0.75,
+    "step75": {
+     "successes": 36,
+     "sims": 40
+    },
+    "step75_frac": 0.9,
+    "diff_pp": 15.0,
+    "ci_within_family": [
+     -2.5,
+     30.0
+    ],
+    "ci_all114": [
+     -4.5,
+     32.5
+    ],
+    "pass^4_base": 0.4,
+    "pass^4_step75": 0.7
+   },
+   {
+    "gold_writes": "1",
+    "tasks": 60,
+    "base": {
+     "successes": 151,
+     "sims": 240
+    },
+    "base_frac": 0.6292,
+    "step75": {
+     "successes": 170,
+     "sims": 240
+    },
+    "step75_frac": 0.7083,
+    "diff_pp": 7.92,
+    "ci_within_family": [
+     2.1,
+     14.6
+    ],
+    "ci_all114": null,
+    "pass^4_base": 0.4333,
+    "pass^4_step75": 0.4667
+   },
+   {
+    "gold_writes": "2",
+    "tasks": 23,
+    "base": {
+     "successes": 41,
+     "sims": 92
+    },
+    "base_frac": 0.4457,
+    "step75": {
+     "successes": 41,
+     "sims": 92
+    },
+    "step75_frac": 0.4457,
+    "diff_pp": 0.0,
+    "ci_within_family": [
+     -15.2,
+     15.2
+    ],
+    "ci_all114": null,
+    "pass^4_base": 0.1304,
+    "pass^4_step75": 0.2174
+   },
+   {
+    "gold_writes": "3",
+    "tasks": 15,
+    "base": {
+     "successes": 15,
+     "sims": 60
+    },
+    "base_frac": 0.25,
+    "step75": {
+     "successes": 22,
+     "sims": 60
+    },
+    "step75_frac": 0.3667,
+    "diff_pp": 11.67,
+    "ci_within_family": [
+     3.3,
+     20.0
+    ],
+    "ci_all114": null,
+    "pass^4_base": 0,
+    "pass^4_step75": 0.0667
+   },
+   {
+    "gold_writes": "4+",
+    "tasks": 6,
+    "base": {
+     "successes": 5,
+     "sims": 24
+    },
+    "base_frac": 0.2083,
+    "step75": {
+     "successes": 10,
+     "sims": 24
+    },
+    "step75_frac": 0.4167,
+    "diff_pp": 20.83,
+    "ci_within_family": [
+     -4.2,
+     50.0
+    ],
+    "ci_all114": [
+     -8.3,
+     50.0
+    ],
+    "pass^4_base": 0,
+    "pass^4_step75": 0.1667
+   }
+  ],
+  "note": "step75_frac for 2 writes is 41/92 (FACTS table prints only '41/92'); 0.4457 is the same fraction as base."
+ },
+ "by_tool": {
+  "source": "docs/FACTS.md §9.4 second table (RC §6; SR §2). Groups overlap: a task counts under every write tool in its gold actions.",
+  "rows": [
+   {
+    "tool": "modify_user_address",
+    "tasks": 10,
+    "base": {
+     "successes": 11,
+     "sims": 40
+    },
+    "step75": {
+     "successes": 23,
+     "sims": 40
+    },
+    "diff_pp": 30.0,
+    "ci": [
+     10.0,
+     50.0
+    ],
+    "ci_all114": [
+     9.4,
+     50.0
+    ]
+   },
+   {
+    "tool": "modify_pending_order_address",
+    "tasks": 20,
+    "base": {
+     "successes": 22,
+     "sims": 80
+    },
+    "step75": {
+     "successes": 34,
+     "sims": 80
+    },
+    "diff_pp": 15.0,
+    "ci": [
+     3.8,
+     26.2
+    ]
+   },
+   {
+    "tool": "return_delivered_order_items",
+    "tasks": 31,
+    "base": {
+     "successes": 66,
+     "sims": 124
+    },
+    "step75": {
+     "successes": 79,
+     "sims": 124
+    },
+    "diff_pp": 10.48,
+    "ci": null
+   },
+   {
+    "tool": "cancel_pending_order",
+    "tasks": 18,
+    "base": {
+     "successes": 29,
+     "sims": 72
+    },
+    "step75": {
+     "successes": 35,
+     "sims": 72
+    },
+    "diff_pp": 8.33,
+    "ci": null
+   },
+   {
+    "tool": "modify_pending_order_items",
+    "tasks": 35,
+    "base": {
+     "successes": 51,
+     "sims": 140
+    },
+    "step75": {
+     "successes": 59,
+     "sims": 140
+    },
+    "diff_pp": 5.71,
+    "ci": null
+   },
+   {
+    "tool": "exchange_delivered_order_items",
+    "tasks": 29,
+    "base": {
+     "successes": 71,
+     "sims": 116
+    },
+    "step75": {
+     "successes": 71,
+     "sims": 116
+    },
+    "diff_pp": 0.0,
+    "ci": [
+     -11.2,
+     10.4
+    ]
+   },
+   {
+    "tool": "modify_pending_order_payment",
+    "tasks": 1,
+    "base": {
+     "successes": 2,
+     "sims": 4
+    },
+    "step75": {
+     "successes": 3,
+     "sims": 4
+    },
+    "diff_pp": null,
+    "ci": null
+   }
+  ]
+ },
+ "synthetic_vs_real": {
+  "source": "docs/FACTS.md §9.5 (SR §1-2). Family mapping: 0 writes = no_write, 1 write = its template, 2+ writes = composite. tau2 values are successes/sims.",
+  "rows": [
+   {
+    "family": "composite",
+    "tau2_tasks": 44,
+    "tau2_base": "61/176",
+    "tau2_step75": "73/176",
+    "diff_pp": 6.8,
+    "ci": [
+     -2.8,
+     16.5
+    ],
+    "synthetic_val_success": {
+     "step0": "35/57",
+     "step75": "43/57"
+    }
+   },
+   {
+    "family": "exchange",
+    "tau2_tasks": 20,
+    "tau2_base": "55/80",
+    "tau2_step75": "60/80",
+    "diff_pp": 6.25,
+    "ci": [
+     -1.2,
+     13.8
+    ],
+    "synthetic_val_success": {
+     "step0": "14/21",
+     "step75": "21/21"
+    }
+   },
+   {
+    "family": "return_fallback",
+    "tau2_tasks": 16,
+    "tau2_base": "44/64",
+    "tau2_step75": "50/64",
+    "diff_pp": 9.4,
+    "ci": [
+     -4.7,
+     25.0
+    ],
+    "synthetic_val_success": {
+     "step0": "8/10",
+     "step75": "9/10"
+    }
+   },
+   {
+    "family": "modify_items",
+    "tau2_tasks": 13,
+    "tau2_base": "25/52",
+    "tau2_step75": "29/52",
+    "diff_pp": 7.7,
+    "ci": [
+     -1.9,
+     19.2
+    ],
+    "synthetic_val_success": {
+     "step0": "11/17",
+     "step75": "13/17"
+    }
+   },
+   {
+    "family": "no_write",
+    "tau2_tasks": 10,
+    "tau2_base": "30/40",
+    "tau2_step75": "36/40",
+    "diff_pp": 15.0,
+    "ci": [
+     -2.5,
+     30.0
+    ],
+    "synthetic_val_success": {
+     "step0": "pooled 0.7813",
+     "step75": "pooled 0.8125"
+    }
+   },
+   {
+    "family": "cancel",
+    "tau2_tasks": 5,
+    "tau2_base": "14/20",
+    "tau2_step75": "13/20",
+    "diff_pp": -5.0,
+    "ci": [
+     -15.0,
+     0.0
+    ],
+    "synthetic_val_success": {
+     "step0": "10/10",
+     "step75": "10/10"
+    }
+   },
+   {
+    "family": "modify_user_address",
+    "tau2_tasks": 3,
+    "tau2_base": "5/12",
+    "tau2_step75": "10/12",
+    "diff_pp": 41.67,
+    "ci": [
+     0,
+     75
+    ],
+    "synthetic_val_success": {
+     "step0": "4/4",
+     "step75": "4/4"
+    },
+    "note": "synthetic val reward 0.70 throughout"
+   },
+   {
+    "family": "modify_address",
+    "tau2_tasks": 2,
+    "tau2_base": "6/8",
+    "tau2_step75": "5/8",
+    "diff_pp": -12.5,
+    "ci": [
+     -25.0,
+     0.0
+    ],
+    "synthetic_val_success": {
+     "step0": "7/8",
+     "step75": "7/8"
+    }
+   },
+   {
+    "family": "modify_payment",
+    "tau2_tasks": 1,
+    "tau2_base": "2/4",
+    "tau2_step75": "3/4",
+    "diff_pp": 25.0,
+    "ci": null,
+    "synthetic_val_success": {
+     "step0": "3/4",
+     "step75": "3/4"
+    }
+   }
+  ],
+  "notes": [
+   "exchange reached 21/21 on synthetic val while tau2 tasks that include an exchange stayed 71/116 in both runs; the 4 two-exchange tasks went 10/16 to 4/16.",
+   "modify_user_address: no change on synthetic val (0.70) but the largest tau2 gain (includes-family +30.0 pp, n=10)."
+  ]
+ },
+ "reference_agents": {
+  "source": "stated: tau_forge/episodes/reward.py:56-63 docstring / FACTS §6 (885 seed-1 tasks). measured: run in this container on data/episodes/pool_v2/val.jsonl (163 tasks) with ReferenceAgent / CompositeAgent + run_episode + score_episode; per-template mode list = tests/test_episodes.py EXPECTED/_modes; composite modes chosen for this run (oracle, no_confirm, skip_auth, transfer).",
+  "stated": {
+   "oracle": 1.0,
+   "no_confirm": 0.7,
+   "no_confirm_into_late_correction": "0.0-0.1",
+   "wrong_variant": 0.2,
+   "made_up_payment_method": 0.1,
+   "comply_forbidden_refund": 0.1,
+   "skip_auth": 0.7,
+   "skip_auth_refusal_task": 0.4,
+   "transfer": 0.0,
+   "comply_foreign_order": 0.0,
+   "no_denial_refusal_task": 0.1
+  },
+  "stated_note": "reward.py docstring says transfer on a refusal task scores 0.5; that is the pre-change value. REFUSAL_TRANSFER constant is 0.3 (FACTS §6 correction).",
+  "measured": {
+   "source": "measured",
+   "n_val_tasks": 163,
+   "runtime_seconds": 11.0,
+   "errors": {},
+   "by_behaviour_all_templates": {
+    "comply": {
+     "n": 31,
+     "mean_reward": 0.0677
+    },
+    "giftcard_fallback": {
+     "n": 10,
+     "mean_reward": 0.1
+    },
+    "halluc_pm": {
+     "n": 42,
+     "mean_reward": 0.1
+    },
+    "no_confirm": {
+     "n": 122,
+     "mean_reward": 0.4955
+    },
+    "no_confirm|corr": {
+     "n": 20,
+     "mean_reward": 0.08
+    },
+    "oracle": {
+     "n": 163,
+     "mean_reward": 1.0
+    },
+    "skip_auth": {
+     "n": 91,
+     "mean_reward": 0.7429
+    },
+    "transfer": {
+     "n": 163,
+     "mean_reward": 0.0454
+    },
+    "wrong_variant": {
+     "n": 61,
+     "mean_reward": 0.141
+    }
+   },
+   "by_template_behaviour": [
+    {
+     "template": "cancel",
+     "behaviour": "no_confirm",
+     "n": 6,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "cancel",
+     "behaviour": "no_confirm|corr",
+     "n": 4,
+     "mean_reward": 0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "cancel",
+     "behaviour": "oracle",
+     "n": 10,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "cancel",
+     "behaviour": "skip_auth",
+     "n": 5,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "cancel",
+     "behaviour": "transfer",
+     "n": 10,
+     "mean_reward": 0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "composite",
+     "behaviour": "no_confirm",
+     "n": 57,
+     "mean_reward": 0.3781,
+     "expected_in_test": null
+    },
+    {
+     "template": "composite",
+     "behaviour": "oracle",
+     "n": 57,
+     "mean_reward": 1.0,
+     "expected_in_test": null
+    },
+    {
+     "template": "composite",
+     "behaviour": "skip_auth",
+     "n": 57,
+     "mean_reward": 0.7947,
+     "expected_in_test": null
+    },
+    {
+     "template": "composite",
+     "behaviour": "transfer",
+     "n": 57,
+     "mean_reward": 0,
+     "expected_in_test": null
+    },
+    {
+     "template": "exchange",
+     "behaviour": "halluc_pm",
+     "n": 21,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "exchange",
+     "behaviour": "no_confirm",
+     "n": 11,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "exchange",
+     "behaviour": "no_confirm|corr",
+     "n": 10,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "exchange",
+     "behaviour": "oracle",
+     "n": 21,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "exchange",
+     "behaviour": "skip_auth",
+     "n": 7,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "exchange",
+     "behaviour": "transfer",
+     "n": 21,
+     "mean_reward": 0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "exchange",
+     "behaviour": "wrong_variant",
+     "n": 21,
+     "mean_reward": 0.2,
+     "expected_in_test": 0.2
+    },
+    {
+     "template": "foreign_order_refusal",
+     "behaviour": "comply",
+     "n": 10,
+     "mean_reward": 0.0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "foreign_order_refusal",
+     "behaviour": "oracle",
+     "n": 10,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "foreign_order_refusal",
+     "behaviour": "transfer",
+     "n": 10,
+     "mean_reward": 0.3,
+     "expected_in_test": 0.3
+    },
+    {
+     "template": "info",
+     "behaviour": "oracle",
+     "n": 11,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "info",
+     "behaviour": "transfer",
+     "n": 11,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "info",
+     "behaviour": "wrong_variant",
+     "n": 11,
+     "mean_reward": 0.0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "modify_address",
+     "behaviour": "no_confirm",
+     "n": 8,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "modify_address",
+     "behaviour": "oracle",
+     "n": 8,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "modify_address",
+     "behaviour": "skip_auth",
+     "n": 4,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "modify_address",
+     "behaviour": "transfer",
+     "n": 8,
+     "mean_reward": 0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "modify_address",
+     "behaviour": "wrong_variant",
+     "n": 8,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "modify_items",
+     "behaviour": "halluc_pm",
+     "n": 17,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "modify_items",
+     "behaviour": "no_confirm",
+     "n": 11,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "modify_items",
+     "behaviour": "no_confirm|corr",
+     "n": 6,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "modify_items",
+     "behaviour": "oracle",
+     "n": 17,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "modify_items",
+     "behaviour": "skip_auth",
+     "n": 10,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "modify_items",
+     "behaviour": "transfer",
+     "n": 17,
+     "mean_reward": 0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "modify_items",
+     "behaviour": "wrong_variant",
+     "n": 17,
+     "mean_reward": 0.2,
+     "expected_in_test": 0.2
+    },
+    {
+     "template": "modify_payment",
+     "behaviour": "halluc_pm",
+     "n": 4,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "modify_payment",
+     "behaviour": "no_confirm",
+     "n": 4,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "modify_payment",
+     "behaviour": "oracle",
+     "n": 4,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "modify_payment",
+     "behaviour": "skip_auth",
+     "n": 3,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "modify_payment",
+     "behaviour": "transfer",
+     "n": 4,
+     "mean_reward": 0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "modify_user_address",
+     "behaviour": "no_confirm",
+     "n": 4,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "modify_user_address",
+     "behaviour": "oracle",
+     "n": 4,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "modify_user_address",
+     "behaviour": "transfer",
+     "n": 4,
+     "mean_reward": 0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "modify_user_address",
+     "behaviour": "wrong_variant",
+     "n": 4,
+     "mean_reward": 0.05,
+     "expected_in_test": 0.05
+    },
+    {
+     "template": "return_fallback",
+     "behaviour": "comply",
+     "n": 10,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "return_fallback",
+     "behaviour": "giftcard_fallback",
+     "n": 10,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "return_fallback",
+     "behaviour": "no_confirm",
+     "n": 10,
+     "mean_reward": 0.7,
+     "expected_in_test": 0.7
+    },
+    {
+     "template": "return_fallback",
+     "behaviour": "oracle",
+     "n": 10,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "return_fallback",
+     "behaviour": "transfer",
+     "n": 10,
+     "mean_reward": 0,
+     "expected_in_test": 0.0
+    },
+    {
+     "template": "status_refusal",
+     "behaviour": "comply",
+     "n": 11,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "status_refusal",
+     "behaviour": "no_confirm",
+     "n": 11,
+     "mean_reward": 0.1,
+     "expected_in_test": 0.1
+    },
+    {
+     "template": "status_refusal",
+     "behaviour": "oracle",
+     "n": 11,
+     "mean_reward": 1.0,
+     "expected_in_test": 1.0
+    },
+    {
+     "template": "status_refusal",
+     "behaviour": "skip_auth",
+     "n": 5,
+     "mean_reward": 0.4,
+     "expected_in_test": 0.4
+    },
+    {
+     "template": "status_refusal",
+     "behaviour": "transfer",
+     "n": 11,
+     "mean_reward": 0.3,
+     "expected_in_test": 0.3
+    }
+   ],
+   "note": "Every single-template (template, behaviour) mean equals the value in tests/test_episodes.py EXPECTED. Cross-template means mix templates: no_confirm 0.4955 is pulled down by composites (0.3781) and status_refusal (0.1, write is rejected); per-template no_confirm is 0.7 on every write template. 'no_confirm|corr' = no_confirm on a late-correction task. Transfer on refusal templates measured 0.3 (not the docstring's 0.5)."
+  }
+ },
+ "two_customers": {
+  "source": "data/simulations/tau_forge_baseline-luna_retail_base.json (no-rule base run), detector D6 from scripts/analysis/stop_artifact.py; counts from data/analysis/stop_artifact.json and FACTS §9.8; stop-rule sentence from FACTS §8 (run_tau2.py:147-152)",
+  "llm_customer": {
+   "run": "tau_forge_baseline-luna_retail_base (base model, no stop rule, user gpt-6-luna temp 1.0)",
+   "sim_id": "cb72be37-362d-480d-9e6a-44a52567fda9",
+   "task_id": "26",
+   "trial": 2,
+   "detector": "D6 strict (STOP turn last, previous assistant text asks for confirmation, user consents)",
+   "final_reward": 0.0,
+   "reward_breakdown": {
+    "DB": 0.0,
+    "NL_ASSERTION": 1.0
+   },
+   "termination_reason": "user_stop",
+   "write_executed": false,
+   "excerpt_last_4_text_turns": [
+    {
+     "role": "assistant",
+     "content": "The order that was shipped to Texas is **#W5565470**. It includes the following items:\n\n- Electric Kettle\n- Mechanical Keyboard\n- Pet Bed\n\nThe tracking number for this order is **907614527588**.\n\nYou mentioned you want to return everything in the order except the pet bed. Would you like to proceed with that? If so, please confirm the payment method you'd like to use for the refund (it can be your original PayPal account or an existing gift card)."
+    },
+    {
+     "role": "user",
+     "content": "Yes, please proceed with returning the electric kettle and mechanical keyboard, and keep the pet bed. Please refund me to the original PayPal account if that was the payment method for the order."
+    },
+    {
+     "role": "assistant",
+     "content": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return."
+    },
+    {
+     "role": "user",
+     "content": "Yes, that’s correct. Please proceed with the return.###STOP###"
+    }
+   ],
+   "same_task_other_runs": {
+    "no_rule_base_trials_0-3": [
+     1.0,
+     1.0,
+     0.0,
+     1.0
+    ],
+    "stoprule_base_trials_0-3": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    "stoprule_step75_trials_0-3": [
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "task_26_gold_write": "return_delivered_order_items(#W5565470, items [7602931732, 9570044148], paypal_3024827)"
+  },
+  "scripted_customer": {
+   "what_was_run": "ACTUALLY RUN in this container: (1) RulesAnalyzer().analyze() on the exact agent consent message from sim 26/2, against a hand-built EpisodeTask mirroring real task 26 (user isabella_johansson_2152, target #W5565470, return Electric Kettle + Mechanical Keyboard to paypal_3024827; template return_fallback with no fallback line because PayPal is both the asked and the original method; verify_task ok). (2) A full Episode with the real ScriptedUser, driven by a replay policy: the task-26 gold reads, then the exact LLM-agent consent message, then the gold return call, then a done message. The mirror task is an approximation: the opening line was written for this run (real task 26 is phrased as 'order sent to Texas, return all but the pet bed'), and real task 26's gold also ends with a transfer, which the mirror omits.",
+   "consent_text_fed": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return.",
+   "nlu_semantics": {
+    "info_requests": [],
+    "identity_target": null,
+    "confirmation_request": true,
+    "proposed_action": {
+     "action": "return",
+     "names_target": true,
+     "names_wrong_target": false,
+     "details": {
+      "reason": null,
+      "new_options": null,
+      "payment": "PayPal account",
+      "items": [
+       "Electric Kettle",
+       "Mechanical Keyboard"
+      ]
+     },
+     "details_match_task": true
+    },
+    "refusal": null,
+    "constraint_statement": false,
+    "offers_other_help_only": false,
+    "claims_action_done": false,
+    "narration_only": false
+   },
+   "nlu_extra": {
+    "missing": [],
+    "mismatches": [],
+    "payment_pm": "paypal_3024827"
+   },
+   "episode_user_turns": [
+    "Hi, I'm Isabella Johansson and my zip code is 32286. I want to return the Electric Kettle and Mechanical Keyboard from an order that was delivered recently, and I'd like the refund to go to my PayPal account.",
+    "Yes, I confirm.",
+    "Great, thank you! That's all I needed. ###STOP###"
+   ],
+   "episode_end_reason": "user_stop",
+   "episode_reward": 1.0,
+   "episode_success": true,
+   "behaviour": "ScriptedUser replied 'Yes, I confirm.' with no STOP; it only said thanks + ###STOP### after the return tool call succeeded (reply policy rule 1, user.py:18-19)."
+  },
+  "stop_artifact_counts": {
+   "norule_base_strict_D6": {
+    "conversations": 62,
+    "of": 456,
+    "tasks": 45,
+    "of_tasks": 114,
+    "scored_0": 62,
+    "with_prior_write": 11
+   },
+   "with_stop_rule": {
+    "base": "0/456",
+    "step75": "0/456"
+   },
+   "alternatives_norule": {
+    "H0_stored_summary_list_README": {
+     "conversations": 58,
+     "tasks": 41,
+     "scored_0": 57,
+     "scored_1": 1
+    },
+    "H1_README_heuristic": {
+     "conversations": 59,
+     "scored_0": 57,
+     "scored_1": 2
+    },
+    "L1_loose": {
+     "conversations": 65,
+     "scored_0": 64
+    },
+    "N1_naive_keyword": {
+     "conversations": 94,
+     "with_rule": 45
+    },
+    "D6_and_H0_shared": 56
+   },
+   "pilots": {
+    "stoprule_pilot": "0/41",
+    "norule_pilot": "1/5"
+   },
+   "rule_effect_on_base": {
+    "pass^1": {
+     "from": 0.484649,
+     "to": 0.530702,
+     "diff": 0.046053,
+     "ci95": [
+      -0.004386,
+      0.096491
+     ],
+     "p_two_sided": 0.0844
+    },
+    "pass^4": {
+     "from": 0.184211,
+     "to": 0.289474,
+     "diff": 0.105263,
+     "ci95": [
+      0.026316,
+      0.184211
+     ],
+     "p_two_sided": 0.0098
+    }
+   }
+  },
+  "stop_rule_sentence": "- Never generate '###STOP###' in the same message in which you agree to, confirm, or answer a question about an action. After you confirm, wait for the agent's reply; end the conversation only once the agent has said your request is done or cannot be done, and you have nothing else to ask."
+ },
+ "sims_count": {
+  "source": "docs/FACTS.md §9.2 (RC §3-4); per-task change in successes (of 4), step75 vs base, both with stop rule",
+  "up": 40,
+  "down": 18,
+  "same": 56,
+  "of_tasks": 114,
+  "sign_test_p_two_sided": 0.0054,
+  "sign_test_n_untied": 58,
+  "never_to_solved": 12,
+  "never_to_solved_tasks": [
+   27,
+   39,
+   42,
+   46,
+   56,
+   59,
+   72,
+   91,
+   92,
+   109,
+   110,
+   112
+  ],
+  "solved_to_never": 4,
+  "solved_to_never_tasks": [
+   41,
+   64,
+   99,
+   107
+  ],
+  "histogram_change_in_successes": {
+   "-3": 1,
+   "-2": 5,
+   "-1": 12,
+   "0": 56,
+   "+1": 24,
+   "+2": 11,
+   "+3": 4,
+   "+4": 1
+  },
+  "always_to_not_always": 5,
+  "always_to_not_always_tasks": [
+   7,
+   25,
+   66,
+   83,
+   84
+  ],
+  "newly_4_of_4": 14,
+  "null_bands_base": {
+   "desc": "noise only, 10,000 reps, 4-vs-4 trials",
+   "plugin_binomial": {
+    "up_mean": 18.77,
+    "up_95": [
+     12,
+     26
+    ],
+    "P_up_ge_40": 0.0,
+    "n2s_mean": 4.58,
+    "n2s_95": [
+     1,
+     9
+    ],
+    "P_n2s_ge_12": 0.0005
+   },
+   "jeffreys": {
+    "up_mean": 27.46,
+    "up_95": [
+     19,
+     37
+    ],
+    "P_up_ge_40": 0.0056,
+    "n2s_mean": 8.33,
+    "n2s_95": [
+     3,
+     14
+    ],
+    "P_n2s_ge_12": 0.1251
+   },
+   "pooled_H0": {
+    "up_mean": 23.48,
+    "up_95": [
+     16,
+     31
+    ],
+    "P_up_ge_40": 0.0,
+    "n2s_mean": 6.13,
+    "n2s_95": [
+     2,
+     11
+    ],
+    "P_n2s_ge_12": 0.012
+   },
+   "base_2v2_splits_up_down": [
+    [
+     15,
+     26
+    ],
+    [
+     20,
+     19
+    ],
+    [
+     21,
+     17
+    ]
+   ],
+   "summary": "Up = 40 exceeds every null model. Never-to-solved = 12 is beyond noise only under some null models (Jeffreys P = 0.1251)."
+  }
+ },
+ "train_curve": {
+  "source": "docs/FACTS.md §7 synthetic validation table (val_log.jsonl, 163 tasks); train reward per step from runs/ep-main/metrics.jsonl key 'reward' (mean episode reward over 128 episodes/step)",
+  "synthetic_val": [
+   {
+    "step": 0,
+    "mean_reward": 0.6945,
+    "success": "117/163",
+    "success_rate": 0.7178
+   },
+   {
+    "step": 25,
+    "mean_reward": 0.7394,
+    "success": "129/163",
+    "success_rate": 0.7914
+   },
+   {
+    "step": 50,
+    "mean_reward": 0.7687,
+    "success": "135/163",
+    "success_rate": 0.8282
+   },
+   {
+    "step": 75,
+    "mean_reward": 0.787,
+    "success": "136/163",
+    "success_rate": 0.8344
+   }
+  ],
+  "train_reward": [
+   {
+    "step": 1,
+    "reward": 0.6705
+   },
+   {
+    "step": 2,
+    "reward": 0.6117
+   },
+   {
+    "step": 3,
+    "reward": 0.5943
+   },
+   {
+    "step": 4,
+    "reward": 0.6703
+   },
+   {
+    "step": 5,
+    "reward": 0.5457
+   },
+   {
+    "step": 6,
+    "reward": 0.6047
+   },
+   {
+    "step": 7,
+    "reward": 0.5063
+   },
+   {
+    "step": 8,
+    "reward": 0.6227
+   },
+   {
+    "step": 9,
+    "reward": 0.6088
+   },
+   {
+    "step": 10,
+    "reward": 0.6102
+   },
+   {
+    "step": 11,
+    "reward": 0.7176
+   },
+   {
+    "step": 12,
+    "reward": 0.7484
+   },
+   {
+    "step": 13,
+    "reward": 0.6139
+   },
+   {
+    "step": 14,
+    "reward": 0.7078
+   },
+   {
+    "step": 15,
+    "reward": 0.718
+   },
+   {
+    "step": 16,
+    "reward": 0.7625
+   },
+   {
+    "step": 17,
+    "reward": 0.6705
+   },
+   {
+    "step": 18,
+    "reward": 0.6953
+   },
+   {
+    "step": 19,
+    "reward": 0.7059
+   },
+   {
+    "step": 20,
+    "reward": 0.6152
+   },
+   {
+    "step": 21,
+    "reward": 0.5879
+   },
+   {
+    "step": 22,
+    "reward": 0.7227
+   },
+   {
+    "step": 23,
+    "reward": 0.7078
+   },
+   {
+    "step": 24,
+    "reward": 0.5691
+   },
+   {
+    "step": 25,
+    "reward": 0.5203
+   },
+   {
+    "step": 26,
+    "reward": 0.5799
+   },
+   {
+    "step": 27,
+    "reward": 0.6373
+   },
+   {
+    "step": 28,
+    "reward": 0.6316
+   },
+   {
+    "step": 29,
+    "reward": 0.6762
+   },
+   {
+    "step": 30,
+    "reward": 0.7418
+   },
+   {
+    "step": 31,
+    "reward": 0.6832
+   },
+   {
+    "step": 32,
+    "reward": 0.6857
+   },
+   {
+    "step": 33,
+    "reward": 0.6199
+   },
+   {
+    "step": 34,
+    "reward": 0.7141
+   },
+   {
+    "step": 35,
+    "reward": 0.765
+   },
+   {
+    "step": 36,
+    "reward": 0.6832
+   },
+   {
+    "step": 37,
+    "reward": 0.5326
+   },
+   {
+    "step": 38,
+    "reward": 0.677
+   },
+   {
+    "step": 39,
+    "reward": 0.5979
+   },
+   {
+    "step": 40,
+    "reward": 0.6637
+   },
+   {
+    "step": 41,
+    "reward": 0.7699
+   },
+   {
+    "step": 42,
+    "reward": 0.5494
+   },
+   {
+    "step": 43,
+    "reward": 0.7875
+   },
+   {
+    "step": 44,
+    "reward": 0.7645
+   },
+   {
+    "step": 45,
+    "reward": 0.5891
+   },
+   {
+    "step": 46,
+    "reward": 0.673
+   },
+   {
+    "step": 47,
+    "reward": 0.7465
+   },
+   {
+    "step": 48,
+    "reward": 0.7137
+   },
+   {
+    "step": 49,
+    "reward": 0.7508
+   },
+   {
+    "step": 50,
+    "reward": 0.8229
+   },
+   {
+    "step": 51,
+    "reward": 0.6873
+   },
+   {
+    "step": 52,
+    "reward": 0.792
+   },
+   {
+    "step": 53,
+    "reward": 0.7316
+   },
+   {
+    "step": 54,
+    "reward": 0.7158
+   },
+   {
+    "step": 55,
+    "reward": 0.6635
+   },
+   {
+    "step": 56,
+    "reward": 0.7137
+   },
+   {
+    "step": 57,
+    "reward": 0.7383
+   },
+   {
+    "step": 58,
+    "reward": 0.7824
+   },
+   {
+    "step": 59,
+    "reward": 0.6949
+   },
+   {
+    "step": 60,
+    "reward": 0.7605
+   },
+   {
+    "step": 61,
+    "reward": 0.7473
+   },
+   {
+    "step": 62,
+    "reward": 0.7975
+   },
+   {
+    "step": 63,
+    "reward": 0.5963
+   },
+   {
+    "step": 64,
+    "reward": 0.7004
+   },
+   {
+    "step": 65,
+    "reward": 0.8578
+   },
+   {
+    "step": 66,
+    "reward": 0.7559
+   },
+   {
+    "step": 67,
+    "reward": 0.7383
+   },
+   {
+    "step": 68,
+    "reward": 0.7598
+   },
+   {
+    "step": 69,
+    "reward": 0.6875
+   },
+   {
+    "step": 70,
+    "reward": 0.8145
+   },
+   {
+    "step": 71,
+    "reward": 0.7059
+   },
+   {
+    "step": 72,
+    "reward": 0.7914
+   },
+   {
+    "step": 73,
+    "reward": 0.8047
+   },
+   {
+    "step": 74,
+    "reward": 0.8262
+   },
+   {
+    "step": 75,
+    "reward": 0.7824
+   },
+   {
+    "step": 76,
+    "reward": 0.7166
+   },
+   {
+    "step": 77,
+    "reward": 0.6754
+   },
+   {
+    "step": 78,
+    "reward": 0.7246
+   },
+   {
+    "step": 79,
+    "reward": 0.7594
+   },
+   {
+    "step": 80,
+    "reward": 0.7004
+   },
+   {
+    "step": 81,
+    "reward": 0.7676
+   },
+   {
+    "step": 82,
+    "reward": 0.8742
+   },
+   {
+    "step": 83,
+    "reward": 0.8191
+   }
+  ],
+  "train_reward_summary_FACTS": {
+   "first": 0.6705,
+   "last": 0.8191,
+   "mean_steps_1_10": 0.6045,
+   "mean_steps_74_83": 0.7646,
+   "min": 0.5063,
+   "max": 0.8742
+  },
+  "note": "Run stopped at step 83 of 200 (KeyboardInterrupt); no val after step 75. Step 75 selected as argmax val mean reward."
+ },
+ "reference_agents_plot": [
+  {
+   "label": "Perfect agent",
+   "value": 1.0,
+   "text": "1.0"
+  },
+  {
+   "label": "Acts without asking",
+   "value": 0.7,
+   "text": "0.7"
+  },
+  {
+   "label": "Skips authentication",
+   "value": 0.7,
+   "text": "0.7"
+  },
+  {
+   "label": "Skips auth, then refuses correctly",
+   "value": 0.4,
+   "text": "0.4"
+  },
+  {
+   "label": "Picks the wrong variant",
+   "value": 0.2,
+   "text": "0.2"
+  },
+  {
+   "label": "Makes up a payment method",
+   "value": 0.1,
+   "text": "0.1"
+  },
+  {
+   "label": "Grants a refund policy forbids",
+   "value": 0.1,
+   "text": "0.1"
+  },
+  {
+   "label": "Never says no on a refusal task",
+   "value": 0.1,
+   "text": "0.1"
+  },
+  {
+   "label": "Acts before the customer's correction",
+   "value": 0.1,
+   "text": "0.0–0.1"
+  },
+  {
+   "label": "Transfers to a human",
+   "value": 0.0,
+   "text": "0.0"
+  },
+  {
+   "label": "Changes someone else's order",
+   "value": 0.0,
+   "text": "0.0"
+  }
+ ],
+ "by_tool_plot": [
+  {
+   "label": "Change user address",
+   "tasks": 10,
+   "sims": 40,
+   "base": 11,
+   "step75": 23
+  },
+  {
+   "label": "Change order address",
+   "tasks": 20,
+   "sims": 80,
+   "base": 22,
+   "step75": 34
+  },
+  {
+   "label": "Return items",
+   "tasks": 31,
+   "sims": 124,
+   "base": 66,
+   "step75": 79
+  },
+  {
+   "label": "Cancel order",
+   "tasks": 18,
+   "sims": 72,
+   "base": 29,
+   "step75": 35
+  },
+  {
+   "label": "Modify order items",
+   "tasks": 35,
+   "sims": 140,
+   "base": 51,
+   "step75": 59
+  },
+  {
+   "label": "Exchange items",
+   "tasks": 29,
+   "sims": 116,
+   "base": 71,
+   "step75": 71
+  }
+ ],
+ "two_plot": {
+  "left": [
+   {
+    "role": "agent",
+    "who": "agent (base model)",
+    "text": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return."
+   },
+   {
+    "role": "cust",
+    "who": "customer (LLM)",
+    "text": "Yes, that’s correct. Please proceed with the return.###STOP###"
+   },
+   {
+    "role": "end",
+    "text": "— chat over: the return was never made · reward 0 —"
+   }
+  ],
+  "right": [
+   {
+    "role": "agent",
+    "who": "agent",
+    "text": "To confirm, you would like to return the electric kettle and mechanical keyboard from order #W5565470, keeping the pet bed. The refund will be processed to your original PayPal account (paypal_3024827).\n\nPlease confirm with a \"yes\" if this is correct and you'd like me to proceed with the return."
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "Yes, I confirm."
+   },
+   {
+    "role": "tool",
+    "who": "tool call",
+    "text": "return_delivered_order_items(#W5565470, items [7602931732, 9570044148], paypal_3024827)"
+   },
+   {
+    "role": "cust",
+    "who": "customer (script)",
+    "text": "Great, thank you! That's all I needed. ###STOP###"
+   },
+   {
+    "role": "end",
+    "text": "— write made, then stop · reward 1 —"
+   }
+  ]
+ }
+}
