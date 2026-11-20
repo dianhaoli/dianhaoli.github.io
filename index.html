@@ -84,6 +84,7 @@
   .more { color: var(--muted); font-size: 14px; margin: 8px 0 0; padding-left: 14px; border-left: 1px solid var(--rule); }
   .more ul { margin: 0; padding-left: 16px; }
   .more li { margin: 0 0 4px; }
+  .note { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
   .links { margin: 6px 0 0; font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
   .links a { color: var(--muted); }
   .links a::after { content: " \2197"; }
@@ -131,18 +132,19 @@
 
   <div class="item">
     <details>
-      <summary><div class="head"><span class="title">ShiftHunt<span class="plus">+</span></span><span class="tag">agent eval · interp</span></div><p class="desc">Can an AI agent audit a probe for spurious cues with sparse autoencoders, the step SHIFT leaves to a human?</p></summary>
+      <summary><div class="head"><span class="title">ShortcutHunt<span class="plus">+</span></span><span class="tag">under review</span></div><p class="desc">Nothing Found, Nothing Checked: testing LLM judges on research agents' null results against planted ground truth.</p></summary>
       <div class="more">
         <ul>
-          <li>Agent gets four linear probes on Gemma-2-2B and a Gemma Scope SAE. Some probes secretly key on a non-topic cue (British spelling, a greeting line). It has to name the cue and pick ≤16 SAE latents whose ablation removes it.</li>
-          <li>Hard subtasks (error-term traps, two-part cues) break the SHIFT recipe agents rediscovered on v1. Every scripted shortcut scores 0 on the trap slot.</li>
-          <li>Red-teamed with ~150 attack submissions, hidden answers re-randomized per run. A cross-model follow-up audits my own earlier numbers.</li>
+          <li>Agents audit linear probes on Gemma-2-2B for a planted shortcut, like British spelling. Some probes have none, so "nothing found" can be right, and a program grades every answer.</li>
+          <li>In 254 rollouts by five agents, most errors on the hardest probes (77 of 115) are incorrect nulls: "nothing found" when a shortcut exists.</li>
+          <li>Without ground truth, the main judge (GPT-6.1 Terra) credits 50 of those 77 given the agent's messages, and 39 given the full transcript. It is consistent but agrees only weakly with ground truth (κ = 0.32–0.46), and a 0.86 accuracy gap between two agents shrinks to 0.03.</li>
+          <li>Stricter prompts stop crediting wrong answers only by rejecting correct ones too.</li>
         </ul>
       </div>
     </details>
+    <p class="note">Under review at the <a href="https://eval-ai-scientists.github.io/aaai27/">AAAI 2027 Workshop on Effective and Efficient Evaluation for AI Scientists</a>.</p>
     <div class="links">
-      <a href="https://github.com/dianhaoli/shifthunt/blob/main/docs/EXPLANATION.md">Write-up</a>
-      <a href="https://github.com/dianhaoli/shifthunt/blob/main/docs/CROSS_MODEL_STUDY.md">Cross-model study</a>
+      <a href="assets/nothing-found-nothing-checked.pdf">Paper</a>
       <a href="https://github.com/dianhaoli/shifthunt">GitHub</a>
     </div>
   </div>
