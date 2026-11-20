@@ -2,7 +2,7 @@
    core.js — shared runtime for "Coaching the Coach" (window.EX)
    Plain script, no modules. Loaded after d3 7.8.5 and before js/fig-*.js.
 
-   API (see CONTRACT.md for the full contract)
+   API (see dev/CONTRACT.md for the full contract)
    ---------------------------------------------------------------------
    Data
      EX.load(name) -> Promise<object>     cached fetch of data/<name>.json
@@ -20,7 +20,7 @@
      num(x, d=1)
      signed(x, d=1)   "+1.2" / "−1.2"
    Runs and terms
-     EX.ARM_LABEL {B0:'No coach', I0:'Original coach', Ig:'Self-improved coach', g20, g40, xhigh:'Think longer (no coach)'}
+     EX.ARM_LABEL {B0:'No coach', I0:'Original coach', Ig:'Generation-12 coach', g20, g40, xhigh:'Think longer (no coach)'}
      EX.runLabel(runId, {plain, short, html}) -> plain: "Original coach, run 3"; else technical ("I₀ run 3")
      EX.sym('I0'|'Ig'|'A0', 'html'|'svg'|'text') -> <i>I</i><sub>g</sub> | svg tspans | "I_g"
      EX.runGroup(runId) -> 'B0'|'xhigh'|'I0'|'Ig'|'g20'|'g40'|'source'
@@ -191,7 +191,7 @@
   EX.GROUP_ORDER = ['B0', 'xhigh', 'I0', 'Ig', 'g20', 'g40'];
   EX.GROUP_LABEL = {
     B0: 'No coach', xhigh: 'Think longer, no coach',
-    I0: 'Original coach', Ig: 'Self-improved coach',
+    I0: 'Original coach', Ig: 'Generation-12 coach',
     g20: 'Generation-20 coach', g40: 'Generation-40 coach', source: 'Self-improvement run'
   };
   EX.runGroup = function(run){
@@ -206,7 +206,7 @@
     return null;
   };
   /* plain names for the main story; technical names (with EX.sym) for Explore */
-  EX.ARM_LABEL = { B0: 'No coach', I0: 'Original coach', Ig: 'Self-improved coach',
+  EX.ARM_LABEL = { B0: 'No coach', I0: 'Original coach', Ig: 'Generation-12 coach',
     g20: 'Generation-20 coach', g40: 'Generation-40 coach', xhigh: 'Think longer, no coach', source: 'Self-improvement run' };
   /* EX.sym('I0'|'Ig'|'A0', 'html'|'svg'|'text') */
   var SYM = { I0: ['I', '0', 'I₀'], Ig: ['I', 'g', 'I_g'], A0: ['A', '0', 'A₀'] };
@@ -224,7 +224,7 @@
       if((m = /^B0_rep(\d)$/.exec(run))) return 'No coach, run ' + (+m[1] + 1);
       if(run === 'xhigh') return 'Think longer, no coach';
       if((m = /^payoff_I0_(\d)$/.exec(run))) return 'Original coach, run ' + m[1];
-      if((m = /^payoff_Ig_source_s(\d)$/.exec(run))) return 'Self-improved coach from run ' + m[1];
+      if((m = /^payoff_Ig_source_s(\d)$/.exec(run))) return 'Generation-12 coach from run ' + m[1];
       if((m = /^ext_source_s(\d)_g(\d+)$/.exec(run))) return 'Generation-' + m[2] + ' coach from run ' + m[1];
       if((m = /^source_s(\d)$/.exec(run))) return 'Self-improvement run ' + m[1];
       return run;

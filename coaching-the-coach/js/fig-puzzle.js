@@ -16,7 +16,7 @@
   var EASY = 0.7, HARD = 0.3;  // difficulty bands on heldout_mean_solve
   var ARMS = [                 // arms reported in the "how the AI did" line, in reading order
     { key: 'B0', label: 'no coach' }, { key: 'I0', label: 'original coach' },
-    { key: 'Ig', label: 'self-improved coach' }, { key: 'xhigh', label: 'think longer' }
+    { key: 'Ig', label: 'generation-12 coach' }, { key: 'xhigh', label: 'think longer' }
   ];
 
   function band(s){ return s >= EASY ? 'easy' : s >= HARD ? 'medium' : 'hard'; }

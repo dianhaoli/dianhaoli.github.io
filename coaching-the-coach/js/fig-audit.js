@@ -64,7 +64,7 @@
       var nGenAudited = nAudited - nArcAudited;
 
       function pickName(p){
-        if(p.kind === 'Ig') return 'self-improved coach';
+        if(p.kind === 'Ig') return 'generation-12 coach';
         return testedBy(p) ? 'generation-' + p.gen + ' coach' : 'gen ' + p.gen + ' pick';
       }
       function examText(p){

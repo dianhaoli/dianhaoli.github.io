@@ -23,7 +23,7 @@
   var ARMS = [
     { key: 'B0', label: 'No coach', rep: 'B0_rep0' },
     { key: 'I0', label: 'Original coach', rep: 'payoff_I0_1' },
-    { key: 'Ig', label: 'Self-improved coach', rep: 'payoff_Ig_source_s1' },
+    { key: 'Ig', label: 'Generation-12 coach', rep: 'payoff_Ig_source_s1' },
     { key: 'xhigh', label: 'Think longer', rep: 'xhigh' }
   ];
   var N_PUZZLES = 12;

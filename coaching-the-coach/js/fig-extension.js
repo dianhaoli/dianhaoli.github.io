@@ -218,7 +218,7 @@
           EX.s('text', { 'class': 'fxg-gen', x: X(g), y: yBot + 20, 'text-anchor': 'middle' }, svg, String(g));
         });
         var subs = [];
-        var subText = { 0: 'original coach', 12: narrow ? 'self-improved coach' : 'self-improved coach (main test)', 20: 'follow-up', 40: 'follow-up' };
+        var subText = { 0: 'original coach', 12: 'main test', 20: 'follow-up', 40: 'follow-up' };
         (narrow ? [0, 12, 30] : GENS).forEach(function(g){
           var t = EX.s('text', { 'class': 'fxg-sub' + (g >= 20 ? ' fxg-follow' : ''), x: X(g), y: yBot + 38, 'text-anchor': 'middle' }, svg, subText[g] || 'follow-up');
           subs.push(t);

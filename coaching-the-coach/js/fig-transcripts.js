@@ -75,12 +75,12 @@
   var ROLE_TEXT = { player: 'player', coach: 'coach' };
   var STEP_NAME = { think: 'the coach writes', command: 'a command', edit: 'the edit', outcome: 'the outcome' };
   var COACH_GROUPS = ['source', 'I0', 'Ig', 'g20', 'g40', 'test'];
-  var COACH_GROUP_LABEL = { source: 'Self-improvement runs', I0: 'Original coach', Ig: 'Self-improved coach', g20: 'Generation-20 coach', g40: 'Generation-40 coach', test: 'Short test runs' };
+  var COACH_GROUP_LABEL = { source: 'Self-improvement runs', I0: 'Original coach', Ig: 'Generation-12 coach', g20: 'Generation-20 coach', g40: 'Generation-40 coach', test: 'Short test runs' };
   function coachGroup(run){ return EX.runGroup(run) || 'test'; }
   function coachRunLabel(run){
     var m;
     if(run === 'smoke') return 'Smoke test';
-    if((m = /^trial_Ig_source_s(\d)$/.exec(run))) return 'Trial of the self-improved coach from run ' + m[1];
+    if((m = /^trial_Ig_source_s(\d)$/.exec(run))) return 'Trial of the generation-12 coach from run ' + m[1];
     return EX.runLabel ? EX.runLabel(run, { plain: true }) : run;
   }
   function indexCoach(CI){

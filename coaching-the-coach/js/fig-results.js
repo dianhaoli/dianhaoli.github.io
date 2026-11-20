@@ -31,7 +31,7 @@
     return { n: n, mean: m, lo: m - h, hi: m + h };
   }
 
-  var PLAIN = { B0: 'No coach', I0: 'Original coach', Ig: 'Self-improved coach', g20: 'Generation-20 coach',
+  var PLAIN = { B0: 'No coach', I0: 'Original coach', Ig: 'Generation-12 coach', g20: 'Generation-20 coach',
     g40: 'Generation-40 coach', xhigh: 'Think longer (no coach)' };
   function armLabel(a){ return (EX.ARM_LABEL && EX.ARM_LABEL[a]) || PLAIN[a] || a; }
 
@@ -45,7 +45,7 @@
     if((m = /^B0_rep(\d)$/.exec(run))) return 'No coach, run ' + (+m[1] + 1);
     if(run === 'xhigh') return 'Think longer';
     if((m = /^payoff_I0_(\d)$/.exec(run))) return 'Original coach, run ' + m[1];
-    if((m = /^payoff_Ig_source_(s\d)$/.exec(run))) return 'Self-improved coach from ' + m[1];
+    if((m = /^payoff_Ig_source_(s\d)$/.exec(run))) return 'Generation-12 coach from ' + m[1];
     if((m = /^ext_source_(s\d)_g(\d+)$/.exec(run))) return 'Generation-' + m[2] + ' coach from ' + m[1];
     return run;
   }
@@ -139,7 +139,7 @@
       var v = runs.filter(function(r){ return r.arm === a; }).map(function(r){ return r.score; });
       stats[a] = a === 'xhigh' ? { n: v.length, mean: v[0] } : armStat(S, a, v);
     });
-    var ROWLAB = { B0: 'No coach', I0: 'Original coach', Ig: 'Self-improved coach', xhigh: 'Think longer, no coach' };
+    var ROWLAB = { B0: 'No coach', I0: 'Original coach', Ig: 'Generation-12 coach', xhigh: 'Think longer, no coach' };
 
     var root = EX.h('div', { 'class': 'fx-results fx-rm' }, node);
     var svgEl = EX.s('svg', { 'class': 'fx-rm-svg', role: 'group',
@@ -263,7 +263,7 @@
   var REF = 'xhigh';
   var ROWS = ARMS.concat([REF]);
   var NAME_PARTS = {
-    B0: ['No coach'], I0: ['Original coach'], Ig: ['Self-improved coach'],
+    B0: ['No coach'], I0: ['Original coach'], Ig: ['Generation-12 coach'],
     g20: ['Generation-20 coach'], g40: ['Generation-40 coach'], xhigh: ['Think longer, no coach']
   };
   function nameText(a){ return NAME_PARTS[a].map(function(p){ return typeof p === 'string' ? p : symText(p.sym); }).join(''); }
@@ -670,8 +670,8 @@
       EX.h('p', { 'class': 'fx-r-sidetext' }, host, 'Differences in exam score, in points, with 95% Welch intervals. An interval that crosses 0 can\'t be told apart from no effect.');
       var items = [
         { key: 'G', sym: 'G', name: 'Original coach vs no coach', words: ['no coach better', 'coach better'] },
-        { key: 'Delta', sym: 'Δ', name: 'Self-improved vs original coach', words: ['original better', 'self-improved better'] },
-        { key: 'Ig_gain_over_B0', sym: '', name: 'Self-improved coach vs no coach', words: ['no coach better', 'coach better'] }
+        { key: 'Delta', sym: 'Δ', name: 'Generation-12 vs original coach', words: ['original better', 'generation-12 better'] },
+        { key: 'Ig_gain_over_B0', sym: '', name: 'Generation-12 coach vs no coach', words: ['no coach better', 'coach better'] }
       ].filter(function(it){ return S[it.key]; });
       var ext = 0;
       items.forEach(function(it){ var s = S[it.key]; ext = Math.max(ext, Math.abs(s.lo), Math.abs(s.hi)); });
