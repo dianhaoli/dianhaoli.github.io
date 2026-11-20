@@ -154,15 +154,14 @@
       <summary><div class="head"><span class="title">τ-forge<span class="plus">+</span></span><span class="tag">+8.1 pass@1</span></div><p class="desc">RL environment and training loop that teaches a 4B model agentic tool use from synthetic conversations alone.</p></summary>
       <div class="more">
         <ul>
-          <li>LoRA GRPO on Qwen3-4B-Instruct for multi-turn customer-service tool use. τ²-bench retail pass@1 53.1% → 61.2% (95% CI +2.9 to +13.4), pass^4 28.9% → 36.8%.</li>
+          <li>LoRA GRPO on Qwen3-4B-Instruct for multi-turn customer-service tool use. τ²-bench retail pass@1 53.1% → 61.2% (95% CI +3.1 to +13.4), pass^4 28.9% → 36.8%.</li>
           <li>Trained only on programmatically generated, tool-verified synthetic tasks with a scripted customer: no LLM in the training loop, so rollouts are cheap and reproducible.</li>
           <li>All 114 real benchmark tasks held out of generation and checkpoint selection; one eval on one checkpoint.</li>
         </ul>
       </div>
     </details>
     <div class="links">
-      <a href="https://github.com/dianhaoli/tau-forge#result">Results</a>
-      <a href="https://github.com/dianhaoli/tau-forge/blob/main/docs/variance_audit.md">Variance audit</a>
+      <a href="tau-forge/">Write-up</a>
       <a href="https://github.com/dianhaoli/tau-forge">GitHub</a>
     </div>
   </div>

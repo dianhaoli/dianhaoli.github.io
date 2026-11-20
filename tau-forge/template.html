@@ -154,7 +154,7 @@
 
 <section class="l-body math">
   <p>{{play.p2}}</p>
-  <div class="eq-main">\[ \text{yes}(m) \iff o(m) = o^\ast \;\wedge\; d(m) = d^\ast \;\wedge\; o^\ast \text{ was read} \;\wedge\; \text{no correction pending} \]</div>
+  <div class="eq-main">\[ \text{yes}(m) \iff o(m) = o^\ast \,\wedge\, d(m) = d^\ast \,\wedge\, \text{read}(o^\ast) \,\wedge\, \neg\,\text{pending} \]</div>
   <p>{{play.p3}}</p>
 
   <h2 id="reward">{{reward.h}}</h2>
@@ -186,13 +186,13 @@
         <div class="eq">\[ \text{pass@1} = \frac{1}{|T|}\sum_{t\in T} \frac{c_t}{n}, \qquad \text{pass}^k = \frac{1}{|T|}\sum_{t\in T} \frac{\binom{c_t}{k}}{\binom{n}{k}} \]</div>
         <p class="formal-h">{{formal.grpo.h}}</p>
         <p>{{formal.grpo.p}}</p>
-        <div class="eq">\[ A_i = r_i - \bar r, \qquad \mathcal{L} = -\frac{1}{\sum_i |o_i|}\sum_{i=1}^{G}\sum_{t=1}^{|o_i|} \min\!\big(\rho_{i,t} A_i,\; \mathrm{clip}(\rho_{i,t},\, 1-0.2,\, 1+0.28)\, A_i\big) \]</div>
+        <div class="eq">\[ \mathcal{L} = -\frac{1}{\sum_i |o_i|}\sum_{i=1}^{G}\sum_{t=1}^{|o_i|} \min\!\big(\rho_{i,t} A_i,\ \mathrm{clip}(\rho_{i,t}, 1-\epsilon_{\ell}, 1+\epsilon_h)\, A_i\big) \]</div>
         <p class="formal-h">{{formal.consent.h}}</p>
         <p>{{formal.consent.p}}</p>
         <div class="eq">\[ \text{reply}(m) = \begin{cases} \text{yes} & o = o^\ast,\ d = d^\ast,\ o^\ast \text{ read, no correction pending} \\ \text{correction} & o = o^\ast,\ d \ne d^\ast \\ \text{``spell it out''} & d \text{ missing or ambiguous} \end{cases} \]</div>
         <p class="formal-h">{{formal.reward.h}}</p>
         <p>{{formal.reward.p}}</p>
-        <div class="eq">\[ R = \mathbb{1}[\mathrm{DB}_T \equiv \mathrm{DB}^\ast]\,\max\!\Big(0,\, 1 - \sum_j g_j\Big) \;+\; \mathbb{1}[\mathrm{DB}_T \not\equiv \mathrm{DB}^\ast]\,\min\big(0.2,\ 0.05\,\text{auth} + 0.05\,\text{read} + 0.1\,\text{write}\big) \]</div>
+        <div class="eq">\[ R = \begin{cases} \max\!\big(0,\ 1 - \sum_j g_j\big) & \mathrm{DB}_T \equiv \mathrm{DB}^\ast \\[4pt] \min\big(0.2,\ 0.05\,s_{\text{auth}} + 0.05\,s_{\text{read}} + 0.1\,s_{\text{write}}\big) & \text{otherwise} \end{cases} \]</div>
       </div>
     </details>
   </div>
@@ -278,8 +278,17 @@
     var chat=document.getElementById('play-chat'), mv=document.getElementById('play-moves'),
         nlu=document.getElementById('play-nlu'), sc=document.getElementById('play-score'),
         moves={}; (P.moves||[]).forEach(function(m){moves[m.id]=m});
-    document.getElementById('play-brief').innerHTML='<b>Task:</b> '+esc(P.task.brief||P.task.template)+(P.task.note?'<br>'+esc(P.task.note):'');
-    function toolText(tc){if(!tc)return '';var a=tc.arguments||tc.args||{};return tc.name+'('+Object.keys(a).map(function(k){return k+'='+JSON.stringify(a[k])}).join(', ')+')'}
+    document.getElementById('play-brief').innerHTML='<b>Synthetic task '+esc(P.task.id)+'.</b> An exchange on a delivered order. The customer knows things you don\'t yet: how they want to pay, and one change of mind they\'ll mention at some point.';
+    function toolText(tc){return [].concat(tc||[]).map(function(c){var a=c.arguments||{};return c.name+'('+Object.keys(a).map(function(k){return k+'='+JSON.stringify(a[k])}).join(', ')+')'}).join('\n')}
+    function outText(o){return [].concat(o||[]).map(function(x){var t=typeof x==='string'?x:(x.tool+' → '+x.output);return t.length>260?t.slice(0,260)+' …':t}).join('\n')}
+    function flat(n){var a=n.proposed_action||{},r=[['asks for consent',!!n.confirmation_request]];
+      if(n.proposed_action){r.push(['action',a.action||'–'],['names the right order',!!a.names_target],['details match the task',a.details_match_task==null?'–':!!a.details_match_task]);
+        if(a.missing&&a.missing.length)r.push(['missing',a.missing.join(', ')]);
+        if(a.mismatches&&a.mismatches.length)r.push(['mismatch',a.mismatches.map(function(x){return typeof x==='string'?x:JSON.stringify(x)}).join('; ')]);
+        if(a.stale_options)r.push(['uses the old options',true]);}
+      if(n.info_requests&&n.info_requests.length)r.push(['asks for',n.info_requests.join(', ')]);
+      if(n.refusal)r.push(['refusal',typeof n.refusal==='string'?n.refusal:JSON.stringify(n.refusal)]);
+      return r}
     function render(id){
       var st=P.states[id];
       if(st.ended){
@@ -295,13 +304,13 @@
       var m=moves[moveId], st=P.states[nextId], h='';
       if(m.agent_text) h+=bubble('agent','agent',m.agent_text);
       if(m.tool_call) h+=bubble('tool','tool call',toolText(m.tool_call));
-      if(st.tool_output) h+=bubble('tool','tool result',st.tool_output);
+      if(st.tool_output) h+=bubble('tool','tool result',outText(st.tool_output));
       if(st.customer_reply) h+=bubble('cust','customer (script)',st.customer_reply);
       if(st.ended) h+='<div class="msg end">— conversation ended —</div>';
       chat.insertAdjacentHTML('beforeend',h); chat.scrollTop=chat.scrollHeight;
       if(st.nlu && m.agent_text){
-        nlu.innerHTML='<ul class="nlu">'+Object.keys(st.nlu).map(function(k){var v=st.nlu[k];var s=(typeof v==='boolean')?'<span class="'+(v?'t':'f')+'">'+v+'</span>':esc(Array.isArray(v)?(v.join(', ')||'–'):(v==null?'–':v));return '<li><span>'+esc(k)+'</span>'+s+'</li>'}).join('')+'</ul>';
-      } else if(m.tool_call){ nlu.innerHTML='<span style="color:var(--ink-muted)">Tool calls never reach the customer; only the agent\'s text is read.</span>'; }
+        nlu.innerHTML='<ul class="nlu">'+flat(st.nlu).map(function(p){var v=p[1];var s=(typeof v==='boolean')?'<span class="'+(v?'t':'f')+'">'+(v?'yes':'no')+'</span>':'<span>'+esc(v)+'</span>';return '<li><span>'+esc(p[0])+'</span>'+s+'</li>'}).join('')+'</ul>';
+      } else if(m.agent_text){ nlu.innerHTML='<span style="color:var(--ink-muted)">No request or proposal to check in this message.</span>'; } else if(m.tool_call){ nlu.innerHTML='<span style="color:var(--ink-muted)">Tool calls never reach the customer; only the agent\'s text is read.</span>'; }
       render(nextId);
     }
     function reset(){chat.innerHTML=bubble('cust','customer (script)',P.task.opening_message);nlu.innerHTML='<span style="color:var(--ink-muted)">Send a message to see how the rule parser reads it.</span>';render(P.root)}

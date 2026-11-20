@@ -87,7 +87,7 @@ You are the agent
 Choose a move. The customer answers, the tool runs, and the conversation is scored when it ends.
 
 [[fig.play.caption]]
-**Figure 1.** One synthetic validation task, played through the real `ScriptedUser`, retail tool executor and `reward.py`. "What the customer understood" is the rule parser's reading of the agent's message. Try writing without asking first, or asking with a vague summary.
+**Figure 1.** One synthetic validation task, played through the real `ScriptedUser`, retail tool executor and `reward.py`. "What the customer understood" is the rule parser's reading of the agent's message. The customer changes their mind on the first exact proposal, so writing without asking goes wrong here (0.1), and writing the corrected version without a fresh yes costs 0.3 (0.7).
 
 [[play.p2]]
 The customer says yes only to a specific, correct proposal. Written out:
@@ -182,7 +182,7 @@ Each task \(t\) is run \(n = 4\) times with \(c_t\) successes; a success means Ï
 The learning signal
 
 [[formal.grpo.p]]
-For a task \(q\), GRPO samples \(G = 8\) conversations \(o_1,\dots,o_G\) and gives each one an advantage relative to its group. We don't divide by the group's standard deviation (`scale_rewards=none`), use no KL penalty (\(\beta = 0\)) and the DAPO loss [5](#ref-dapo). Groups where all 8 rewards are equal carry no signal and are masked; 27% of groups were.
+For a task \(q\), GRPO samples \(G = 8\) conversations \(o_1,\dots,o_G\) and gives each one an advantage relative to its group. We don't divide by the group's standard deviation (`scale_rewards=none`), use no KL penalty (\(\beta = 0\)) and the DAPO token-level loss [5](#ref-dapo) with clip range \(\epsilon_\ell = 0.2,\ \epsilon_h = 0.28\); \(\rho_{i,t}\) is the probability ratio of token \(t\) under the new and the sampling policy. Groups where all 8 rewards are equal carry no signal and are masked; 27% of groups were.
 
 [[formal.consent.h]]
 When the customer says yes
@@ -194,7 +194,7 @@ For a consent request \(m\) proposing write \(a\) on order \(o\), with \(o^\ast,
 The reward
 
 [[formal.reward.p]]
-For write tasks, with \(\mathrm{DB}_T\) the final database and \(g_j \in \{0, 0.3\}\) the gates (a write without a standing yes; a write while authenticated as the wrong user). Refusal and information tasks have their own small tables in `reward.py`.
+For write tasks, with \(\mathrm{DB}_T\) the final database and \(g_j \in \{0, 0.3\}\) the gates (a write without a standing yes; a write while authenticated as the wrong user). The \(s\) terms are 1 if the agent authenticated the right customer, read the target order, or made a confirmed write with the right tool on the right order; that credit is withdrawn if any write touched another order or user. Refusal and information tasks have their own small tables in `reward.py`.
 
 # Caveats
 
